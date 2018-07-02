@@ -4,6 +4,6 @@
 ## 開発者
 naoppy(@naoppy_ac)
 
-ecasdqina(@fyba_)
+ecasdqina(@fyba_, @ecasdqina)
 
-ピッチー
+ピッチー(@world_of_dawn)
