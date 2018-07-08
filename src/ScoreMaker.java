@@ -30,7 +30,7 @@ public class ScoreMaker {
         if (!(vLineIsSymmetry || hLineIsSymmetry)) {
             throw new IllegalArgumentException("縦と横のどちらかは最低限線対称である必要があります");
         }
-        if (h < 12 || w < 12 || h <= 0 || w <= 0) {
+        if (h > 12 || w > 12 || h <= 0 || w <= 0) {
             throw new IllegalArgumentException("hまたはwが不正です。h:" + h + " w:" + w);
         }
 
