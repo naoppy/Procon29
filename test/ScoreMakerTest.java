@@ -2,7 +2,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 public class ScoreMakerTest {
     ScoreMaker maker;
@@ -19,17 +19,17 @@ public class ScoreMakerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void heightUnder0FailTest() {
-        maker = new ScoreMaker(0,5,true,true);
+        maker = new ScoreMaker(0, 5, true, true);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void widthUnder0FailTest() {
-        maker = new ScoreMaker(5,0,true,true);
+        maker = new ScoreMaker(5, 0, true, true);
     }
 
     @Test
     public void canNewScoreMaker() {
-        maker = new ScoreMaker(2,2,true,true);
+        maker = new ScoreMaker(2, 2, true, true);
     }
 
     @Test
@@ -43,11 +43,12 @@ public class ScoreMakerTest {
 
     /**
      * 水平な中央線で線対称になっているか判定するヘルパーメソッド
+     *
      * @param arr 検証したい2次元配列
      */
     private void HSymmetryCheck(int[][] arr) {
         for (int up = 0, down = arr.length - 1; up < arr.length; up++, down--) {
-            if(!Arrays.equals(arr[up], arr[down])) {
+            if (!Arrays.equals(arr[up], arr[down])) {
                 fail();
             }
         }
@@ -55,6 +56,7 @@ public class ScoreMakerTest {
 
     /**
      * 垂直な中央線で線対称になっているか判定するヘルパーメソッド
+     *
      * @param arr 検証したい2次元配列
      */
     private void VSymmetryCheck(int[][] arr) {
