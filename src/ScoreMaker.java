@@ -30,7 +30,7 @@ public class ScoreMaker {
         if (!(vLineIsSymmetry || hLineIsSymmetry)) {
             throw new IllegalArgumentException("縦と横のどちらかは最低限線対称である必要があります");
         }
-        if (h > 12 || w > 12 || h <= 0 || w <= 0) {
+        if (h > 12 || w > 12 || h <= 0 || w <= 0 || h * w < 80) {
             throw new IllegalArgumentException("hまたはwが不正です。h:" + h + " w:" + w);
         }
 
@@ -53,15 +53,9 @@ public class ScoreMaker {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 scores[y][x] = randomMaker.nextInt(17);
-            }
-        }
-        //Minus cell make
-        if (verticalLineIsSymmetry) {
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    if(randomMaker.nextDouble() < 0.1) {
-                        scores[y][x] *= -1;
-                    }
+
+                if (randomMaker.nextDouble() < 0.1) {
+                    scores[y][x] *= -1;
                 }
             }
         }
@@ -74,6 +68,7 @@ public class ScoreMaker {
                 }
             }
         }
+
         //Symmetrize about hLine
         if (horizontalLineIsSymmetry) {
             for (int y = 0; y < height / 2; y++) {
