@@ -34,6 +34,7 @@ public class ScoreFromQR {
 2 3 1: -2 1 0 1 2 0 2 1 0 1 -2:2 2:7 10:
          */
         String ReFormattedQRData = this.QRData.replaceAll(":"," ");
+        ReFormattedQRData = ReFormattedQRData.replaceAll(" {2}", " ");
         Scanner sc = new Scanner(ReFormattedQRData);
 
         int h = sc.nextInt();
