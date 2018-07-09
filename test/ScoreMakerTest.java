@@ -27,15 +27,19 @@ public class ScoreMakerTest {
         maker = new ScoreMaker(5, 0, true, true);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void widthMultipulHeightUnder80FailTest() {
+        maker = new ScoreMaker(8,9,true,true);
+    }
+
     @Test
     public void canNewScoreMaker() {
-        maker = new ScoreMaker(2, 2, true, true);
+        maker = new ScoreMaker(10, 9, true, true);
     }
 
     @Test
     public void makeV_SymTrue_And_H_SymTrueTest() {
-        int h = 4, w = 4;
-        maker = new ScoreMaker(h, w, true, true);
+        maker = new ScoreMaker(9, 10, true, true);
         int[][] arr = maker.make();
         VSymmetryCheck(arr);
         HSymmetryCheck(arr);
