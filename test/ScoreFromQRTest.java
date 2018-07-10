@@ -4,7 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ScoreFromQRTest {
-    ScoreFromQR maker;
+    ScoreMaker maker;
 
     String sampleRightQR = "8 11:" +
             "-2 1 0 1 2 0 2 1 0 1 -2:" +

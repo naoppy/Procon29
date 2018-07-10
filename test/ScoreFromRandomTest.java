@@ -5,7 +5,7 @@ import java.util.Arrays;
 import static org.junit.Assert.fail;
 
 public class ScoreFromRandomTest {
-    ScoreFromRandom maker;
+    ScoreMaker maker;
 
     @Test(expected = IllegalArgumentException.class)
     public void heightOver12FailTest() {

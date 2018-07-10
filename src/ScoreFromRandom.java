@@ -3,12 +3,7 @@ import java.util.Random;
 /**
  * マップの各座標における点を決定するクラス
  */
-public class ScoreFromRandom {
-    /**
-     * マップの縦、横の大きさ
-     */
-    private int height;
-    private int width;
+public class ScoreFromRandom extends ScoreMaker {
     /**
      * 中央の縦線で線対称か
      */
@@ -34,8 +29,8 @@ public class ScoreFromRandom {
             throw new IllegalArgumentException("hまたはwが不正です。h:" + h + " w:" + w);
         }
 
-        height = h;
-        width = w;
+        setHeight(h);
+        setWidth(w);
         verticalLineIsSymmetry = vLineIsSymmetry;
         horizontalLineIsSymmetry = hLineIsSymmetry;
     }
@@ -46,6 +41,9 @@ public class ScoreFromRandom {
      * @return スコアの配列
      */
     public int[][] make() {
+        int height = getHeight();
+        int width = getWidth();
+
         //Generate and Initialize a Score Map.
         Random randomMaker = new Random(System.currentTimeMillis());
         int[][] scores = new int[height][width];
@@ -79,23 +77,5 @@ public class ScoreFromRandom {
         }
 
         return scores;
-    }
-
-    /**
-     * 縦の長さを返す
-     *
-     * @return マップの縦の高さ
-     */
-    public int getHeight() {
-        return height;
-    }
-
-    /**
-     * 横の長さを返す
-     *
-     * @return マップの横の高さ
-     */
-    public int getWidth() {
-        return width;
     }
 }

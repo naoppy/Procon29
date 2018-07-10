@@ -3,12 +3,7 @@ import java.util.Scanner;
 /**
  * QRコードを読み取った文字列からマップの点をだすクラス
  */
-public class ScoreFromQR {
-    /**
-     * マップの縦、横の大きさ
-     */
-    private int height;
-    private int width;
+public class ScoreFromQR extends ScoreMaker {
     /**
      * QRコードから読み取った生の文字列
      */
@@ -39,8 +34,8 @@ public class ScoreFromQR {
 
         int h = sc.nextInt();
         int w = sc.nextInt();
-        this.height = h;
-        this.width = w;
+        setHeight(h);
+        setWidth(w);
 
         int[][] scores = new int[h][w];
         for(int y = 0; y < h; y++) {
@@ -52,21 +47,4 @@ public class ScoreFromQR {
         return scores;
     }
 
-    /**
-     * 縦の長さを返す
-     *
-     * @return マップの縦の高さ
-     */
-    public int getHeight() {
-        return height;
-    }
-
-    /**
-     * 横の長さを返す
-     *
-     * @return マップの横の高さ
-     */
-    public int getWidth() {
-        return width;
-    }
 }
