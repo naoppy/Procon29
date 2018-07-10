@@ -3,7 +3,7 @@ import java.util.Random;
 /**
  * マップの各座標における点を決定するクラス
  */
-public class ScoreMaker {
+public class ScoreFromRandom {
     /**
      * マップの縦、横の大きさ
      */
@@ -26,7 +26,7 @@ public class ScoreMaker {
      * @param vLineIsSymmetry 縦線で線対称か
      * @param hLineIsSymmetry 横線で線対称か
      */
-    public ScoreMaker(int h, int w, boolean vLineIsSymmetry, boolean hLineIsSymmetry) {
+    public ScoreFromRandom(int h, int w, boolean vLineIsSymmetry, boolean hLineIsSymmetry) {
         if (!(vLineIsSymmetry || hLineIsSymmetry)) {
             throw new IllegalArgumentException("縦と横のどちらかは最低限線対称である必要があります");
         }
