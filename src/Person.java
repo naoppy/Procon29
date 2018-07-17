@@ -38,5 +38,6 @@ public class Person {
             case REMOVE:
                 break;
         }
+        return false;
     }
 }
