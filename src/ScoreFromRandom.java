@@ -33,6 +33,8 @@ public class ScoreFromRandom extends ScoreMaker {
         setWidth(w);
         verticalLineIsSymmetry = vLineIsSymmetry;
         horizontalLineIsSymmetry = hLineIsSymmetry;
+
+        this.make();
     }
 
     /**
@@ -40,7 +42,7 @@ public class ScoreFromRandom extends ScoreMaker {
      *
      * @return スコアの配列
      */
-    public int[][] make() {
+    protected void make() {
         int height = getHeight();
         int width = getWidth();
 
@@ -76,6 +78,6 @@ public class ScoreFromRandom extends ScoreMaker {
             }
         }
 
-        return scores;
+        setMap(scores);
     }
 }

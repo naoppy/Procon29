@@ -40,7 +40,7 @@ public class ScoreFromRandomTest {
     @Test
     public void makeV_SymTrue_And_H_SymTrueTest() {
         maker = new ScoreFromRandom(9, 10, true, true);
-        int[][] arr = maker.make();
+        int[][] arr = maker.getMap();
         VSymmetryCheck(arr);
         HSymmetryCheck(arr);
     }

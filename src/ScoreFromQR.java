@@ -9,12 +9,16 @@ public class ScoreFromQR extends ScoreMaker {
      */
     private String QRData;
 
+    //private Point redPlayer1Point;
+
     /**
      * QR文字列を受け取ってScoreFromQRクラスを作成します
+     *
      * @param QRData QRデータ
      */
     public ScoreFromQR(String QRData) {
         this.QRData = QRData;
+        this.make();
     }
 
     /**
@@ -22,13 +26,14 @@ public class ScoreFromQR extends ScoreMaker {
      *
      * @return スコアの配列
      */
-    public int[][] make() {
+    @Override
+    protected void make() {
         /*  sample data
         8 11:-2 1 0 1 2 0 2 1 0 1 -2:1 3 2 -2 0 1 0 -2 2 3 1:1 3 2 1 0 -2 0 1 2 3 1:2 1 1
 2 2 3 2 2 1 1 2: 2 1 1 2 2 3 2 2 1 1 2: 1 3 2 1 0 -2 0 1 2 3 1: 1 3 2 -2 0 1 0 -2
 2 3 1: -2 1 0 1 2 0 2 1 0 1 -2:2 2:7 10:
          */
-        String ReFormattedQRData = this.QRData.replaceAll(":"," ");
+        String ReFormattedQRData = this.QRData.replaceAll(":", " ");
         ReFormattedQRData = ReFormattedQRData.replaceAll(" {2}", " ");
         Scanner sc = new Scanner(ReFormattedQRData);
 
@@ -38,13 +43,13 @@ public class ScoreFromQR extends ScoreMaker {
         setWidth(w);
 
         int[][] scores = new int[h][w];
-        for(int y = 0; y < h; y++) {
-            for(int x = 0; x < w; x++) {
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
                 scores[y][x] = sc.nextInt();
             }
         }
 
-        return scores;
+        setMap(scores);
     }
 
 }

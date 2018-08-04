@@ -4,11 +4,24 @@ public abstract class ScoreMaker {
      */
     private int height;
     private int width;
+    /**
+     * マップ
+     */
+    private int[][] map;
 
     /**
-     * マップを作って返す関数
+     * マップを作って登録する関数
      */
-    public abstract int[][] make();
+    protected abstract void make();
+
+    /**
+     * マップを返す
+     *
+     * @return 二次元配列で表したマップ
+     */
+    public int[][] getMap() {
+        return map;
+    }
 
     /**
      * 縦の長さを返す
@@ -29,7 +42,17 @@ public abstract class ScoreMaker {
     }
 
     /**
+     * マップを設定する
+     *
+     * @param map マップとして使う二次元配列
+     */
+    protected void setMap(int[][] map) {
+        this.map = map;
+    }
+
+    /**
      * 縦の長さを設定する
+     *
      * @param height 縦の長さ
      */
     protected void setHeight(int height) {
@@ -38,6 +61,7 @@ public abstract class ScoreMaker {
 
     /**
      * 横の長さを設定する
+     *
      * @param width 横の長さ
      */
     protected void setWidth(int width) {

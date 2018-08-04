@@ -33,7 +33,7 @@ public class Person {
                 this.selection = selection;
                 this.applyPoint = nowPoint;
                 return true;
-            case PUT:
+            case MOVE:
                 break;
             case REMOVE:
                 break;
