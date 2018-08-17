@@ -14,21 +14,40 @@ import java.util.Scanner;
 /**
  * ゲームの進行を管理する最上位クラス
  */
-public class Viewer {
-    private ScoreMaker maker = new ScoreFromQR(Viewer.inputCode());
-
+public class GameBoard {
+    /**
+     * スコアと自分の位置を与える
+     */
+    private ScoreMaker maker = new ScoreFromQR(GameBoard.inputCode());
+    /**
+     * スコア
+     */
     private int[][] scores = maker.getMap();
-
+    /**
+     * どのチームの領域か
+     */
     private Owner[][] map = new Owner[scores.length][scores[0].length];
-
+    /**
+     * 自分のチームのPlayer2人
+     */
     private RedTeamPlayer rp1 = new RedTeamPlayer(), rp2 = new RedTeamPlayer();
+    /**
+     * 相手のチームのPlayer2人
+     */
     private BlueTeamPlayer bp1 = new BlueTeamPlayer(), bp2 = new BlueTeamPlayer();
-
+    /**
+     * GUIの基底
+     */
     private BorderPane root;
-
+    /**
+     * GUIのコントローラークラス
+     */
     private Controller controller;
 
-    {
+    /**
+     * GUIをFXMLから読み込んで生成
+     */
+    public GameBoard() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("root2.fxml"));
             root = loader.load();
@@ -38,10 +57,18 @@ public class Viewer {
         }
     }
 
+    /**
+     * 表示の為に現在のゲーム画面のGUIを返す
+     * @return GUIの基底
+     */
     public Parent getView() {
         return root;
     }
 
+    /**
+     * QRコードの入力を受け付ける
+     * @return
+     */
     private static String inputCode() {
         System.out.println("QRデータを入れて");
         Scanner sc = new Scanner(System.in);

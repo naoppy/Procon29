@@ -5,16 +5,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    /**
-     * Viewer
-     */
-    private Viewer viewer = new Viewer();
+
+    private GameBoard gameBoard = new GameBoard();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         primaryStage.setTitle("Procon29 Visualizer");
-        primaryStage.setScene(new Scene(viewer.getView()));
+        primaryStage.setScene(new Scene(gameBoard.getView()));
         primaryStage.show();
     }
 
