@@ -1,4 +1,6 @@
 import org.junit.Test;
+import procon29.akashi.scores.ScoreFromQR;
+import procon29.akashi.scores.ScoreMaker;
 
 import static org.junit.Assert.*;
 

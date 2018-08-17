@@ -1,9 +1,13 @@
+package procon29.akashi.players;
+
+import procon29.akashi.Selection;
+
 import java.awt.*;
 
 /**
  * プレイヤーを表すクラス
  */
-public abstract class Person {
+public abstract class Player {
     /**
      * 今の座標
      */

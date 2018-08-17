@@ -1,3 +1,5 @@
+package procon29.akashi.scores;
+
 public abstract class ScoreMaker {
     /**
      * マップの縦、横の大きさ

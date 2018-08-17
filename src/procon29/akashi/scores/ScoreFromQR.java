@@ -1,3 +1,5 @@
+package procon29.akashi.scores;
+
 import java.util.Scanner;
 
 /**

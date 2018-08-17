@@ -1,5 +1,11 @@
+package procon29.akashi;
+
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
+import procon29.akashi.players.BlueTeamPlayer;
+import procon29.akashi.players.RedTeamPlayer;
+import procon29.akashi.scores.ScoreFromQR;
+import procon29.akashi.scores.ScoreMaker;
 
 import java.util.Scanner;
 

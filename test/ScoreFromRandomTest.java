@@ -1,4 +1,6 @@
 import org.junit.Test;
+import procon29.akashi.scores.ScoreFromRandom;
+import procon29.akashi.scores.ScoreMaker;
 
 import java.util.Arrays;
 

@@ -1,3 +1,5 @@
+package procon29.akashi;
+
 /**
  * プレイヤーのとる操作を表す列挙型
  */
