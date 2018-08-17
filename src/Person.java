@@ -3,15 +3,11 @@ import java.awt.*;
 /**
  * プレイヤーを表すクラス
  */
-public class Person {
+public abstract class Person {
     /**
      * 今の座標
      */
     private Point nowPoint;
-    /**
-     * 赤チームかどうか
-     */
-    private boolean isRedTeamMember;
     /**
      * 次の手を選択し終えたか
      */
@@ -24,24 +20,6 @@ public class Person {
      * 次の手
      */
     private Selection selection;
-
-    /**
-     * プレイヤーを作る
-     *
-     * @param isRedTeamMember 赤チームかどうか
-     */
-    public Person(boolean isRedTeamMember) {
-        this.isRedTeamMember = isRedTeamMember;
-    }
-
-    /**
-     * 赤チームかどうか確認する
-     *
-     * @return 赤ならtrue
-     */
-    public boolean isRedTeamMember() {
-        return isRedTeamMember;
-    }
 
     /**
      * 次の手を選択し終えたか返す
