@@ -13,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        primaryStage.setTitle("Naoppy Othello");
+        primaryStage.setTitle("Procon29 Visualizer");
         primaryStage.setScene(new Scene(viewer.getView()));
         primaryStage.show();
     }
