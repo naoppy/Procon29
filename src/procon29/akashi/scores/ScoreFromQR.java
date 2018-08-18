@@ -1,5 +1,7 @@
 package procon29.akashi.scores;
 
+import java.awt.*;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -10,8 +12,6 @@ public class ScoreFromQR extends ScoreMaker {
      * QRコードから読み取った生の文字列
      */
     private String QRData;
-
-    //private Point redPlayer1Point;
 
     /**
      * QR文字列を受け取ってScoreFromQRクラスを作成します
@@ -52,7 +52,29 @@ public class ScoreFromQR extends ScoreMaker {
             }
         }
 
+        rp1 = new Point(sc.nextInt() - 1, sc.nextInt() - 1);
+        rp2 = new Point(sc.nextInt() - 1, sc.nextInt() - 1);
+
         setMap(scores);
     }
 
+    /**
+     * BluePlayerの初期位置はQRデータからは読み取ることができない
+     *
+     * @return 例外(NoSuchElementException)を常にThrow
+     */
+    @Override
+    public Point getBp1() {
+        throw new NoSuchElementException("決定できないので存在しません");
+    }
+
+    /**
+     * BluePlayerの初期位置はQRデータからは読み取ることができない
+     *
+     * @return 例外(NoSuchElementException)を常にThrow
+     */
+    @Override
+    public Point getBp2() {
+        throw new NoSuchElementException("決定できないので存在しません");
+    }
 }

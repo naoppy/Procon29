@@ -1,5 +1,7 @@
 package procon29.akashi.scores;
 
+import java.awt.*;
+
 public abstract class ScoreMaker {
     /**
      * マップの縦、横の大きさ
@@ -10,6 +12,14 @@ public abstract class ScoreMaker {
      * マップ
      */
     private int[][] map;
+    /**
+     * 赤チームのプレイヤーの初期座標
+     */
+    protected Point rp1, rp2;
+    /**
+     * 青チームのプレイヤーの初期座標
+     */
+    protected Point bp1, bp2;
 
     /**
      * マップを作って登録する関数
@@ -68,5 +78,41 @@ public abstract class ScoreMaker {
      */
     protected void setWidth(int width) {
         this.width = width;
+    }
+
+    /**
+     * 赤チームの一人目の初期位置を返す
+     *
+     * @return 赤チームの一人目の初期位置
+     */
+    public Point getRp1() {
+        return rp1;
+    }
+
+    /**
+     * 赤チームの二人目の初期位置を返す
+     *
+     * @return 赤チームの二人目の初期位置
+     */
+    public Point getRp2() {
+        return rp2;
+    }
+
+    /**
+     * 青チームの一人目の初期位置を返す
+     *
+     * @return 青チームの一人目の初期位置
+     */
+    public Point getBp1() {
+        return bp1;
+    }
+
+    /**
+     * 青チームの二人目の初期位置を返す
+     *
+     * @return 青チームの二人目の初期位置
+     */
+    public Point getBp2() {
+        return bp2;
     }
 }
