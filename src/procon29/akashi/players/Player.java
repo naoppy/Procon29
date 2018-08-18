@@ -26,6 +26,14 @@ public abstract class Player {
     private Selection selection;
 
     /**
+     * 最初の座標を設定して生成する
+     * @param initPoint 最初の座標
+     */
+    public Player(Point initPoint) {
+        this.nowPoint = initPoint;
+    }
+
+    /**
      * 次の手を選択し終えたか返す
      *
      * @return 選択し終えたならtrue
