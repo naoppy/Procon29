@@ -30,11 +30,11 @@ public class GameBoard {
     /**
      * 自分のチームのPlayer2人
      */
-    private RedTeamPlayer rp1 = new RedTeamPlayer(), rp2 = new RedTeamPlayer();
+    //private RedTeamPlayer rp1 = new RedTeamPlayer(), rp2 = new RedTeamPlayer();
     /**
      * 相手のチームのPlayer2人
      */
-    private BlueTeamPlayer bp1 = new BlueTeamPlayer(), bp2 = new BlueTeamPlayer();
+    //private BlueTeamPlayer bp1 = new BlueTeamPlayer(), bp2 = new BlueTeamPlayer();
     /**
      * GUIの基底
      */
@@ -67,7 +67,7 @@ public class GameBoard {
 
     /**
      * QRコードの入力を受け付ける
-     * @return
+     * @return QRコード
      */
     private static String inputCode() {
         System.out.println("QRデータを入れて");
