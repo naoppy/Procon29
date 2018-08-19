@@ -1,5 +1,6 @@
 package procon29.akashi.scores;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -78,6 +79,68 @@ public class ScoreFromRandom extends ScoreMaker {
                     scores[height - 1 - y][x] = scores[y][x];
                 }
             }
+        }
+
+        //Generate players point
+        if (verticalLineIsSymmetry && horizontalLineIsSymmetry) {
+            int ylim = height / 2;
+            int xlim = width / 2;
+
+            int rp1y = randomMaker.nextInt(ylim);
+            int rp1x = randomMaker.nextInt(xlim);
+            rp1 = new Point(rp1x, rp1y);
+
+            int rp2y = height - 1 - rp1y;
+            int rp2x = width - 1 - rp1x;
+            rp2 = new Point(rp2x, rp2y);
+
+            int bp1y = rp2y;
+            int bp1x = rp1x;
+            bp1 = new Point(bp1x, bp1y);
+
+            int bp2y = rp1y;
+            int bp2x = rp2x;
+            bp2 = new Point(bp2x, bp2y);
+        } else if (verticalLineIsSymmetry) {
+            int ylim = height;
+            int xlim = width / 2;
+
+            int rp1y = randomMaker.nextInt(ylim);
+            int rp1x = randomMaker.nextInt(xlim);
+            rp1 = new Point(rp1x, rp1y);
+
+            int bp1y = randomMaker.nextInt(ylim);
+            while(bp1y == rp1y) bp1y = randomMaker.nextInt(ylim);
+            int bp1x = randomMaker.nextInt(xlim);
+            bp1 = new Point(bp1x, bp1y);
+
+            int rp2y = bp1y;
+            int rp2x = width - 1 - bp1x;
+            rp2 = new Point(rp2x, rp2y);
+
+            int bp2y = rp1y;
+            int bp2x = width - 1 - rp1x;
+            bp2 = new Point(bp2x, bp2y);
+        } else if(horizontalLineIsSymmetry) {
+            int ylim = height / 2;
+            int xlim = width;
+
+            int rp1y = randomMaker.nextInt(ylim);
+            int rp1x = randomMaker.nextInt(xlim);
+            rp1 = new Point(rp1x, rp1y);
+
+            int bp1y = randomMaker.nextInt(ylim);
+            int bp1x = randomMaker.nextInt(xlim);
+            while(bp1x == rp1x) bp1x = randomMaker.nextInt(xlim);
+            bp1 = new Point(bp1x, bp1y);
+
+            int rp2y = height -1 -bp1y;
+            int rp2x = bp1x;
+            rp2 = new Point(rp2x, rp2y);
+
+            int bp2y = height - 1 - rp1y;
+            int bp2x = rp1x;
+            bp2 = new Point(bp2x, bp2y);
         }
 
         setMap(scores);
