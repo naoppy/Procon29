@@ -30,11 +30,11 @@ public class GameBoard {
     /**
      * 自分のチームのPlayer2人
      */
-    //private RedTeamPlayer rp1 = new RedTeamPlayer(), rp2 = new RedTeamPlayer();
+    private RedTeamPlayer rp1 = new RedTeamPlayer(maker.getRp1()), rp2 = new RedTeamPlayer(maker.getRp2());
     /**
      * 相手のチームのPlayer2人
      */
-    //private BlueTeamPlayer bp1 = new BlueTeamPlayer(), bp2 = new BlueTeamPlayer();
+    private BlueTeamPlayer bp1, bp2;
     /**
      * GUIの基底
      */
@@ -49,7 +49,7 @@ public class GameBoard {
      */
     public GameBoard() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("root2.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/root2.fxml"));
             root = loader.load();
             controller = loader.getController();
         } catch (IOException e) {
@@ -59,6 +59,7 @@ public class GameBoard {
 
     /**
      * 表示の為に現在のゲーム画面のGUIを返す
+     *
      * @return GUIの基底
      */
     public Parent getView() {
@@ -67,6 +68,7 @@ public class GameBoard {
 
     /**
      * QRコードの入力を受け付ける
+     *
      * @return QRコード
      */
     private static String inputCode() {
