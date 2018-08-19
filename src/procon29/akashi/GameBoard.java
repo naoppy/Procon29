@@ -2,8 +2,8 @@ package procon29.akashi;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import procon29.akashi.players.BlueTeamPlayer;
 import procon29.akashi.players.RedTeamPlayer;
 import procon29.akashi.scores.ScoreFromQR;
@@ -27,7 +27,7 @@ public class GameBoard {
     /**
      * どのチームの領域か
      */
-    private Owner[][] map = new Owner[scores.length][scores[0].length];
+    private Owner[][] map = new Owner[maker.getHeight()][maker.getWidth()];
     /**
      * 自分のチームのPlayer2人
      */
@@ -54,6 +54,12 @@ public class GameBoard {
             root = loader.load();
             controller = loader.getController();
 
+            for(int y = 0; y < maker.getHeight(); y++) {
+                for(int x = 0; x < maker.getWidth(); x++) {
+                    ImageView imageView = new ImageView("NoneTile.png");
+                    controller.grid.add(imageView, y, x);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
