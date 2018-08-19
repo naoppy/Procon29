@@ -9,19 +9,19 @@ import javafx.scene.layout.GridPane;
 public class Controller {
 
     @FXML
-    private Label cnt1;
+    public Label cnt1;
 
     @FXML
-    private Label cnt2;
+    public Label cnt2;
 
     @FXML
-    private Label winOrLose;
+    public Label winOrLose;
 
     @FXML
-    private Button solveBotton;
+    public Button solveBotton;
 
     @FXML
-    private GridPane grid;
+    public GridPane grid;
 
     @FXML
     void solve(MouseEvent event) {

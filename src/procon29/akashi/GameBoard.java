@@ -3,6 +3,7 @@ package procon29.akashi;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import procon29.akashi.players.BlueTeamPlayer;
 import procon29.akashi.players.RedTeamPlayer;
 import procon29.akashi.scores.ScoreFromQR;
@@ -52,6 +53,7 @@ public class GameBoard {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/root2.fxml"));
             root = loader.load();
             controller = loader.getController();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
