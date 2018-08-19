@@ -57,7 +57,7 @@ public class GameBoard {
             for(int y = 0; y < maker.getHeight(); y++) {
                 for(int x = 0; x < maker.getWidth(); x++) {
                     ImageView imageView = new ImageView("NoneTile.png");
-                    controller.grid.add(imageView, y, x);
+                    controller.grid.add(imageView, x, y);
                 }
             }
         } catch (IOException e) {
