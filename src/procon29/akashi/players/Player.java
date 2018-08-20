@@ -27,6 +27,7 @@ public abstract class Player {
 
     /**
      * 最初の座標を設定して生成する
+     *
      * @param initPoint 最初の座標
      */
     public Player(Point initPoint) {
@@ -57,7 +58,7 @@ public abstract class Player {
                 this.applyPoint = nowPoint;
                 return true;
             case MOVE:
-                if(nearKinbo8(nowPoint, applyPoint)) {
+                if (nearKinbo8(nowPoint, applyPoint)) {
                     this.isFinishNextSelect = true;
                     this.selection = selection;
                     this.applyPoint = applyPoint;
@@ -65,7 +66,7 @@ public abstract class Player {
                 }
                 break;
             case REMOVE:
-                if(nearKinbo8(nowPoint, applyPoint)) {
+                if (nearKinbo8(nowPoint, applyPoint)) {
                     this.isFinishNextSelect = true;
                     this.selection = selection;
                     this.applyPoint = applyPoint;
@@ -78,20 +79,30 @@ public abstract class Player {
 
     /**
      * 1点がもう1点の8近傍にあるかを調べる
-     * @param nowPoint 1つ目の点
+     *
+     * @param nowPoint  1つ目の点
      * @param nextPoint 2つ目の点
      * @return 8近傍にある場合true
      */
     private static boolean nearKinbo8(Point nowPoint, Point nextPoint) {
         int[][] kinbo8 = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
 
-        for(int i = 0; i < 8; i++) {
-            if(nowPoint.x+kinbo8[i][0]==nextPoint.x && nowPoint.y+kinbo8[i][1]==nextPoint.y) {
+        for (int i = 0; i < 8; i++) {
+            if (nowPoint.x + kinbo8[i][0] == nextPoint.x && nowPoint.y + kinbo8[i][1] == nextPoint.y) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * 今の座標を返す
+     *
+     * @return 今の座標
+     */
+    public Point getNowPoint() {
+        return nowPoint;
     }
 
     /**
