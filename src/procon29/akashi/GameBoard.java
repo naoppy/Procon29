@@ -65,18 +65,19 @@ public class GameBoard {
 
             for (int y = 0; y < maker.getHeight(); y++) {
                 for (int x = 0; x < maker.getWidth(); x++) {
+                    //ImageViewをクリックすると追加できるように
                     ImageView imageView = new ImageView("NoneTile.png");
-                    int yy = y;
-                    int xx = x;
+                    int yy = y, xx = x;
                     imageView.setOnMouseClicked(event -> {
                         Point p = new Point(xx, yy);
                         if (!bluePlayerSet.remove(p) && bluePlayerSet.size() < 2) {
                             bluePlayerSet.add(p);
                         }
-                        this.firstUpdate();
+                        this.firstViewUpdate();
                     });
                     controller.grid.add(imageView, x, y);
 
+                    //ボタンを押したら決定できるように
                     controller.solveBotton.setOnMouseClicked(event -> {
                         //this.inputBlueTeamPlace();
                     });
@@ -85,7 +86,7 @@ public class GameBoard {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.firstUpdate();
+        this.firstViewUpdate();
     }
 
     /**
@@ -112,12 +113,11 @@ public class GameBoard {
     /**
      * 敵プレイヤーの位置より初期のタイル所有マップを作る
      */
-    private void firstUpdate() {
+    private void firstViewUpdate() {
         int w = maker.getWidth();
 
         for (int y = 0; y < maker.getHeight(); y++) {
             for (int x = 0; x < maker.getWidth(); x++) {
-                map[y][x] = Owner.None;
                 ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
                 imageView.setImage(new Image("NoneTile.png"));
             }
