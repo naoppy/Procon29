@@ -1,4 +1,6 @@
 import org.junit.Test;
+import procon29.akashi.scores.ScoreFromRandom;
+import procon29.akashi.scores.ScoreMaker;
 
 import java.util.Arrays;
 
@@ -40,7 +42,7 @@ public class ScoreFromRandomTest {
     @Test
     public void makeV_SymTrue_And_H_SymTrueTest() {
         maker = new ScoreFromRandom(9, 10, true, true);
-        int[][] arr = maker.make();
+        int[][] arr = maker.getMap();
         VSymmetryCheck(arr);
         HSymmetryCheck(arr);
     }
