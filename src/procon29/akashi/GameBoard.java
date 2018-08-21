@@ -85,6 +85,7 @@ public class GameBoard {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.firstUpdate();
     }
 
     /**
@@ -112,21 +113,27 @@ public class GameBoard {
      * 敵プレイヤーの位置より初期のタイル所有マップを作る
      */
     private void firstUpdate() {
+        int w = maker.getWidth();
+
         for (int y = 0; y < maker.getHeight(); y++) {
             for (int x = 0; x < maker.getWidth(); x++) {
                 map[y][x] = Owner.None;
-                ImageView imageView = (ImageView) controller.grid.getChildren().get(8 * y + x);
+                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
                 imageView.setImage(new Image("NoneTile.png"));
             }
         }
-        ImageView imageView = (ImageView) controller.grid.getChildren().get(8 * rp1.getNowPoint().y + rp1.getNowPoint().x);
+        ImageView imageView = (ImageView) controller.grid.getChildren().get(w * rp1.getNowPoint().y + rp1.getNowPoint().x);
         imageView.setImage(new Image("FriendPlayer1.png"));
-        imageView = (ImageView) controller.grid.getChildren().get(8 * rp2.getNowPoint().y + rp2.getNowPoint().x);
+        imageView = (ImageView) controller.grid.getChildren().get(w * rp2.getNowPoint().y + rp2.getNowPoint().x);
         imageView.setImage(new Image("FriendPlayer2.png"));
+        Point[] blues = bluePlayerSet.toArray(new Point[2]);
         switch (bluePlayerSet.size()) {
             case 2:
-
+                imageView = (ImageView) controller.grid.getChildren().get(w * blues[1].y + blues[1].x);
+                imageView.setImage(new Image("EnemyPlayer2.png"));
             case 1:
+                imageView = (ImageView) controller.grid.getChildren().get(w * blues[0].y + blues[0].x);
+                imageView.setImage(new Image("EnemyPlayer1.png"));
                 break;
         }
     }
