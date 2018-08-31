@@ -14,7 +14,6 @@ import procon29.akashi.scores.ScoreMaker;
 import java.awt.*;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -40,7 +39,7 @@ public class GameBoard {
     /**
      * 相手のチームのPlayer2人
      */
-    private BlueTeamPlayer bp1 = new BlueTeamPlayer(new Point(-1, -1)), bp2 = new BlueTeamPlayer(new Point(-1, -1));
+    private BlueTeamPlayer bp1, bp2 = new BlueTeamPlayer(new Point(-1, -1));
     /**
      * GUIの基底
      */
@@ -80,7 +79,7 @@ public class GameBoard {
 
                     //ボタンを押したら決定できるように
                     controller.solveBotton.setOnMouseClicked(event -> {
-                        //this.inputBlueTeamPlace();
+                        this.decideBlueTeamPlace();
                     });
                 }
             }
@@ -91,6 +90,21 @@ public class GameBoard {
     }
 
     /**
+     * 敵エージェントの位置を決定する
+     */
+    private void decideBlueTeamPlace() {
+        if (bluePlayerSet.size() != 2) return;
+
+        Point[] points = bluePlayerSet.toArray(new Point[2]);
+        bp1 = new BlueTeamPlayer(points[0]);
+        bp2 = new BlueTeamPlayer(points[1]);
+
+        //Solver.solve(scores, owners, rp1, rp2, bp1, bp2);
+
+
+    }
+
+    /**
      * 表示の為に現在のゲーム画面のGUIを返す
      *
      * @return GUIの基底
@@ -98,8 +112,6 @@ public class GameBoard {
     public Parent getView() {
         return root;
     }
-
-
 
     /**
      * 敵プレイヤーの位置より初期のタイル所有マップを作る
