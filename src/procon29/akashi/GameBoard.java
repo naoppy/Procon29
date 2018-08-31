@@ -31,7 +31,7 @@ public class GameBoard {
     /**
      * どのチームの領域か
      */
-    private Owner[][] map = new Owner[maker.getHeight()][maker.getWidth()];
+    private Owner[][] owners = new Owner[maker.getHeight()][maker.getWidth()];
     /**
      * 自分のチームのPlayer2人
      */
@@ -39,7 +39,7 @@ public class GameBoard {
     /**
      * 相手のチームのPlayer2人
      */
-    private BlueTeamPlayer bp1, bp2 = new BlueTeamPlayer(new Point(-1, -1));
+    private BlueTeamPlayer bp1, bp2;
     /**
      * GUIの基底
      */
@@ -78,9 +78,7 @@ public class GameBoard {
                     controller.grid.add(imageView, x, y);
 
                     //ボタンを押したら決定できるように
-                    controller.solveBotton.setOnMouseClicked(event -> {
-                        this.decideBlueTeamPlace();
-                    });
+                    controller.solveBotton.setOnMouseClicked(event -> this.decideBlueTeamPlace());
                 }
             }
         } catch (IOException e) {
