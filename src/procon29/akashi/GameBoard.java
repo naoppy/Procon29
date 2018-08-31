@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import procon29.akashi.players.BlueTeamPlayer;
 import procon29.akashi.players.RedTeamPlayer;
+import procon29.akashi.scores.QRInputer;
 import procon29.akashi.scores.ScoreFromQR;
 import procon29.akashi.scores.ScoreMaker;
 
@@ -23,7 +24,7 @@ public class GameBoard {
     /**
      * スコアと自分の位置を与える
      */
-    private ScoreMaker maker = new ScoreFromQR(GameBoard.inputCode());
+    private ScoreMaker maker = new ScoreFromQR(QRInputer.inputCode());
     /**
      * スコア
      */
@@ -98,17 +99,7 @@ public class GameBoard {
         return root;
     }
 
-    /**
-     * QRコードの入力を受け付ける
-     *
-     * @return QRコード
-     */
-    private static String inputCode() {
-        System.out.println("QRデータを入れて");
-        Scanner sc = new Scanner(System.in);
-        sc.useDelimiter("[A-z]");
-        return sc.next();
-    }
+
 
     /**
      * 敵プレイヤーの位置より初期のタイル所有マップを作る
