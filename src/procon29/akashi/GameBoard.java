@@ -7,13 +7,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import procon29.akashi.players.BlueTeamPlayer;
 import procon29.akashi.players.RedTeamPlayer;
+import procon29.akashi.scores.QRInputer;
 import procon29.akashi.scores.ScoreFromQR;
 import procon29.akashi.scores.ScoreMaker;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -23,7 +23,7 @@ public class GameBoard {
     /**
      * スコアと自分の位置を与える
      */
-    private ScoreMaker maker = new ScoreFromQR(GameBoard.inputCode());
+    private ScoreMaker maker = new ScoreFromQR(QRInputer.inputCode());
     /**
      * スコア
      */
@@ -31,7 +31,7 @@ public class GameBoard {
     /**
      * どのチームの領域か
      */
-    private Owner[][] map = new Owner[maker.getHeight()][maker.getWidth()];
+    private Owner[][] owners = new Owner[maker.getHeight()][maker.getWidth()];
     /**
      * 自分のチームのPlayer2人
      */
@@ -39,7 +39,7 @@ public class GameBoard {
     /**
      * 相手のチームのPlayer2人
      */
-    private BlueTeamPlayer bp1 = new BlueTeamPlayer(new Point(-1, -1)), bp2 = new BlueTeamPlayer(new Point(-1, -1));
+    private BlueTeamPlayer bp1, bp2;
     /**
      * GUIの基底
      */
@@ -78,9 +78,7 @@ public class GameBoard {
                     controller.grid.add(imageView, x, y);
 
                     //ボタンを押したら決定できるように
-                    controller.solveBotton.setOnMouseClicked(event -> {
-                        //this.inputBlueTeamPlace();
-                    });
+                    controller.solveBotton.setOnMouseClicked(event -> this.decideBlueTeamPlace());
                 }
             }
         } catch (IOException e) {
@@ -90,24 +88,27 @@ public class GameBoard {
     }
 
     /**
+     * 敵エージェントの位置を決定する
+     */
+    private void decideBlueTeamPlace() {
+        if (bluePlayerSet.size() != 2) return;
+
+        Point[] points = bluePlayerSet.toArray(new Point[2]);
+        bp1 = new BlueTeamPlayer(points[0]);
+        bp2 = new BlueTeamPlayer(points[1]);
+
+        //Solver.solve(scores, owners, rp1, rp2, bp1, bp2);
+
+
+    }
+
+    /**
      * 表示の為に現在のゲーム画面のGUIを返す
      *
      * @return GUIの基底
      */
     public Parent getView() {
         return root;
-    }
-
-    /**
-     * QRコードの入力を受け付ける
-     *
-     * @return QRコード
-     */
-    private static String inputCode() {
-        System.out.println("QRデータを入れて");
-        Scanner sc = new Scanner(System.in);
-        sc.useDelimiter("[A-z]");
-        return sc.next();
     }
 
     /**
