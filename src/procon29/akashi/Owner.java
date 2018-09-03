@@ -9,11 +9,11 @@ public enum Owner {
      */
     None,
     /**
-     * 赤チームのもの
+     * 味方チームのもの
      */
-    Red,
+    Friend,
     /**
-     * 青チームのもの
+     * 敵チームのもの
      */
-    Blue
+    Enemy
 }
