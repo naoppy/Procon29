@@ -13,13 +13,13 @@ public abstract class ScoreMaker {
      */
     private int[][] map;
     /**
-     * 赤チームのプレイヤーの初期座標
+     * 味方チームのプレイヤーの初期座標
      */
-    protected Point rp1, rp2;
+    protected Point fp1, fp2;
     /**
-     * 青チームのプレイヤーの初期座標
+     * 敵チームのプレイヤーの初期座標
      */
-    protected Point bp1, bp2;
+    protected Point ep1, ep2;
 
     /**
      * マップを作って登録する関数
@@ -81,38 +81,38 @@ public abstract class ScoreMaker {
     }
 
     /**
-     * 赤チームの一人目の初期位置を返す
+     * 味方チームの一人目の初期位置を返す
      *
-     * @return 赤チームの一人目の初期位置
+     * @return 味方チームの一人目の初期位置
      */
-    public Point getRp1() {
-        return rp1;
+    public Point getFp1() {
+        return fp1;
     }
 
     /**
-     * 赤チームの二人目の初期位置を返す
+     * 味方チームの二人目の初期位置を返す
      *
-     * @return 赤チームの二人目の初期位置
+     * @return 味方チームの二人目の初期位置
      */
-    public Point getRp2() {
-        return rp2;
+    public Point getFp2() {
+        return fp2;
     }
 
     /**
-     * 青チームの一人目の初期位置を返す
+     * 敵チームの一人目の初期位置を返す
      *
-     * @return 青チームの一人目の初期位置
+     * @return 敵チームの一人目の初期位置
      */
-    public Point getBp1() {
-        return bp1;
+    public Point getEp1() {
+        return ep1;
     }
 
     /**
-     * 青チームの二人目の初期位置を返す
+     * 敵チームの二人目の初期位置を返す
      *
-     * @return 青チームの二人目の初期位置
+     * @return 敵チームの二人目の初期位置
      */
-    public Point getBp2() {
-        return bp2;
+    public Point getEp2() {
+        return ep2;
     }
 }

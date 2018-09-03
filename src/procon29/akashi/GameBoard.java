@@ -5,8 +5,8 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import procon29.akashi.players.BlueTeamPlayer;
-import procon29.akashi.players.RedTeamPlayer;
+import procon29.akashi.players.EnemyPlayer;
+import procon29.akashi.players.FriendPlayer;
 import procon29.akashi.scores.QRInputer;
 import procon29.akashi.scores.ScoreFromQR;
 import procon29.akashi.scores.ScoreMaker;
@@ -35,11 +35,11 @@ public class GameBoard {
     /**
      * 自分のチームのPlayer2人
      */
-    private RedTeamPlayer rp1 = new RedTeamPlayer(maker.getRp1()), rp2 = new RedTeamPlayer(maker.getRp2());
+    private FriendPlayer rp1 = new FriendPlayer(maker.getFp1()), rp2 = new FriendPlayer(maker.getFp2());
     /**
      * 相手のチームのPlayer2人
      */
-    private BlueTeamPlayer bp1, bp2;
+    private EnemyPlayer bp1, bp2;
     /**
      * GUIの基底
      */
@@ -94,10 +94,10 @@ public class GameBoard {
         if (bluePlayerSet.size() != 2) return;
 
         Point[] points = bluePlayerSet.toArray(new Point[2]);
-        bp1 = new BlueTeamPlayer(points[0]);
-        bp2 = new BlueTeamPlayer(points[1]);
+        bp1 = new EnemyPlayer(points[0]);
+        bp2 = new EnemyPlayer(points[1]);
 
-        //Solver.solve(scores, owners, rp1, rp2, bp1, bp2);
+        //Solver.solve(scores, owners, fp1, fp2, ep1, ep2);
 
 
     }
