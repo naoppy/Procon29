@@ -52,10 +52,10 @@ public class ScoreFromQR extends ScoreMaker {
             }
         }
 
-        int rp1y = sc.nextInt() - 1;
-        fp1 = new Point(sc.nextInt() - 1, rp1y);
-        int rp2y = sc.nextInt() - 1;
-        fp2 = new Point(sc.nextInt() - 1, rp2y);
+        int fp1y = sc.nextInt() - 1;
+        fp1 = new Point(sc.nextInt() - 1, fp1y);
+        int fp2y = sc.nextInt() - 1;
+        fp2 = new Point(sc.nextInt() - 1, fp2y);
 
         setMap(scores);
     }

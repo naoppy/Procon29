@@ -35,11 +35,11 @@ public class GameBoard {
     /**
      * 自分のチームのPlayer2人
      */
-    private FriendPlayer rp1 = new FriendPlayer(maker.getFp1()), rp2 = new FriendPlayer(maker.getFp2());
+    private FriendPlayer fp1 = new FriendPlayer(maker.getFp1()), fp2 = new FriendPlayer(maker.getFp2());
     /**
      * 相手のチームのPlayer2人
      */
-    private EnemyPlayer bp1, bp2;
+    private EnemyPlayer ep1, ep2;
     /**
      * GUIの基底
      */
@@ -51,7 +51,7 @@ public class GameBoard {
     /**
      * 青プレイヤーの初期位置を入力するためのセット
      */
-    private Set<Point> bluePlayerSet = new HashSet<>();
+    private Set<Point> enemyPlayerSet = new HashSet<>();
 
     /**
      * GUIをFXMLから読み込んで生成
@@ -70,8 +70,8 @@ public class GameBoard {
                     int yy = y, xx = x;
                     imageView.setOnMouseClicked(event -> {
                         Point p = new Point(xx, yy);
-                        if (!bluePlayerSet.remove(p) && bluePlayerSet.size() < 2) {
-                            bluePlayerSet.add(p);
+                        if (!enemyPlayerSet.remove(p) && enemyPlayerSet.size() < 2) {
+                            enemyPlayerSet.add(p);
                         }
                         this.firstViewUpdate();
                     });
@@ -91,11 +91,11 @@ public class GameBoard {
      * 敵エージェントの位置を決定する
      */
     private void decideBlueTeamPlace() {
-        if (bluePlayerSet.size() != 2) return;
+        if (enemyPlayerSet.size() != 2) return;
 
-        Point[] points = bluePlayerSet.toArray(new Point[2]);
-        bp1 = new EnemyPlayer(points[0]);
-        bp2 = new EnemyPlayer(points[1]);
+        Point[] points = enemyPlayerSet.toArray(new Point[2]);
+        ep1 = new EnemyPlayer(points[0]);
+        ep2 = new EnemyPlayer(points[1]);
 
         //Solver.solve(scores, owners, fp1, fp2, ep1, ep2);
 
@@ -123,17 +123,17 @@ public class GameBoard {
                 imageView.setImage(new Image("NoneTile.png"));
             }
         }
-        ImageView imageView = (ImageView) controller.grid.getChildren().get(w * rp1.getNowPoint().y + rp1.getNowPoint().x);
+        ImageView imageView = (ImageView) controller.grid.getChildren().get(w * fp1.getNowPoint().y + fp1.getNowPoint().x);
         imageView.setImage(new Image("FriendPlayer1.png"));
-        imageView = (ImageView) controller.grid.getChildren().get(w * rp2.getNowPoint().y + rp2.getNowPoint().x);
+        imageView = (ImageView) controller.grid.getChildren().get(w * fp2.getNowPoint().y + fp2.getNowPoint().x);
         imageView.setImage(new Image("FriendPlayer2.png"));
-        Point[] blues = bluePlayerSet.toArray(new Point[2]);
-        switch (bluePlayerSet.size()) {
+        Point[] enemys = enemyPlayerSet.toArray(new Point[2]);
+        switch (enemyPlayerSet.size()) {
             case 2:
-                imageView = (ImageView) controller.grid.getChildren().get(w * blues[1].y + blues[1].x);
+                imageView = (ImageView) controller.grid.getChildren().get(w * enemys[1].y + enemys[1].x);
                 imageView.setImage(new Image("EnemyPlayer2.png"));
             case 1:
-                imageView = (ImageView) controller.grid.getChildren().get(w * blues[0].y + blues[0].x);
+                imageView = (ImageView) controller.grid.getChildren().get(w * enemys[0].y + enemys[0].x);
                 imageView.setImage(new Image("EnemyPlayer1.png"));
                 break;
         }
