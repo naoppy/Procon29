@@ -52,10 +52,10 @@ public class ScoreFromQR extends ScoreMaker {
             }
         }
 
-        int rp1y = sc.nextInt() - 1;
-        rp1 = new Point(sc.nextInt() - 1, rp1y);
-        int rp2y = sc.nextInt() - 1;
-        rp2 = new Point(sc.nextInt() - 1, rp2y);
+        int fp1y = sc.nextInt() - 1;
+        fp1 = new Point(sc.nextInt() - 1, fp1y);
+        int fp2y = sc.nextInt() - 1;
+        fp2 = new Point(sc.nextInt() - 1, fp2y);
 
         setMap(scores);
     }
@@ -66,7 +66,7 @@ public class ScoreFromQR extends ScoreMaker {
      * @return 例外(NoSuchElementException)を常にThrow
      */
     @Override
-    public Point getBp1() {
+    public Point getEp1() {
         throw new NoSuchElementException("決定できないので存在しません");
     }
 
@@ -76,7 +76,7 @@ public class ScoreFromQR extends ScoreMaker {
      * @return 例外(NoSuchElementException)を常にThrow
      */
     @Override
-    public Point getBp2() {
+    public Point getEp2() {
         throw new NoSuchElementException("決定できないので存在しません");
     }
 }
