@@ -84,7 +84,10 @@ public class GameBoard {
             }
         }
 
+        Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint())==1).forEach(player -> {
+            Selection select = player.getSelection();
 
+        });
 
         return true;
     }

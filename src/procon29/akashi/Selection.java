@@ -5,10 +5,6 @@ package procon29.akashi;
  */
 public enum Selection {
     /**
-     * その場にとどまる
-     */
-    WAIT,
-    /**
      * 移動する
      */
     MOVE,
