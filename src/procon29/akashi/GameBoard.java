@@ -2,14 +2,15 @@ package procon29.akashi;
 
 import procon29.akashi.players.EnemyPlayer;
 import procon29.akashi.players.FriendPlayer;
+import procon29.akashi.players.Player;
 import procon29.akashi.scores.QRInputer;
 import procon29.akashi.scores.ScoreFromQR;
 import procon29.akashi.scores.ScoreMaker;
 import procon29.akashi.solver.Solver;
 
 import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * ゲームの進行を管理する最上位クラス
@@ -35,6 +36,10 @@ public class GameBoard {
      * 相手のチームのPlayer2人
      */
     private EnemyPlayer ep1, ep2;
+    /**
+     *
+     */
+    private Player[] players = {fp1, fp2, ep1, ep2};
     /**
      * 青プレイヤーの初期位置を入力するためのセット
      */
@@ -62,5 +67,25 @@ public class GameBoard {
      */
     public void solve() {
         solver.solve(scores, owners, fp1, fp2, ep1, ep2);
+    }
+
+    private boolean nextStage() {
+        if (Arrays.stream(players).allMatch(Player::isFinishNextSelect))
+            return false;
+
+        Point[] applyPoints = Arrays.stream(players).map(p -> p.getApplyPoint()).toArray(Point[]::new);
+        Map<Point, Integer> pointsMap = new HashMap<>();
+
+        for (Point point : applyPoints) {
+            if (pointsMap.containsKey(point)) {
+                pointsMap.put(point, pointsMap.get(point) + 1);
+            } else {
+                pointsMap.put(point, 1);
+            }
+        }
+
+
+
+        return true;
     }
 }
