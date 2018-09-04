@@ -10,6 +10,9 @@ import procon29.akashi.GameBoard;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * GameBoardを視覚化するクラス
+ */
 public class Viewer {
     /**
      * GUIの基底
@@ -33,7 +36,7 @@ public class Viewer {
         this.gameBoard = gameBoard;
         try {
             //load FXML and load controller
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/root2.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/root2.fxml"));
             root = loader.load();
             controller = loader.getController();
 
@@ -73,9 +76,9 @@ public class Viewer {
                 imageView.setImage(new Image("NoneTile.png"));
             }
         }
-        ImageView imageView = (ImageView) controller.grid.getChildren().get(w * fp1.getNowPoint().y + fp1.getNowPoint().x);
+        ImageView imageView = (ImageView) controller.grid.getChildren().get(w * gameBoard.maker.getFp1().y + gameBoard.maker.getFp1().x);
         imageView.setImage(new Image("FriendPlayer1.png"));
-        imageView = (ImageView) controller.grid.getChildren().get(w * fp2.getNowPoint().y + fp2.getNowPoint().x);
+        imageView = (ImageView) controller.grid.getChildren().get(w * gameBoard.maker.getFp2().y + gameBoard.maker.getFp2().x);
         imageView.setImage(new Image("FriendPlayer2.png"));
         Point[] enemys = gameBoard.enemyPlayerSet.toArray(new Point[2]);
         switch (gameBoard.enemyPlayerSet.size()) {
