@@ -42,15 +42,15 @@ public class GameBoard {
     /**
      * 敵エージェントの位置を決定する
      */
-    public void decideEnemyPlayerPlace() {
-        if (enemyPlayerSet.size() != 2) return;
+    public boolean decideEnemyPlayerPlace() {
+        if (enemyPlayerSet.size() != 2) return false;
 
         Point[] points = enemyPlayerSet.toArray(new Point[2]);
         ep1 = new EnemyPlayer(points[0]);
         ep2 = new EnemyPlayer(points[1]);
 
-        //Solver.solve(scores, owners, fp1, fp2, ep1, ep2);
-
-
+        //Solver.solve(scores, owners, fp1, fp2, ep1, ep2);//これでfp1,fp2の行動を決定する
+        
+        return  true;
     }
 }
