@@ -3,6 +3,7 @@ package procon29.akashi;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import procon29.akashi.gui.Viewer;
 
 public class Main extends Application {
 

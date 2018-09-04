@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import procon29.akashi.gui.Controller;
 import procon29.akashi.players.EnemyPlayer;
 import procon29.akashi.players.FriendPlayer;
 import procon29.akashi.scores.QRInputer;

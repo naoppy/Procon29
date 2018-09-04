@@ -1,4 +1,4 @@
-package procon29.akashi;
+package procon29.akashi.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
