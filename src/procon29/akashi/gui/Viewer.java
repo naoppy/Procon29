@@ -58,7 +58,7 @@ public class Viewer {
                     controller.solveBotton.setOnMouseClicked(event -> {
                         if (gameBoard.decideEnemyPlayerPlace()) {
                                controller.solveBotton.setOnMouseClicked(event1 -> gameBoard.solve());
-
+                               
                         }
                     });
                 }
