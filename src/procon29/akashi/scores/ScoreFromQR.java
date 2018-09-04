@@ -61,7 +61,7 @@ public class ScoreFromQR extends ScoreMaker {
     }
 
     /**
-     * BluePlayerの初期位置はQRデータからは読み取ることができない
+     * EnemyPlayerの初期位置はQRデータからは読み取ることができない
      *
      * @return 例外(NoSuchElementException)を常にThrow
      */
@@ -71,7 +71,7 @@ public class ScoreFromQR extends ScoreMaker {
     }
 
     /**
-     * BluePlayerの初期位置はQRデータからは読み取ることができない
+     * EnemyPlayerの初期位置はQRデータからは読み取ることができない
      *
      * @return 例外(NoSuchElementException)を常にThrow
      */
