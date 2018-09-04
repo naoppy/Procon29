@@ -55,7 +55,12 @@ public class Viewer {
                     controller.grid.add(imageView, x, y);
 
                     //ボタンを押したら決定できるように
-                    controller.solveBotton.setOnMouseClicked(event -> gameBoard.decideEnemyPlayerPlace());
+                    controller.solveBotton.setOnMouseClicked(event -> {
+                        if (gameBoard.decideEnemyPlayerPlace()) {
+                               controller.solveBotton.setOnMouseClicked(event1 -> gameBoard.solve());
+
+                        }
+                    });
                 }
             }
         } catch (IOException e) {
@@ -90,6 +95,8 @@ public class Viewer {
                 imageView.setImage(new Image("EnemyPlayer1.png"));
                 break;
         }
+
+
     }
 
     /**

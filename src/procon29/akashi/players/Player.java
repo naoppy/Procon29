@@ -17,7 +17,7 @@ public abstract class Player {
      */
     private boolean isFinishNextSelect = false;
     /**
-     * 次の移動先座標
+     * 次の行動の対象座標
      */
     private Point applyPoint;
     /**
@@ -51,30 +51,13 @@ public abstract class Player {
      * @return ルールに則った選択ならtrue
      */
     public boolean select(Selection selection, Point applyPoint) {
-        switch (selection) {
-            case WAIT:
-                this.isFinishNextSelect = true;
-                this.selection = selection;
-                this.applyPoint = nowPoint;
-                return true;
-            case MOVE:
-                if (nearKinbo8(nowPoint, applyPoint)) {
-                    this.isFinishNextSelect = true;
-                    this.selection = selection;
-                    this.applyPoint = applyPoint;
-                    return true;
-                }
-                break;
-            case REMOVE:
-                if (nearKinbo8(nowPoint, applyPoint)) {
-                    this.isFinishNextSelect = true;
-                    this.selection = selection;
-                    this.applyPoint = applyPoint;
-                    return true;
-                }
-                break;
-        }
-        return false;
+        if (!nearKinbo8(nowPoint, applyPoint)) return false;
+
+        this.isFinishNextSelect = true;
+        this.selection = selection;
+        this.applyPoint = applyPoint;
+
+        return true;
     }
 
     /**
@@ -121,5 +104,18 @@ public abstract class Player {
      */
     public Selection getSelection() {
         return selection;
+    }
+
+    /**
+     * 内部の状態を更新する
+     */
+    public void reset() {
+        if(!isFinishNextSelect) return;
+
+        isFinishNextSelect = false;
+
+        if(selection.equals(Selection.MOVE)) {
+            nowPoint = applyPoint;
+        }
     }
 }
