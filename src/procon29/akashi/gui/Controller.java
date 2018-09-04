@@ -23,9 +23,4 @@ public class Controller {
     @FXML
     public GridPane grid;
 
-    @FXML
-    void solve(MouseEvent event) {
-
-    }
-
 }
