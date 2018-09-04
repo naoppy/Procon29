@@ -105,4 +105,17 @@ public abstract class Player {
     public Selection getSelection() {
         return selection;
     }
+
+    /**
+     * 内部の状態を更新する
+     */
+    public void reset() {
+        if(!isFinishNextSelect) return;
+
+        isFinishNextSelect = false;
+
+        if(selection.equals(Selection.MOVE)) {
+            nowPoint = applyPoint;
+        }
+    }
 }

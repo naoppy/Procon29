@@ -10,7 +10,6 @@ import procon29.akashi.solver.Solver;
 
 import java.awt.*;
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * ゲームの進行を管理する最上位クラス
@@ -84,9 +83,13 @@ public class GameBoard {
             }
         }
 
-        Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint())==1).forEach(player -> {
-            Selection select = player.getSelection();
-
+        Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {
+            player.reset();
+            if (player.getSelection().equals(Selection.MOVE)) {
+                owners[player.getApplyPoint().y][player.getApplyPoint().x] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy;
+            } else {//Selection.REMOVE case
+                owners[player.getApplyPoint().y][player.getApplyPoint().x] = Owner.None;
+            }
         });
 
         return true;
