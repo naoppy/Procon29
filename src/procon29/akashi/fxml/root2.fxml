@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="procon29.akashi.Controller">
+<BorderPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="procon29.akashi.gui.Controller">
     <top>
         <HBox prefHeight="122.0" prefWidth="1261.0" BorderPane.alignment="CENTER">
             <children>

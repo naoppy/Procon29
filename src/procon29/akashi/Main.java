@@ -3,15 +3,18 @@ package procon29.akashi;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import procon29.akashi.gui.Viewer;
 
 public class Main extends Application {
 
     private GameBoard gameBoard = new GameBoard();
 
+    private Viewer viewer = new Viewer(gameBoard);
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Procon29 Visualizer");
-        primaryStage.setScene(new Scene(gameBoard.getView()));
+        primaryStage.setScene(new Scene(viewer.getView()));
         primaryStage.show();
     }
 
