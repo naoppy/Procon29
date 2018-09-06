@@ -56,10 +56,7 @@ public class Viewer {
 
                     //ボタンを押したら決定できるように
                     controller.solveBotton.setOnMouseClicked(event -> {
-                        if (gameBoard.decideEnemyPlayerPlace()) {
-                               controller.solveBotton.setOnMouseClicked(event1 -> gameBoard.solve());
-
-                        }
+                        if (gameBoard.decideEnemyPlayerPlace()) startNextPhase();
                     });
                 }
             }
@@ -69,8 +66,14 @@ public class Viewer {
         this.firstViewUpdate();
     }
 
+    private void startNextPhase() {
+        clearEventHandler();
+        gameBoard.solve();
+        controller.solveBotton.setOnMouseClicked(event1 -> gameBoard.nextStage());
+    }
+
     /**
-     * 敵プレイヤーの位置より初期のタイル所有マップを作る
+     * 敵プレイヤーの暫定位置を表示する
      */
     private void firstViewUpdate() {
         int w = gameBoard.maker.getWidth();
@@ -106,5 +109,19 @@ public class Viewer {
      */
     public Parent getView() {
         return root;
+    }
+
+    /**
+     * クリックイベントを全て削除する
+     */
+    private void clearEventHandler() {
+        int w = gameBoard.maker.getWidth();
+
+        for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
+            for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
+                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
+                imageView.setOnMouseClicked(null);
+            }
+        }
     }
 }

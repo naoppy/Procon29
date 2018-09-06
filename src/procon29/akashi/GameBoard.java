@@ -49,7 +49,7 @@ public class GameBoard {
     private Solver solver = new Solver();
 
     /**
-     * 敵エージェントの位置を決定する
+     * 敵エージェントの位置を決定すると共に初期の所有マップを作成
      */
     public boolean decideEnemyPlayerPlace() {
         if (enemyPlayerSet.size() != 2) return false;
@@ -57,6 +57,8 @@ public class GameBoard {
         Point[] points = enemyPlayerSet.toArray(new Point[2]);
         ep1 = new EnemyPlayer(points[0]);
         ep2 = new EnemyPlayer(points[1]);
+
+        Arrays.stream(players).forEach(player -> owners[player.getNowPoint().y][player.getNowPoint().x] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
 
         return true;
     }
@@ -68,7 +70,7 @@ public class GameBoard {
         solver.solve(scores, owners, fp1, fp2, ep1, ep2);
     }
 
-    private boolean nextStage() {
+    public boolean nextStage() {
         if (Arrays.stream(players).allMatch(Player::isFinishNextSelect))
             return false;
 
