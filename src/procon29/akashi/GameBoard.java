@@ -70,6 +70,10 @@ public class GameBoard {
         solver.solve(scores, owners, fp1, fp2, ep1, ep2);
     }
 
+    /**
+     * 盤面を次に進める
+     * @return 全てのプレイヤーが移動方向を決定できていなければfalse、出来ていたのならtrue
+     */
     public boolean nextStage() {
         if (Arrays.stream(players).allMatch(Player::isFinishNextSelect))
             return false;

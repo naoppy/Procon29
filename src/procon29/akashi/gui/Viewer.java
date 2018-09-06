@@ -66,10 +66,15 @@ public class Viewer {
         this.firstViewUpdate();
     }
 
+    /**
+     * ゲームのメインループに入る
+     */
     private void startNextPhase() {
         clearEventHandler();
         gameBoard.solve();
-        controller.solveBotton.setOnMouseClicked(event1 -> gameBoard.nextStage());
+        controller.solveBotton.setOnMouseClicked(event1 -> {
+            if (gameBoard.nextStage()) gameBoard.solve();
+        });
     }
 
     /**
