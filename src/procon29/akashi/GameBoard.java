@@ -38,7 +38,7 @@ public class GameBoard {
     /**
      *
      */
-    private Player[] players = {fp1, fp2, ep1, ep2};
+    public Player[] players = {fp1, fp2, ep1, ep2};
     /**
      * 青プレイヤーの初期位置を入力するためのセット
      */

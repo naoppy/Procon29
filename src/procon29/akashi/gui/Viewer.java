@@ -6,9 +6,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import procon29.akashi.GameBoard;
+import procon29.akashi.players.Player;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * GameBoardを視覚化するクラス
@@ -73,8 +75,27 @@ public class Viewer {
         clearEventHandler();
         gameBoard.solve();
         controller.solveBotton.setOnMouseClicked(event1 -> {
-            if (gameBoard.nextStage()) gameBoard.solve();
+            if (gameBoard.nextStage()) {
+                gameBoard.solve();
+                clearEventHandler();
+            }
         });
+    }
+
+    /**
+     * 敵の動きを入力させるためにイベントハンドラを設定する
+     */
+    private void moveSelect(Player player) {
+        int w = gameBoard.maker.getWidth();
+
+        for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
+            for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
+                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
+                imageView.setOnMouseClicked(null);
+            }
+        }
+
+        ImageView imageView = (ImageView) controller.grid.getChildren().get(w * player.getNowPoint().y * player.getNowPoint().x);
     }
 
     /**
@@ -128,5 +149,7 @@ public class Viewer {
                 imageView.setOnMouseClicked(null);
             }
         }
+
+        Arrays.stream(gameBoard.players).skip(2L).forEach(player -> moveSelect(player));
     }
 }
