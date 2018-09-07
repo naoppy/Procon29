@@ -83,9 +83,9 @@ public class Viewer {
     }
 
     /**
-     * 敵の動きを入力させるためにイベントハンドラを設定する
+     * クリックイベントを全て削除する
      */
-    private void moveSelect(Player player) {
+    private void clearEventHandler() {
         int w = gameBoard.maker.getWidth();
 
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
@@ -95,7 +95,18 @@ public class Viewer {
             }
         }
 
-        ImageView imageView = (ImageView) controller.grid.getChildren().get(w * player.getNowPoint().y * player.getNowPoint().x);
+        Arrays.stream(gameBoard.players).skip(2L).forEach(player -> setHandlerToSelect(player));
+    }
+
+    /**
+     * 敵の動きを入力させるためにイベントハンドラを設定する
+     */
+    private void setHandlerToSelect(Player targetPlayer) {
+        int w = gameBoard.maker.getWidth();
+
+        Arrays.stream(gameBoard.players).skip(2L).forEach(player -> controller.grid.getChildren().get(w * player.getNowPoint().y * player.getNowPoint().x).setOnMouseClicked(null));
+
+
     }
 
     /**
@@ -110,6 +121,7 @@ public class Viewer {
                 imageView.setImage(new Image("NoneTile.png"));
             }
         }
+
         ImageView imageView = (ImageView) controller.grid.getChildren().get(w * gameBoard.maker.getFp1().y + gameBoard.maker.getFp1().x);
         imageView.setImage(new Image("FriendPlayer1.png"));
         imageView = (ImageView) controller.grid.getChildren().get(w * gameBoard.maker.getFp2().y + gameBoard.maker.getFp2().x);
@@ -125,7 +137,6 @@ public class Viewer {
                 break;
         }
 
-
     }
 
     /**
@@ -137,19 +148,4 @@ public class Viewer {
         return root;
     }
 
-    /**
-     * クリックイベントを全て削除する
-     */
-    private void clearEventHandler() {
-        int w = gameBoard.maker.getWidth();
-
-        for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
-            for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
-                imageView.setOnMouseClicked(null);
-            }
-        }
-
-        Arrays.stream(gameBoard.players).skip(2L).forEach(player -> moveSelect(player));
-    }
 }
