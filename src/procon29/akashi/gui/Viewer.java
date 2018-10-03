@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import procon29.akashi.GameBoard;
+import procon29.akashi.Owner;
+import procon29.akashi.Selection;
 import procon29.akashi.players.Player;
 
 import java.awt.*;
@@ -111,8 +113,10 @@ public class Viewer {
         for (int dy : diffY) {
             for (int dx : diffX) {
                 int targetY = targetPlayer.getNowPoint().y + dy, targetX = targetPlayer.getNowPoint().x + dx;
-                if(targetY < 0 || targetY >= gameBoard.maker.getHeight() || targetX < 0 || targetX >= gameBoard.maker.getWidth()) {
-                    controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked();
+                if (targetY < 0 || targetY >= gameBoard.maker.getHeight() || targetX < 0 || targetX >= gameBoard.maker.getWidth()) {
+                    controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked(event -> {
+                        targetPlayer.select(gameBoard.whoOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new Point(targetX, targetY));
+                    });
                 }
             }
         }

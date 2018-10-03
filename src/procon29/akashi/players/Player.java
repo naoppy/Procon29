@@ -9,7 +9,7 @@ import java.awt.*;
  */
 public abstract class Player {
     /**
-     * 今の座標
+     * 今の座標(x,y)
      */
     private Point nowPoint;
     /**
@@ -17,7 +17,7 @@ public abstract class Player {
      */
     private boolean isFinishNextSelect = false;
     /**
-     * 次の行動の対象座標
+     * 次の行動の対象座標(x,y)
      */
     private Point applyPoint;
     /**
@@ -28,7 +28,7 @@ public abstract class Player {
     /**
      * 最初の座標を設定して生成する
      *
-     * @param initPoint 最初の座標
+     * @param initPoint 最初の座標(x,y)
      */
     public Player(Point initPoint) {
         this.nowPoint = initPoint;
@@ -110,11 +110,11 @@ public abstract class Player {
      * 内部の状態を更新する
      */
     public void reset() {
-        if(!isFinishNextSelect) return;
+        if (!isFinishNextSelect) return;
 
         isFinishNextSelect = false;
 
-        if(selection.equals(Selection.MOVE)) {
+        if (selection.equals(Selection.MOVE)) {
             nowPoint = applyPoint;
         }
     }

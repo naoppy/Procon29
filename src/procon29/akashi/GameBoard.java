@@ -102,6 +102,6 @@ public class GameBoard {
     }
 
     public Owner whoOwn(int x, int y) {
-        return owners[y][x];
+        return owners[y+1][x+1];
     }
 }
