@@ -26,7 +26,7 @@ public class GameBoard {
     /**
      * どのチームの領域か
      */
-    private Owner[][] owners = new Owner[maker.getHeight()+2][maker.getWidth()+2];
+    private Owner[][] owners = new Owner[maker.getHeight() + 2][maker.getWidth() + 2];
     /**
      * 自分のチームのPlayer2人
      */
@@ -58,7 +58,7 @@ public class GameBoard {
         ep1 = new EnemyPlayer(points[0]);
         ep2 = new EnemyPlayer(points[1]);
 
-        Arrays.stream(players).forEach(player -> owners[player.getNowPoint().y+1][player.getNowPoint().x+1] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
+        Arrays.stream(players).forEach(player -> owners[player.getNowPoint().y + 1][player.getNowPoint().x + 1] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
 
         return true;
     }
@@ -72,6 +72,7 @@ public class GameBoard {
 
     /**
      * 盤面を次に進める
+     *
      * @return 全てのプレイヤーが移動方向を決定できていなければfalse、出来ていたのならtrue
      */
     public boolean nextStage() {
@@ -92,9 +93,9 @@ public class GameBoard {
         Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {
             player.reset();
             if (player.getSelection().equals(Selection.MOVE)) {
-                owners[player.getApplyPoint().y+1][player.getApplyPoint().x+1] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy;
+                owners[player.getApplyPoint().y + 1][player.getApplyPoint().x + 1] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy;
             } else {//Selection.REMOVE case
-                owners[player.getApplyPoint().y+1][player.getApplyPoint().x+1] = Owner.None;
+                owners[player.getApplyPoint().y + 1][player.getApplyPoint().x + 1] = Owner.None;
             }
         });
 
@@ -102,6 +103,6 @@ public class GameBoard {
     }
 
     public Owner whoOwn(int x, int y) {
-        return owners[y+1][x+1];
+        return owners[y + 1][x + 1];
     }
 }
