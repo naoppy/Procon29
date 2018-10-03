@@ -118,4 +118,9 @@ public abstract class Player {
             nowPoint = applyPoint;
         }
     }
+
+    @Override
+    public String toString() {
+        return this.getNowPoint().x + "," + this.getNowPoint().y;
+    }
 }
