@@ -26,7 +26,7 @@ public class GameBoard {
     /**
      * どのチームの領域か
      */
-    private Owner[][] owners = new Owner[maker.getHeight()][maker.getWidth()];
+    private Owner[][] owners = new Owner[maker.getHeight()+2][maker.getWidth()+2];
     /**
      * 自分のチームのPlayer2人
      */
@@ -58,7 +58,7 @@ public class GameBoard {
         ep1 = new EnemyPlayer(points[0]);
         ep2 = new EnemyPlayer(points[1]);
 
-        Arrays.stream(players).forEach(player -> owners[player.getNowPoint().y][player.getNowPoint().x] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
+        Arrays.stream(players).forEach(player -> owners[player.getNowPoint().y+1][player.getNowPoint().x+1] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
 
         return true;
     }
@@ -92,9 +92,9 @@ public class GameBoard {
         Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {
             player.reset();
             if (player.getSelection().equals(Selection.MOVE)) {
-                owners[player.getApplyPoint().y][player.getApplyPoint().x] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy;
+                owners[player.getApplyPoint().y+1][player.getApplyPoint().x+1] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy;
             } else {//Selection.REMOVE case
-                owners[player.getApplyPoint().y][player.getApplyPoint().x] = Owner.None;
+                owners[player.getApplyPoint().y+1][player.getApplyPoint().x+1] = Owner.None;
             }
         });
 
