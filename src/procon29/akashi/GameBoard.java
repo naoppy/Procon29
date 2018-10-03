@@ -100,4 +100,8 @@ public class GameBoard {
 
         return true;
     }
+
+    public Owner whoOwn(int x, int y) {
+        return owners[y][x];
+    }
 }

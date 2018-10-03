@@ -104,9 +104,18 @@ public class Viewer {
     private void setHandlerToSelect(Player targetPlayer) {
         int w = gameBoard.maker.getWidth();
 
-        Arrays.stream(gameBoard.players).skip(2L).forEach(player -> controller.grid.getChildren().get(w * player.getNowPoint().y * player.getNowPoint().x).setOnMouseClicked(null));
+        controller.grid.getChildren().get(w * targetPlayer.getNowPoint().y + targetPlayer.getNowPoint().x).setOnMouseClicked(null);
 
+        int[] diffX = {1, 1, 0, 0, -1, -1, -1, 0, 1}, diffY = {0, 1, 1, 1, 0, -1, -1, -1};
 
+        for (int dy : diffY) {
+            for (int dx : diffX) {
+                int targetY = targetPlayer.getNowPoint().y + dy, targetX = targetPlayer.getNowPoint().x + dx;
+                if(targetY < 0 || targetY >= gameBoard.maker.getHeight() || targetX < 0 || targetX >= gameBoard.maker.getWidth()) {
+                    controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked();
+                }
+            }
+        }
     }
 
     /**
