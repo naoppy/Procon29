@@ -51,7 +51,7 @@ public abstract class Player {
      * @return ルールに則った選択ならtrue
      */
     public boolean select(Selection selection, Point applyPoint) {
-        if (!(nearKinbo8(nowPoint, applyPoint) || nowPoint.equals(applyPoint))) return false;
+        if (!nearKinbo8(nowPoint, applyPoint)) return false;
 
         this.isFinishNextSelect = true;
         this.selection = selection;
