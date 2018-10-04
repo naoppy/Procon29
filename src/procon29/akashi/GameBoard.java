@@ -107,4 +107,8 @@ public class GameBoard {
     public Owner whoOwn(int x, int y) {
         return owners[y + 1][x + 1];
     }
+
+    public Owner[][] getOwners() {
+        return this.owners;
+    }
 }

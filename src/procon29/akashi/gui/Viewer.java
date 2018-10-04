@@ -87,7 +87,7 @@ public class Viewer {
     }
 
     private void reView() {
-        
+        Owner[][] owners = gameBoard.getOwners();
     }
 
     /**
