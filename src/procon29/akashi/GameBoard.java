@@ -60,8 +60,6 @@ public class GameBoard {
         ep2 = new EnemyPlayer(points[1]);
         players[3] = ep2;
 
-        Arrays.stream(players).forEach(player -> System.err.println(player.toString()));
-
         Arrays.stream(players).forEach(player -> owners[player.getNowPoint().y + 1][player.getNowPoint().x + 1] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
 
         return true;

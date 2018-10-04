@@ -76,12 +76,18 @@ public class Viewer {
     private void startNextPhase() {
         clearEventHandler();
         gameBoard.solve();
+        reView();
         controller.solveBotton.setOnMouseClicked(event1 -> {
             if (gameBoard.nextStage()) {
                 gameBoard.solve();
                 clearEventHandler();
             }
+            reView();
         });
+    }
+
+    private void reView() {
+        
     }
 
     /**
