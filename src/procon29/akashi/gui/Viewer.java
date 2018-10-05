@@ -14,6 +14,7 @@ import procon29.akashi.players.Player;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * GameBoardを視覚化するクラス
@@ -99,8 +100,12 @@ public class Viewer {
             }
         }
 
-        Arrays.stream(gameBoard.players).forEach(player -> {
+        Image[] images = {new Image("FriendPlayer1"), new Image("FriendPlayer2"), new Image("EnemyPlayer1"), new Image("EnemyPlayer2")};
+        AtomicInteger i = new AtomicInteger();
 
+        Arrays.stream(gameBoard.players).forEach(player -> {
+            ImageView imageView = (ImageView) controller.grid.getChildren().get(w * player.getNowPoint().y + player.getNowPoint().x);
+            imageView.setImage(images[i.getAndAdd(1)]);
         });
     }
 
