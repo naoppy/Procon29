@@ -1,5 +1,6 @@
 package procon29.akashi;
 
+import procon29.akashi.owners.Owner;
 import procon29.akashi.players.EnemyPlayer;
 import procon29.akashi.players.FriendPlayer;
 import procon29.akashi.players.Player;
