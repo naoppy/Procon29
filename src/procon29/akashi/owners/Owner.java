@@ -1,4 +1,4 @@
-package procon29.akashi;
+package procon29.akashi.owners;
 
 /**
  * マップの所有者を表す列挙型
