@@ -61,7 +61,7 @@ public class GameBoard {
         ep2 = new EnemyPlayer(points[1]);
         players[3] = ep2;
 
-        Arrays.stream(players).forEach(player -> owners[player.getNowPoint().y + 1][player.getNowPoint().x + 1] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
+        Arrays.stream(players).forEach(player -> setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy));
 
         return true;
     }
@@ -96,9 +96,9 @@ public class GameBoard {
         Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {
             player.reset();
             if (player.getSelection().equals(Selection.MOVE)) {
-                owners[player.getApplyPoint().y + 1][player.getApplyPoint().x + 1] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy;
+                setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
             } else {//Selection.REMOVE case
-                owners[player.getApplyPoint().y + 1][player.getApplyPoint().x + 1] = Owner.None;
+                setOwn(player.getNowPoint().x, player.getNowPoint().y, Owner.None);
             }
         });
 
