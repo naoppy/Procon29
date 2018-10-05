@@ -6,15 +6,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import procon29.akashi.GameBoard;
-import procon29.akashi.owners.Owner;
 import procon29.akashi.Selection;
+import procon29.akashi.owners.Owner;
+import procon29.akashi.owners.OwnerToImageConverter;
 import procon29.akashi.players.Player;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * GameBoardを視覚化するクラス
@@ -89,16 +88,20 @@ public class Viewer {
     }
 
     private void reView() {
-        Owner[][] owners = gameBoard.getOwners();
-
         int w = gameBoard.maker.getWidth();
 
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
                 ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
-                imageView.setImage(new Image("NoneTile.png"));
+                if (!imageView.getImage().equals(OwnerToImageConverter.convert(gameBoard.getOwn(x, y)))) {
+                    imageView.setImage(OwnerToImageConverter.convert(gameBoard.getOwn(x, y)));
+                }
             }
         }
+
+        Arrays.stream(gameBoard.players).forEach(player -> {
+
+        });
     }
 
     /**
@@ -132,7 +135,7 @@ public class Viewer {
                 int targetY = targetPlayer.getNowPoint().y + dy, targetX = targetPlayer.getNowPoint().x + dx;
                 if (targetY < 0 || targetY >= gameBoard.maker.getHeight() || targetX < 0 || targetX >= gameBoard.maker.getWidth()) {
                     controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked(event -> {
-                        targetPlayer.select(gameBoard.whoOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new Point(targetX, targetY));
+                        targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new Point(targetX, targetY));
                     });
                 }
             }

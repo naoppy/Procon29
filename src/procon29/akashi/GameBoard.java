@@ -105,11 +105,11 @@ public class GameBoard {
         return true;
     }
 
-    public Owner whoOwn(int x, int y) {
+    public Owner getOwn(int x, int y) {
         return owners[y + 1][x + 1];
     }
 
-    public Owner[][] getOwners() {
-        return this.owners;
+    public void setOwn(int x, int y, Owner owner) {
+        owners[y + 1][x + 1] = owner;
     }
 }
