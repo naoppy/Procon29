@@ -100,7 +100,7 @@ public class Viewer {
             }
         }
 
-        Image[] images = {new Image("FriendPlayer1"), new Image("FriendPlayer2"), new Image("EnemyPlayer1"), new Image("EnemyPlayer2")};
+        Image[] images = {new Image("FriendPlayer1.png"), new Image("FriendPlayer2.png"), new Image("EnemyPlayer1.png"), new Image("EnemyPlayer2.png")};
         AtomicInteger i = new AtomicInteger();
 
         Arrays.stream(gameBoard.players).forEach(player -> {
