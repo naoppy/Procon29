@@ -105,10 +105,22 @@ public class GameBoard {
         return true;
     }
 
+    /**
+     * 与えられた座標のタイルを所持しているチームを返す
+     * @param x 取り出すx座標
+     * @param y 取り出すy座標
+     * @return 所持しているチーム
+     */
     public Owner getOwn(int x, int y) {
         return owners[y + 1][x + 1];
     }
 
+    /**
+     * 指定した座標のタイルの所有者を変更する
+     * @param x 指定するx座標
+     * @param y 指定するy座標
+     * @param owner 新しく所持するチーム
+     */
     public void setOwn(int x, int y, Owner owner) {
         owners[y + 1][x + 1] = owner;
     }
