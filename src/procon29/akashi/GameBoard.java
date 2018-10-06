@@ -98,7 +98,7 @@ public class GameBoard {
             if (player.getSelection().equals(Selection.MOVE)) {
                 setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
             } else {//Selection.REMOVE case
-                setOwn(player.getNowPoint().x, player.getNowPoint().y, Owner.None);
+                setOwn(player.getApplyPoint().x, player.getApplyPoint().y, Owner.None);
             }
         });
 
