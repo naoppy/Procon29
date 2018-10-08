@@ -61,6 +61,12 @@ public class GameBoard {
         ep2 = new EnemyPlayer(points[1]);
         players[3] = ep2;
 
+        for(int y = 0; y < maker.getHeight(); y++) {
+            for(int x = 0; x < maker.getWidth(); x++) {
+                setOwn(x,y,Owner.None);
+            }
+        }
+
         Arrays.stream(players).forEach(player -> setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy));
 
         return true;
