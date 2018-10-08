@@ -94,9 +94,8 @@ public class Viewer {
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
                 ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
-                if (!imageView.getImage().equals(OwnerToImageConverter.convert(gameBoard.getOwn(x, y)))) {
-                    imageView.setImage(OwnerToImageConverter.convert(gameBoard.getOwn(x, y)));
-                }
+                Owner nowOwner = gameBoard.getOwn(x, y);
+                imageView.setImage(OwnerToImageConverter.convert(nowOwner));
             }
         }
 
