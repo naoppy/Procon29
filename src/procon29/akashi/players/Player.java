@@ -51,27 +51,29 @@ public abstract class Player {
      * @return ルールに則った選択ならtrue
      */
     public boolean select(Selection selection, Point applyPoint) {
-        if (!nearKinbo8(nowPoint, applyPoint)) return false;
+        if (!nearKinbo9(nowPoint, applyPoint)) return false;
 
         this.isFinishNextSelect = true;
         this.selection = selection;
         this.applyPoint = applyPoint;
 
+        System.err.println("set" + applyPoint.toString());
+
         return true;
     }
 
     /**
-     * 1点がもう1点の8近傍にあるかを調べる
+     * 1点がもう1点の9近傍にあるかを調べる
      *
      * @param nowPoint  1つ目の点
      * @param nextPoint 2つ目の点
-     * @return 8近傍にある場合true
+     * @return 9近傍にある場合true
      */
-    private static boolean nearKinbo8(Point nowPoint, Point nextPoint) {
-        int[][] kinbo8 = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+    private static boolean nearKinbo9(Point nowPoint, Point nextPoint) {
+        int[][] kinbo9 = {{0, 0}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
 
         for (int i = 0; i < 8; i++) {
-            if (nowPoint.x + kinbo8[i][0] == nextPoint.x && nowPoint.y + kinbo8[i][1] == nextPoint.y) {
+            if (nowPoint.x + kinbo9[i][0] == nextPoint.x && nowPoint.y + kinbo9[i][1] == nextPoint.y) {
                 return true;
             }
         }
