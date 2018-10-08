@@ -8,10 +8,13 @@ import static org.junit.Assert.*;
 
 @RunWith(JavaFxJUnit4ClassRunner.class)
 public class OwnerToImageConverterTest {
-    Image noneImg = new Image("NoneTile.png");
 
     @Test
-    public void ownerIsNoneTest() {
-        assertEquals(noneImg, OwnerToImageConverter.convert(Owner.None));
+    public void SamePointerReturnTest() {
+        assertEquals(OwnerToImageConverter.convert(Owner.None), OwnerToImageConverter.convert(Owner.None));
+
+        assertEquals(OwnerToImageConverter.convert(Owner.Friend), OwnerToImageConverter.convert(Owner.Friend));
+
+        assertEquals(OwnerToImageConverter.convert(Owner.Enemy), OwnerToImageConverter.convert(Owner.Enemy));
     }
 }
