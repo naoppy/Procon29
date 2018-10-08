@@ -82,12 +82,16 @@ public class Viewer {
         controller.solveBotton.setOnMouseClicked(event1 -> {
             if (gameBoard.nextStage()) {
                 gameBoard.solve();
-                clearEventHandler();
             }
+            clearEventHandler();
             reView();
         });
     }
 
+
+    /**
+     * GameBoardの所有者マップを基にimageViewの画像を変更する
+     */
     private void reView() {
         int w = gameBoard.maker.getWidth();
 
