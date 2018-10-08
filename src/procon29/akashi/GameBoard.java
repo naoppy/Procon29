@@ -85,8 +85,11 @@ public class GameBoard {
      * @return 全てのプレイヤーが移動方向を決定できていなければfalse、出来ていたのならtrue
      */
     public boolean nextStage() {
-        if (Arrays.stream(players).allMatch(Player::isFinishNextSelect))
+        System.err.println("GameBoard.nextStage() called");
+        if (Arrays.stream(players).allMatch(Player::isFinishNextSelect)) {
+            System.err.println("Not All player finished to select!");
             return false;
+        }
 
         Point[] applyPoints = Arrays.stream(players).map(p -> p.getApplyPoint()).toArray(Point[]::new);
         Map<Point, Integer> pointsMap = new HashMap<>();
@@ -99,11 +102,16 @@ public class GameBoard {
             }
         }
 
+        Arrays.stream(players).forEach(player -> System.err.println(player.getApplyPoint()==null ? "Null" : player.getApplyPoint().toString()));
+
         Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {
+            System.err.println("a");
             player.reset();
             if (player.getSelection().equals(Selection.MOVE)) {
+                System.err.println("move");
                 setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
             } else {//Selection.REMOVE case
+                System.err.println("remove");
                 setOwn(player.getApplyPoint().x, player.getApplyPoint().y, Owner.None);
             }
         });
