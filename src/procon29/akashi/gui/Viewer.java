@@ -6,13 +6,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import procon29.akashi.GameBoard;
-import procon29.akashi.Owner;
 import procon29.akashi.Selection;
+import procon29.akashi.owners.Owner;
+import procon29.akashi.owners.OwnerToImageConverter;
 import procon29.akashi.players.Player;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * GameBoardを視覚化するクラス
@@ -74,35 +76,56 @@ public class Viewer {
      * ゲームのメインループに入る
      */
     private void startNextPhase() {
-        clearEventHandler();
+        clearAndSetEventHandler();
         gameBoard.solve();
         reView();
         controller.solveBotton.setOnMouseClicked(event1 -> {
             if (gameBoard.nextStage()) {
                 gameBoard.solve();
-                clearEventHandler();
             }
+            clearAndSetEventHandler();
             reView();
         });
     }
 
+
+    /**
+     * GameBoardの所有者マップを基にimageViewの画像を変更する
+     */
     private void reView() {
-        
+        int w = gameBoard.maker.getWidth();
+
+        for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
+            for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
+                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
+                Owner nowOwner = gameBoard.getOwn(x, y);
+                imageView.setImage(OwnerToImageConverter.convert(nowOwner));
+            }
+        }
+
+        Image[] images = {new Image("FriendPlayer1.png"), new Image("FriendPlayer2.png"), new Image("EnemyPlayer1.png"), new Image("EnemyPlayer2.png")};
+        AtomicInteger i = new AtomicInteger();
+
+        Arrays.stream(gameBoard.players).forEach(player -> {
+            ImageView imageView = (ImageView) controller.grid.getChildren().get(w * player.getNowPoint().y + player.getNowPoint().x);
+            imageView.setImage(images[i.getAndAdd(1)]);
+        });
     }
 
     /**
      * クリックイベントを全て削除する
      */
-    private void clearEventHandler() {
+    private void clearAndSetEventHandler() {
         int w = gameBoard.maker.getWidth();
 
+        //全てのノードのクリックイベントを削除
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
                 ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
                 imageView.setOnMouseClicked(null);
             }
         }
-
+        //敵プレイヤーをクリックして行動を選べるように設定する
         Arrays.stream(gameBoard.players).skip(2L).forEach(player -> setHandlerToSelect(player));
     }
 
@@ -112,20 +135,22 @@ public class Viewer {
     private void setHandlerToSelect(Player targetPlayer) {
         int w = gameBoard.maker.getWidth();
 
-        controller.grid.getChildren().get(w * targetPlayer.getNowPoint().y + targetPlayer.getNowPoint().x).setOnMouseClicked(null);
+        controller.grid.getChildren().get(w * targetPlayer.getNowPoint().y + targetPlayer.getNowPoint().x).setOnMouseClicked(event1 -> {
+            int[] diffX = {0, 1, 1, 0, -1, -1, -1, 0, 1}, diffY = {0, 0, 1, 1, 1, 0, -1, -1, -1};
 
-        int[] diffX = {1, 1, 0, 0, -1, -1, -1, 0, 1}, diffY = {0, 1, 1, 1, 0, -1, -1, -1};
-
-        for (int dy : diffY) {
-            for (int dx : diffX) {
-                int targetY = targetPlayer.getNowPoint().y + dy, targetX = targetPlayer.getNowPoint().x + dx;
-                if (targetY < 0 || targetY >= gameBoard.maker.getHeight() || targetX < 0 || targetX >= gameBoard.maker.getWidth()) {
-                    controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked(event -> {
-                        targetPlayer.select(gameBoard.whoOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new Point(targetX, targetY));
-                    });
+            for (int dy : diffY) {
+                for (int dx : diffX) {
+                    int targetY = targetPlayer.getNowPoint().y + dy, targetX = targetPlayer.getNowPoint().x + dx;
+                    //範囲内なら
+                    if (targetY >= 0 && targetY < gameBoard.maker.getHeight() && targetX >= 0 && targetX < gameBoard.maker.getWidth()) {
+                        controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked(event2 -> {
+                            targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new Point(targetX, targetY));
+                            clearAndSetEventHandler();
+                        });
+                    }
                 }
             }
-        }
+        });
     }
 
     /**

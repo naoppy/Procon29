@@ -1,5 +1,6 @@
 package procon29.akashi;
 
+import procon29.akashi.owners.Owner;
 import procon29.akashi.players.EnemyPlayer;
 import procon29.akashi.players.FriendPlayer;
 import procon29.akashi.players.Player;
@@ -60,7 +61,13 @@ public class GameBoard {
         ep2 = new EnemyPlayer(points[1]);
         players[3] = ep2;
 
-        Arrays.stream(players).forEach(player -> owners[player.getNowPoint().y + 1][player.getNowPoint().x + 1] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
+        for(int y = 0; y < maker.getHeight(); y++) {
+            for(int x = 0; x < maker.getWidth(); x++) {
+                setOwn(x,y,Owner.None);
+            }
+        }
+
+        Arrays.stream(players).forEach(player -> setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy));
 
         return true;
     }
@@ -78,8 +85,11 @@ public class GameBoard {
      * @return 全てのプレイヤーが移動方向を決定できていなければfalse、出来ていたのならtrue
      */
     public boolean nextStage() {
-        if (Arrays.stream(players).allMatch(Player::isFinishNextSelect))
+        System.err.println("GameBoard.nextStage() called");
+        if (Arrays.stream(players).allMatch(Player::isFinishNextSelect)) {
+            System.err.println("Not All player finished to select!");
             return false;
+        }
 
         Point[] applyPoints = Arrays.stream(players).map(p -> p.getApplyPoint()).toArray(Point[]::new);
         Map<Point, Integer> pointsMap = new HashMap<>();
@@ -92,19 +102,40 @@ public class GameBoard {
             }
         }
 
+        Arrays.stream(players).forEach(player -> System.err.println(player.getApplyPoint()==null ? "Null" : player.getApplyPoint().toString()));
+
         Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {
+            System.err.println("a");
             player.reset();
             if (player.getSelection().equals(Selection.MOVE)) {
-                owners[player.getApplyPoint().y + 1][player.getApplyPoint().x + 1] = player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy;
+                System.err.println("move");
+                setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
             } else {//Selection.REMOVE case
-                owners[player.getApplyPoint().y + 1][player.getApplyPoint().x + 1] = Owner.None;
+                System.err.println("remove");
+                setOwn(player.getApplyPoint().x, player.getApplyPoint().y, Owner.None);
             }
         });
 
         return true;
     }
 
-    public Owner whoOwn(int x, int y) {
+    /**
+     * 与えられた座標のタイルを所持しているチームを返す
+     * @param x 取り出すx座標
+     * @param y 取り出すy座標
+     * @return 所持しているチーム
+     */
+    public Owner getOwn(int x, int y) {
         return owners[y + 1][x + 1];
+    }
+
+    /**
+     * 指定した座標のタイルの所有者を変更する
+     * @param x 指定するx座標
+     * @param y 指定するy座標
+     * @param owner 新しく所持するチーム
+     */
+    public void setOwn(int x, int y, Owner owner) {
+        owners[y + 1][x + 1] = owner;
     }
 }
