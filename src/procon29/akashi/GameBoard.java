@@ -86,7 +86,7 @@ public class GameBoard {
      */
     public boolean nextStage() {
         System.err.println("GameBoard.nextStage() called");
-        if (Arrays.stream(players).allMatch(Player::isFinishNextSelect)) {
+        if (!Arrays.stream(players).allMatch(Player::isFinishNextSelect)) {
             System.err.println("Not All player finished to select!");
             return false;
         }
