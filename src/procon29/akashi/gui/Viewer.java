@@ -14,6 +14,7 @@ import procon29.akashi.players.Player;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -68,10 +69,28 @@ public class Viewer {
                     });
                 }
             }
+
+            inputSide();
         } catch (IOException e) {
             e.printStackTrace();
         }
         this.firstViewUpdate();
+    }
+
+    /**
+     * 自分のチームが右か左か入力する
+     */
+    private void inputSide() {
+        Scanner sc = new Scanner(System.in);
+        int i;
+        do {
+            System.out.println("舞台側を上として、チームの位置は右か左か入力してください。");
+            System.out.println("1：右　　2：左");
+            i = sc.nextInt();
+        } while (!(i == 1 || i == 2));
+
+        controller.rightSide.setText(i == 1 ? "味方" : "相手");
+        controller.leftSide.setText(i == 1 ? "相手" : "味方");
     }
 
     /**
@@ -137,7 +156,7 @@ public class Viewer {
             }
         }
         //敵プレイヤーをクリックして行動を選べるように設定する
-        Arrays.stream(gameBoard.players).skip(2L).forEach(player -> setHandlerToSelect(player));
+        Arrays.stream(gameBoard.players).skip(2L).forEach(this::setHandlerToSelect);
     }
 
     /**
