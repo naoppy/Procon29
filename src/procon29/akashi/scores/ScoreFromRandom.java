@@ -23,8 +23,9 @@ public class ScoreFromRandom extends ScoreMaker {
      * @param w               マップの横のサイズ
      * @param vLineIsSymmetry 縦線で線対称か
      * @param hLineIsSymmetry 横線で線対称か
+     * @param turnNumber 試合のターン数
      */
-    public ScoreFromRandom(int h, int w, boolean vLineIsSymmetry, boolean hLineIsSymmetry) {
+    public ScoreFromRandom(int h, int w, boolean vLineIsSymmetry, boolean hLineIsSymmetry, int turnNumber) {
         if (!(vLineIsSymmetry || hLineIsSymmetry)) {
             throw new IllegalArgumentException("縦と横のどちらかは最低限線対称である必要があります");
         }
@@ -34,6 +35,7 @@ public class ScoreFromRandom extends ScoreMaker {
 
         setHeight(h);
         setWidth(w);
+        setTurnNumber(turnNumber);
         verticalLineIsSymmetry = vLineIsSymmetry;
         horizontalLineIsSymmetry = hLineIsSymmetry;
 
@@ -110,7 +112,7 @@ public class ScoreFromRandom extends ScoreMaker {
             fp1 = new Point(fp1x, fp1y);
 
             int ep1y = randomMaker.nextInt(ylim);
-            while(ep1y == fp1y) ep1y = randomMaker.nextInt(ylim);
+            while (ep1y == fp1y) ep1y = randomMaker.nextInt(ylim);
             int ep1x = randomMaker.nextInt(xlim);
             ep1 = new Point(ep1x, ep1y);
 
@@ -121,7 +123,7 @@ public class ScoreFromRandom extends ScoreMaker {
             int ep2y = fp1y;
             int ep2x = width - 1 - fp1x;
             ep2 = new Point(ep2x, ep2y);
-        } else if(horizontalLineIsSymmetry) {
+        } else if (horizontalLineIsSymmetry) {
             int ylim = height / 2;
             int xlim = width;
 
@@ -131,10 +133,10 @@ public class ScoreFromRandom extends ScoreMaker {
 
             int ep1y = randomMaker.nextInt(ylim);
             int ep1x = randomMaker.nextInt(xlim);
-            while(ep1x == fp1x) ep1x = randomMaker.nextInt(xlim);
+            while (ep1x == fp1x) ep1x = randomMaker.nextInt(xlim);
             ep1 = new Point(ep1x, ep1y);
 
-            int fp2y = height -1 -ep1y;
+            int fp2y = height - 1 - ep1y;
             int fp2x = ep1x;
             fp2 = new Point(fp2x, fp2y);
 
