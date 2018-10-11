@@ -6,4 +6,4 @@ naoppy(@naoppy_ac)
 
 ecasdqina(@fyba_, @ecasdqina)
 
-ピッチー(@world_of_dawn)
+ピッチぃー(@d4wnin9)
