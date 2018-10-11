@@ -3,7 +3,6 @@ package procon29.akashi.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 public class Controller {
@@ -16,6 +15,12 @@ public class Controller {
 
     @FXML
     public Label winOrLose;
+
+    @FXML
+    public Label leftSide;
+
+    @FXML
+    public Label rightSide;
 
     @FXML
     public Button solveBotton;

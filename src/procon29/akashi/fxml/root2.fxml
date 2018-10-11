@@ -35,14 +35,14 @@
         </HBox>
     </top>
     <left>
-        <Label text="自分" BorderPane.alignment="CENTER">
+        <Label fx:id="leftSide" text="自分" BorderPane.alignment="CENTER">
             <font>
                 <Font size="56.0" />
             </font>
         </Label>
     </left>
     <right>
-        <Label text="相手" BorderPane.alignment="CENTER">
+        <Label fx:id="rightSide" text="相手" BorderPane.alignment="CENTER">
             <font>
                 <Font size="56.0" />
             </font>
