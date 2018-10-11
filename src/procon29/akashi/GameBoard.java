@@ -25,6 +25,10 @@ public class GameBoard {
      */
     private int[][] scores = maker.getMap();
     /**
+     * 残りのターン数
+     */
+    private int remainTurnNumber = maker.getTurnNumber();
+    /**
      * どのチームの領域か
      */
     private Owner[][] owners = new Owner[maker.getHeight() + 2][maker.getWidth() + 2];
@@ -91,6 +95,8 @@ public class GameBoard {
             return false;
         }
 
+        remainTurnNumber -= 1;//1ターンカウントを減らす
+
         Point[] applyPoints = Arrays.stream(players).map(p -> p.getApplyPoint()).toArray(Point[]::new);
         Map<Point, Integer> pointsMap = new HashMap<>();
 
@@ -102,10 +108,7 @@ public class GameBoard {
             }
         }
 
-        Arrays.stream(players).forEach(player -> System.err.println(player.getApplyPoint()==null ? "Null" : player.getApplyPoint().toString()));
-
         Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {
-            System.err.println("a");
             player.reset();
             if (player.getSelection().equals(Selection.MOVE)) {
                 System.err.println("move");
@@ -137,5 +140,13 @@ public class GameBoard {
      */
     public void setOwn(int x, int y, Owner owner) {
         owners[y + 1][x + 1] = owner;
+    }
+
+    /**
+     * remainTurnNumberのgetter
+     * @return 残りのターン数
+     */
+    public int getRemainTurnNumber() {
+        return remainTurnNumber;
     }
 }
