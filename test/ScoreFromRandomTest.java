@@ -11,37 +11,37 @@ public class ScoreFromRandomTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void heightOver12FailTest() {
-        maker = new ScoreFromRandom(13, 11, true, true);
+        maker = new ScoreFromRandom(13, 11, true, true, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void widthOver12FailTest() {
-        maker = new ScoreFromRandom(11, 13, true, true);
+        maker = new ScoreFromRandom(11, 13, true, true, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void heightUnder0FailTest() {
-        maker = new ScoreFromRandom(0, 5, true, true);
+        maker = new ScoreFromRandom(0, 5, true, true, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void widthUnder0FailTest() {
-        maker = new ScoreFromRandom(5, 0, true, true);
+        maker = new ScoreFromRandom(5, 0, true, true, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void widthMultipulHeightUnder80FailTest() {
-        maker = new ScoreFromRandom(8,9,true,true);
+        maker = new ScoreFromRandom(8, 9, true, true, 1);
     }
 
     @Test
     public void canNewScoreMaker() {
-        maker = new ScoreFromRandom(10, 9, true, true);
+        maker = new ScoreFromRandom(10, 9, true, true, 1);
     }
 
     @Test
     public void makeV_SymTrue_And_H_SymTrueTest() {
-        maker = new ScoreFromRandom(9, 10, true, true);
+        maker = new ScoreFromRandom(9, 10, true, true, 1);
         int[][] arr = maker.getMap();
         VSymmetryCheck(arr);
         HSymmetryCheck(arr);
