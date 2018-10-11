@@ -46,6 +46,8 @@ public class Viewer {
             root = loader.load();
             controller = loader.getController();
 
+            stringsUpdate();
+
             for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
                 for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
                     //ImageViewをクリックすると追加できるように
@@ -73,6 +75,14 @@ public class Viewer {
     }
 
     /**
+     * コントローラーのLabelを更新する
+     */
+    private void stringsUpdate() {
+        controller.cnt1.setText("後" + gameBoard.getRemainTurnNumber() + "ターン");
+        controller.cnt2.setText("今" + (gameBoard.maker.getTurnNumber() - gameBoard.getRemainTurnNumber()) + "ターン目");
+    }
+
+    /**
      * ゲームのメインループに入る
      */
     private void startNextPhase() {
@@ -81,6 +91,7 @@ public class Viewer {
         reView();
         controller.solveBotton.setOnMouseClicked(event1 -> {
             if (gameBoard.nextStage()) {
+                stringsUpdate();
                 gameBoard.solve();
             }
             clearAndSetEventHandler();

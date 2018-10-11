@@ -57,6 +57,18 @@ public class ScoreFromQR extends ScoreMaker {
         fp2 = new Point(sc.nextInt() - 1, fp2y);
 
         setMap(scores);
+
+        inputTurnNumber();
+    }
+
+    /**
+     * ターン数を標準入力から入力させる
+     */
+    private void inputTurnNumber() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("ターン数を入力してください。");
+
+        setTurnNumber(sc.nextInt());
     }
 
     /**

@@ -9,6 +9,10 @@ public abstract class ScoreMaker {
     private int height;
     private int width;
     /**
+     * ターン数
+     */
+    private int turnNumber;
+    /**
      * マップ
      */
     private int[][] map;
@@ -51,6 +55,22 @@ public abstract class ScoreMaker {
      */
     public int getWidth() {
         return width;
+    }
+
+    /**
+     * ターン数を返す
+     * @return ターン数
+     */
+    public int getTurnNumber() {
+        return turnNumber;
+    }
+
+    /**
+     * ターン数を設定する
+     * @param turnNumber 設定するターン数、2018/10/11時点では40～80
+     */
+    public void setTurnNumber(int turnNumber) {
+        this.turnNumber = turnNumber;
     }
 
     /**
