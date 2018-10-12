@@ -11,6 +11,7 @@ import procon29.akashi.solver.Solver;
 
 import java.awt.*;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * ゲームの進行を管理する最上位クラス
@@ -65,9 +66,9 @@ public class GameBoard {
         ep2 = new EnemyPlayer(points[1]);
         players[3] = ep2;
 
-        for(int y = 0; y < maker.getHeight(); y++) {
-            for(int x = 0; x < maker.getWidth(); x++) {
-                setOwn(x,y,Owner.None);
+        for (int y = 0; y < maker.getHeight(); y++) {
+            for (int x = 0; x < maker.getWidth(); x++) {
+                setOwn(x, y, Owner.None);
             }
         }
 
@@ -96,8 +97,8 @@ public class GameBoard {
         }
 
         remainTurnNumber -= 1;//1ターンカウントを減らす
+        Point[] applyPoints = Stream.concat(Arrays.stream(players).map(p -> p.getApplyPoint()), Arrays.stream(players).filter(player -> player.getSelection() == Selection.REMOVE).map(py -> py.getNowPoint())).toArray(Point[]::new);
 
-        Point[] applyPoints = Arrays.stream(players).map(p -> p.getApplyPoint()).toArray(Point[]::new);
         Map<Point, Integer> pointsMap = new HashMap<>();
 
         for (Point point : applyPoints) {
@@ -124,6 +125,7 @@ public class GameBoard {
 
     /**
      * 与えられた座標のタイルを所持しているチームを返す
+     *
      * @param x 取り出すx座標
      * @param y 取り出すy座標
      * @return 所持しているチーム
@@ -134,8 +136,9 @@ public class GameBoard {
 
     /**
      * 指定した座標のタイルの所有者を変更する
-     * @param x 指定するx座標
-     * @param y 指定するy座標
+     *
+     * @param x     指定するx座標
+     * @param y     指定するy座標
      * @param owner 新しく所持するチーム
      */
     public void setOwn(int x, int y, Owner owner) {
@@ -144,6 +147,7 @@ public class GameBoard {
 
     /**
      * remainTurnNumberのgetter
+     *
      * @return 残りのターン数
      */
     public int getRemainTurnNumber() {
