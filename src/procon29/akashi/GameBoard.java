@@ -97,7 +97,7 @@ public class GameBoard {
         }
 
         remainTurnNumber -= 1;//1ターンカウントを減らす
-        Point[] applyPoints = Stream.concat(Arrays.stream(players).map(p -> p.getApplyPoint()), Arrays.stream(players).filter(player -> player.getSelection() == Selection.REMOVE).map(py -> py.getNowPoint())).toArray(Point[]::new);
+        Point[] applyPoints = Stream.concat(Arrays.stream(players).map(Player::getApplyPoint), Arrays.stream(players).filter(player -> player.getSelection() == Selection.REMOVE).map(Player::getNowPoint)).toArray(Point[]::new);
 
         Map<Point, Integer> pointsMap = new HashMap<>();
 
