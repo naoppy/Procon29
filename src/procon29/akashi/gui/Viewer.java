@@ -9,7 +9,10 @@ import procon29.akashi.GameBoard;
 import procon29.akashi.owners.Owner;
 import procon29.akashi.owners.OwnerToImageConverter;
 import procon29.akashi.players.Player;
+import procon29.akashi.selection.LongitudinalDiff;
 import procon29.akashi.selection.Selection;
+import procon29.akashi.selection.TransverseDiff;
+import procon29.akashi.selection.XYDiff;
 
 import java.awt.*;
 import java.io.IOException;
@@ -167,6 +170,8 @@ public class Viewer {
 
         controller.grid.getChildren().get(w * targetPlayer.getNowPoint().y + targetPlayer.getNowPoint().x).setOnMouseClicked(event1 -> {
             int[] diffX = {0, 1, 1, 0, -1, -1, -1, 0, 1}, diffY = {0, 0, 1, 1, 1, 0, -1, -1, -1};
+            TransverseDiff[] diffTX = {TransverseDiff.Left, TransverseDiff.None, TransverseDiff.Right};
+            LongitudinalDiff[] diffTY = {LongitudinalDiff.Down, LongitudinalDiff.None, LongitudinalDiff.Up};
 
             for (int dy : diffY) {
                 for (int dx : diffX) {
@@ -174,7 +179,7 @@ public class Viewer {
                     //範囲内なら
                     if (targetY >= 0 && targetY < gameBoard.maker.getHeight() && targetX >= 0 && targetX < gameBoard.maker.getWidth()) {
                         controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked(event2 -> {
-                            targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new Point(targetX, targetY));
+                            targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[dy + 1], diffTX[dx + 1]));
                             clearAndSetEventHandler();
                         });
                     }
