@@ -1,4 +1,4 @@
-package procon29.akashi;
+package procon29.akashi.selection;
 
 /**
  * プレイヤーのとる操作を表す列挙型

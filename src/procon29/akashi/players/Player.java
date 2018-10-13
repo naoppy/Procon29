@@ -1,6 +1,6 @@
 package procon29.akashi.players;
 
-import procon29.akashi.Selection;
+import procon29.akashi.selection.Selection;
 
 import java.awt.*;
 

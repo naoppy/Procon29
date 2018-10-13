@@ -1,7 +1,7 @@
 package procon29.akashi.solver;
 
 import procon29.akashi.owners.Owner;
-import procon29.akashi.Selection;
+import procon29.akashi.selection.Selection;
 import procon29.akashi.players.EnemyPlayer;
 import procon29.akashi.players.FriendPlayer;
 

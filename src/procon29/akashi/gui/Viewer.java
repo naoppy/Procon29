@@ -6,10 +6,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import procon29.akashi.GameBoard;
-import procon29.akashi.Selection;
 import procon29.akashi.owners.Owner;
 import procon29.akashi.owners.OwnerToImageConverter;
 import procon29.akashi.players.Player;
+import procon29.akashi.selection.Selection;
 
 import java.awt.*;
 import java.io.IOException;
