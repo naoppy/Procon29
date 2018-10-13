@@ -19,4 +19,12 @@ public class XYDiff {
     public String toString() {
         return this.yDiff.toString().charAt(0) + "" + this.xDiff.toString().charAt(0);
     }
+
+    public LongitudinalDiff getyDiff() {
+        return yDiff;
+    }
+
+    public TransverseDiff getxDiff() {
+        return xDiff;
+    }
 }
