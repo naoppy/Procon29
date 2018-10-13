@@ -52,15 +52,14 @@ public abstract class Player {
      * 次の手を選択する
      *
      * @param selection  行動の種類
-     * @param applyPoint 行動を適応する場所
+     * @param xyDiff 今の位置からの移動方向
      * @return ルールに則った選択ならtrue
      */
-    public boolean select(Selection selection, Point applyPoint) {
-        if (!nearKinbo9(nowPoint, applyPoint)) return false;
-
+    public boolean select(Selection selection, XYDiff xyDiff) {
         this.isFinishNextSelect = true;
         this.selection = selection;
-        this.applyPoint = applyPoint;
+        this.xyDiff = xyDiff;
+        this.applyPoint = this.calcApplyPoint(xyDiff);
 
         System.err.println("set" + applyPoint.toString());
 
@@ -68,27 +67,60 @@ public abstract class Player {
     }
 
     /**
-     * 1点がもう1点の9近傍にあるかを調べる
+     * NowPointからxyDiffを使ってapplyPointを計算する
      *
-     * @param nowPoint  1つ目の点
-     * @param nextPoint 2つ目の点
-     * @return 9近傍にある場合true
+     * @param xyDiff xyの差
+     * @return applyPoint
      */
-    private static boolean nearKinbo9(Point nowPoint, Point nextPoint) {
-        int[][] kinbo9 = {{0, 0}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+    private Point calcApplyPoint(XYDiff xyDiff) {
+        int xDiff = 0, yDiff = 0;
 
-        for (int i = 0; i < 8; i++) {
-            if (nowPoint.x + kinbo9[i][0] == nextPoint.x && nowPoint.y + kinbo9[i][1] == nextPoint.y) {
-                return true;
-            }
+        switch (xyDiff.getxDiff()) {
+            case Right:
+                xDiff = 1;
+                break;
+            case Left:
+                xDiff = -1;
+                break;
+            case None:
+                xDiff = 0;
+                break;
         }
 
-        return false;
+        switch (xyDiff.getyDiff()) {
+            case Up:
+                yDiff = 1;
+                break;
+            case Down:
+                yDiff = -1;
+            case None:
+                yDiff = 0;
+                break;
+        }
+
+        return new Point(nowPoint.x + xDiff, nowPoint.y + yDiff);
     }
 
+//    /**
+//     * 1点がもう1点の9近傍にあるかを調べる
+//     *
+//     * @param nowPoint  1つ目の点
+//     * @param nextPoint 2つ目の点
+//     * @return 9近傍にある場合true
+//     */
+//    private static boolean nearKinbo9(Point nowPoint, Point nextPoint) {
+//        int[][] kinbo9 = {{0, 0}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+//
+//        for (int i = 0; i < 8; i++) {
+//            if (nowPoint.x + kinbo9[i][0] == nextPoint.x && nowPoint.y + kinbo9[i][1] == nextPoint.y) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
+
     /**
-     * 今の座標を返す
-     *
      * @return 今の座標
      */
     public Point getNowPoint() {
@@ -96,8 +128,6 @@ public abstract class Player {
     }
 
     /**
-     * 次の操作の対象座標のgetter
-     *
      * @return 次の操作の対象座標
      */
     public Point getApplyPoint() {
@@ -105,8 +135,13 @@ public abstract class Player {
     }
 
     /**
-     * 次の操作のgetter
-     *
+     * @return nowPointから見たapplyPointの方向
+     */
+    public XYDiff getXyDiff() {
+        return xyDiff;
+    }
+
+    /**
      * @return 次の操作
      */
     public Selection getSelection() {
