@@ -1,6 +1,7 @@
 package procon29.akashi.players;
 
 import procon29.akashi.selection.Selection;
+import procon29.akashi.selection.XYDiff;
 
 import java.awt.*;
 
@@ -20,6 +21,10 @@ public abstract class Player {
      * 次の行動の対象座標(x,y)
      */
     private Point applyPoint;
+    /**
+     * nowPointから見たapplyPointの方向
+     */
+    private XYDiff xyDiff;
     /**
      * 次の手
      */
