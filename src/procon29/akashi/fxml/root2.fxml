@@ -11,7 +11,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="procon29.akashi.gui.Controller">
     <top>
-        <HBox prefHeight="122.0" prefWidth="1261.0" BorderPane.alignment="CENTER">
+        <HBox BorderPane.alignment="CENTER">
             <children>
                 <VBox prefHeight="122.0" prefWidth="225.0">
                     <children>
@@ -69,7 +69,7 @@
         </Button>
     </bottom>
     <center>
-        <GridPane fx:id="grid" BorderPane.alignment="CENTER">
+        <GridPane fx:id="grid" alignment="CENTER_LEFT" BorderPane.alignment="BOTTOM_LEFT">
         </GridPane>
     </center>
 </BorderPane>
