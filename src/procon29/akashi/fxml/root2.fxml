@@ -50,12 +50,12 @@
                       <Font size="56.0" />
                   </font>
               </Label>
-            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                <children>
-                  <ImageView fx:id="fp1" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="fp2" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="ep1" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="ep2" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="fp1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="fp2" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="ep1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="ep2" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </VBox>
          </children>
