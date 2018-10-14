@@ -93,6 +93,7 @@ public abstract class Player {
                 break;
             case Down:
                 yDiff = -1;
+                break;
             case None:
                 yDiff = 0;
                 break;
@@ -100,25 +101,6 @@ public abstract class Player {
 
         return new Point(nowPoint.x + xDiff, nowPoint.y + yDiff);
     }
-
-//    /**
-//     * 1点がもう1点の9近傍にあるかを調べる
-//     *
-//     * @param nowPoint  1つ目の点
-//     * @param nextPoint 2つ目の点
-//     * @return 9近傍にある場合true
-//     */
-//    private static boolean nearKinbo9(Point nowPoint, Point nextPoint) {
-//        int[][] kinbo9 = {{0, 0}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
-//
-//        for (int i = 0; i < 8; i++) {
-//            if (nowPoint.x + kinbo9[i][0] == nextPoint.x && nowPoint.y + kinbo9[i][1] == nextPoint.y) {
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
 
     /**
      * @return 今の座標
