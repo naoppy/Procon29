@@ -24,16 +24,16 @@ public class Controller {
     public Label rightSide;
 
     @FXML
-    private ImageView fp1;
+    public ImageView fp1;
 
     @FXML
-    private ImageView fp2;
+    public ImageView fp2;
 
     @FXML
-    private ImageView ep1;
+    public ImageView ep1;
 
     @FXML
-    private ImageView ep2;
+    public ImageView ep2;
 
     @FXML
     public Button solveBotton;
