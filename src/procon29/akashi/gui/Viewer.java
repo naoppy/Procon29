@@ -138,9 +138,12 @@ public class Viewer {
 
         Image[] images = {new Image("FriendPlayer1.png"), new Image("FriendPlayer2.png"), new Image("EnemyPlayer1.png"), new Image("EnemyPlayer2.png")};
         AtomicInteger i = new AtomicInteger();
+        ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
+
 
         Arrays.stream(gameBoard.players).forEach(player -> {
             ImageView imageView = (ImageView) controller.grid.getChildren().get(w * player.getNowPoint().y + player.getNowPoint().x);
+            arr[i.get()].setImage(images[i.get()]);
             imageView.setImage(images[i.getAndAdd(1)]);
         });
     }
