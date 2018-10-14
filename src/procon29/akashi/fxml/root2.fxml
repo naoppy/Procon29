@@ -43,7 +43,7 @@
         </Label>
     </left>
     <right>
-      <HBox BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
          <children>
               <Label fx:id="rightSide" text="相手">
                   <font>
