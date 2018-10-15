@@ -9,10 +9,7 @@ import procon29.akashi.GameBoard;
 import procon29.akashi.owners.Owner;
 import procon29.akashi.owners.OwnerToImageConverter;
 import procon29.akashi.players.Player;
-import procon29.akashi.selection.LongitudinalDiff;
-import procon29.akashi.selection.Selection;
-import procon29.akashi.selection.TransverseDiff;
-import procon29.akashi.selection.XYDiff;
+import procon29.akashi.selection.*;
 
 import java.awt.*;
 import java.io.IOException;
@@ -108,8 +105,8 @@ public class Viewer {
      * ゲームのメインループに入る
      */
     private void startNextPhase() {
-        clearAndSetEventHandler();
         gameBoard.solve();
+        clearAndSetEventHandler();
         reView();
         controller.solveBotton.setOnMouseClicked(event1 -> {
             if (gameBoard.nextStage()) {
@@ -160,6 +157,10 @@ public class Viewer {
         }
         //敵プレイヤーをクリックして行動を選べるように設定する
         Arrays.stream(gameBoard.players).skip(2L).forEach(this::setHandlerToSelect);
+
+        ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
+        AtomicInteger i = new AtomicInteger();
+        Arrays.stream(gameBoard.players).forEach(player -> arr[i.getAndAdd(1)].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
     }
 
     /**
