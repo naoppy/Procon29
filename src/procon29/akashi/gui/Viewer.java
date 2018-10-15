@@ -9,10 +9,7 @@ import procon29.akashi.GameBoard;
 import procon29.akashi.owners.Owner;
 import procon29.akashi.owners.OwnerToImageConverter;
 import procon29.akashi.players.Player;
-import procon29.akashi.selection.LongitudinalDiff;
-import procon29.akashi.selection.Selection;
-import procon29.akashi.selection.TransverseDiff;
-import procon29.akashi.selection.XYDiff;
+import procon29.akashi.selection.*;
 
 import java.awt.*;
 import java.io.IOException;
@@ -138,12 +135,9 @@ public class Viewer {
 
         Image[] images = {new Image("FriendPlayer1.png"), new Image("FriendPlayer2.png"), new Image("EnemyPlayer1.png"), new Image("EnemyPlayer2.png")};
         AtomicInteger i = new AtomicInteger();
-        ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
-
 
         Arrays.stream(gameBoard.players).forEach(player -> {
             ImageView imageView = (ImageView) controller.grid.getChildren().get(w * player.getNowPoint().y + player.getNowPoint().x);
-            arr[i.get()].setImage(images[i.get()]);
             imageView.setImage(images[i.getAndAdd(1)]);
         });
     }
@@ -163,6 +157,10 @@ public class Viewer {
         }
         //敵プレイヤーをクリックして行動を選べるように設定する
         Arrays.stream(gameBoard.players).skip(2L).forEach(this::setHandlerToSelect);
+
+        ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
+        AtomicInteger i = new AtomicInteger();
+        Arrays.stream(gameBoard.players).forEach(player -> arr[i.getAndAdd(1)].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
     }
 
     /**
