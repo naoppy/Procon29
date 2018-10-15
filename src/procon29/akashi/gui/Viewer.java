@@ -105,8 +105,8 @@ public class Viewer {
      * ゲームのメインループに入る
      */
     private void startNextPhase() {
-        clearAndSetEventHandler();
         gameBoard.solve();
+        clearAndSetEventHandler();
         reView();
         controller.solveBotton.setOnMouseClicked(event1 -> {
             if (gameBoard.nextStage()) {
