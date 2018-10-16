@@ -38,7 +38,7 @@ class ScoreCalc {
             for (int diffY : dy) {
                 for (int diffX : dx) {
                     int newY = p.x + diffY, newX = p.y + diffX;
-                    if (newX < 0 || newY < 0 || newX > board.maker.getWidth() || newY > board.maker.getHeight()) {
+                    if (newX < 0 || newY < 0 || newX >= board.maker.getWidth() || newY >= board.maker.getHeight()) {
                         isSurrounded = true;
                         continue;
                     }
