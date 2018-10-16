@@ -99,20 +99,24 @@ public class Viewer {
     private void stringsUpdate() {
         controller.cnt1.setText("後" + gameBoard.getRemainTurnNumber() + "ターン");
         controller.cnt2.setText("今" + (gameBoard.maker.getTurnNumber() - gameBoard.getRemainTurnNumber()) + "ターン目");
+
+        controller.winOrLose.setText("味方：" + gameBoard.getFriendScore() + "点  敵：" + gameBoard.getEnemyScore() + "点");
     }
 
     /**
      * ゲームのメインループに入る
      */
     private void startNextPhase() {
+        gameBoard.calcScore();
+        stringsUpdate();
         gameBoard.solve();
         clearAndSetEventHandler();
         reView();
+
         controller.solveBotton.setOnMouseClicked(event1 -> {
             if (gameBoard.nextStage()) {
                 stringsUpdate();
                 gameBoard.solve();
-                controller.winOrLose.setText("味方：" + gameBoard.getFriendScore() + "点  敵：" + gameBoard.getEnemyScore() + "点");
             }
             clearAndSetEventHandler();
             reView();
