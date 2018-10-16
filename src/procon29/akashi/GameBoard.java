@@ -153,9 +153,6 @@ public class GameBoard {
             }
         }
 
-        friendScore = 0;
-        enemyScore = 0;
-
         //味方の囲い点計算クラスを作成
         ScoreCalc calc = new ScoreCalc(this, Owner.Friend);
         for (int y = 0; y < maker.getHeight(); y++) {
