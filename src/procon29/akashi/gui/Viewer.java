@@ -112,6 +112,7 @@ public class Viewer {
             if (gameBoard.nextStage()) {
                 stringsUpdate();
                 gameBoard.solve();
+                controller.winOrLose.setText("味方：" + gameBoard.getFriendScore() + "点  敵：" + gameBoard.getEnemyScore() + "点");
             }
             clearAndSetEventHandler();
             reView();
