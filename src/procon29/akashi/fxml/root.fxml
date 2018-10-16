@@ -62,7 +62,7 @@
       </HBox>
     </right>
     <bottom>
-        <Button fx:id="solveBotton" mnemonicParsing="false" text="Solve" BorderPane.alignment="CENTER">
+        <Button fx:id="solveButton" mnemonicParsing="false" text="Solve" BorderPane.alignment="CENTER">
             <font>
                 <Font size="44.0" />
             </font>

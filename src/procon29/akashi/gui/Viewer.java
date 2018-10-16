@@ -64,7 +64,7 @@ public class Viewer {
                     controller.grid.add(imageView, x, y);
 
                     //ボタンを押したら決定できるように
-                    controller.solveBotton.setOnMouseClicked(event -> {
+                    controller.solveButton.setOnMouseClicked(event -> {
                         if (gameBoard.decideEnemyPlayerPlace()) startNextPhase();
                     });
                 }
@@ -113,7 +113,7 @@ public class Viewer {
         clearAndSetEventHandler();
         reView();
 
-        controller.solveBotton.setOnMouseClicked(event1 -> {
+        controller.solveButton.setOnMouseClicked(event1 -> {
             if (gameBoard.nextStage()) {
                 stringsUpdate();
                 gameBoard.solve();
