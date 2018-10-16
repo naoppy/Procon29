@@ -43,7 +43,7 @@ public class Viewer {
         this.gameBoard = gameBoard;
         try {
             //load FXML and load controller
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/root2.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/root.fxml"));
             root = loader.load();
             controller = loader.getController();
 
