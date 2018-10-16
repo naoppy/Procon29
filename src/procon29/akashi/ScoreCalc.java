@@ -9,7 +9,7 @@ import java.util.Queue;
 
 class ScoreCalc {
     //8近傍移動用
-    static private int[] dx = {0, 1, 1, 1, 0, -1, -1, -1}, dy = {1, 1, 0, -1, -1, -1, 0, 1};
+    static private int[] dx = {1, 0, -1, 0}, dy = {0, 1, 0, -1};
 
     //探索用配列初期化
     private boolean[][] used;
@@ -52,16 +52,15 @@ class ScoreCalc {
         while (!queue.isEmpty()) {//繋がっているところがあるならループ
             Point p = queue.poll();
 
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 4; i++) {
                 int newY = p.x + dy[i], newX = p.y + dx[i];
-                //そのチームの座標と探索済みにはいかない
-                if (board.getOwn(newX, newY) == targetTeam || used[newY][newX]) continue;
-
                 //範囲外に出たのなら囲われていない
                 if (newX < 0 || newY < 0 || newX >= board.maker.getWidth() || newY >= board.maker.getHeight()) {
                     isSurrounded = false;
                     continue;
                 }
+                //そのチームの座標と探索済みにはいかない
+                if (board.getOwn(newX, newY) == targetTeam || used[newY][newX]) continue;
 
                 //探索開始
                 used[newY][newX] = true;
