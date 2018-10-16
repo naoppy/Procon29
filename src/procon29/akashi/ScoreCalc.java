@@ -28,13 +28,16 @@ class ScoreCalc {
 
     /**
      * 指定した座標から繋がっている、囲われている点の合計を返す
+     *
      * @param startY y座標
      * @param startX x座標
      * @return 点の合計
      */
     int calcSurroundScore(int startY, int startX) {
         //探索済みなら帰る
-        if(used[startY][startX]) return 0;
+        if (used[startY][startX]) return 0;
+
+        System.err.println("called");
 
         //キューを作成して座標点を入れる
         Queue<Point> queue = new LinkedList<>();
@@ -49,26 +52,26 @@ class ScoreCalc {
         while (!queue.isEmpty()) {//繋がっているところがあるならループ
             Point p = queue.poll();
 
-            for (int diffY : dy) {
-                for (int diffX : dx) {
-                    int newY = p.x + diffY, newX = p.y + diffX;
-                    //範囲外に出たのなら囲われていない
-                    if (newX < 0 || newY < 0 || newX >= board.maker.getWidth() || newY >= board.maker.getHeight()) {
-                        isSurrounded = false;
-                        continue;
-                    }
-                    //そのチームの座標と探索済みにはいかない
-                    if (board.getOwn(newX, newY) == targetTeam || used[newY][newX]) continue;
+            for (int i = 0; i < 8; i++) {
+                int newY = p.x + dy[i], newX = p.y + dx[i];
+                //そのチームの座標と探索済みにはいかない
+                if (board.getOwn(newX, newY) == targetTeam || used[newY][newX]) continue;
 
-                    //探索開始
-                    used[newY][newX] = true;
-                    score += Math.abs(board.getScore(newX, newY));
-                    queue.add(new Point(newY, newX));
+                //範囲外に出たのなら囲われていない
+                if (newX < 0 || newY < 0 || newX >= board.maker.getWidth() || newY >= board.maker.getHeight()) {
+                    isSurrounded = false;
+                    continue;
                 }
+
+                //探索開始
+                used[newY][newX] = true;
+                score += Math.abs(board.getScore(newX, newY));
+                queue.add(new Point(newY, newX));
             }
         }
 
         if (isSurrounded) {
+            System.err.println("surrounded");
             return score;
         } else {
             return 0;
