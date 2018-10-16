@@ -115,7 +115,7 @@ public class GameBoard {
             }
         }
 
-        Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {
+        Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
             player.reset();
             if (player.getSelection().equals(Selection.MOVE)) {
                 System.err.println("move");
@@ -125,6 +125,8 @@ public class GameBoard {
                 setOwn(player.getApplyPoint().x, player.getApplyPoint().y, Owner.None);
             }
         });
+
+        this.calcScore();
 
         return true;
     }
@@ -169,7 +171,6 @@ public class GameBoard {
                 }
             }
         }
-
     }
 
     /**
