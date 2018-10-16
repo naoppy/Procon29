@@ -8,6 +8,7 @@ import procon29.akashi.scores.QRInputer;
 import procon29.akashi.scores.ScoreFromQR;
 import procon29.akashi.scores.ScoreMaker;
 import procon29.akashi.selection.Selection;
+import procon29.akashi.solver.AlwaysStay;
 import procon29.akashi.solver.Solver;
 
 import java.awt.*;
@@ -53,7 +54,11 @@ public class GameBoard {
     /**
      * ソルバー
      */
-    private Solver solver = new Solver();
+    private Solver solver = new AlwaysStay();
+    /**
+     * 敵と味方のスコア
+     */
+    private int friendScore = 0, enemyScore = 0;
 
     /**
      * 敵エージェントの位置を決定すると共に初期の所有マップを作成
@@ -110,7 +115,7 @@ public class GameBoard {
             }
         }
 
-        Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {
+        Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
             player.reset();
             if (player.getSelection().equals(Selection.MOVE)) {
                 System.err.println("move");
@@ -121,7 +126,51 @@ public class GameBoard {
             }
         });
 
+        this.calcScore();
+
         return true;
+    }
+
+    /**
+     * スコアを計算する
+     */
+    public void calcScore() {
+        //初期化
+        friendScore = 0;
+        enemyScore = 0;
+
+        //所有しているタイルの点数を加算
+        for (int y = 0; y < maker.getHeight(); y++) {
+            for (int x = 0; x < maker.getWidth(); x++) {
+                switch (getOwn(x, y)) {
+                    case Friend:
+                        friendScore += getScore(x, y);
+                        break;
+                    case Enemy:
+                        enemyScore += getScore(x, y);
+                        break;
+                }
+            }
+        }
+
+        //味方の囲い点計算クラスを作成
+        ScoreCalc calc = new ScoreCalc(this, Owner.Friend);
+        for (int y = 0; y < maker.getHeight(); y++) {
+            for (int x = 0; x < maker.getWidth(); x++) {
+                if (getOwn(x, y) != Owner.Friend) {//味方タイル以外なら、囲われているか判定(味方の囲い点を出す)
+                    friendScore += calc.calcSurroundScore(y, x);
+                }
+            }
+        }
+        //敵の囲い点を計算するクラスを作成
+        calc = new ScoreCalc(this, Owner.Enemy);
+        for (int y = 0; y < maker.getHeight(); y++) {
+            for (int x = 0; x < maker.getWidth(); x++) {
+                if (getOwn(x, y) != Owner.Enemy) {//敵タイル以外なら、囲われているか判定(敵の囲い点を出す)
+                    enemyScore += calc.calcSurroundScore(y, x);
+                }
+            }
+        }
     }
 
     /**
@@ -147,11 +196,34 @@ public class GameBoard {
     }
 
     /**
-     * remainTurnNumberのgetter
-     *
      * @return 残りのターン数
      */
     public int getRemainTurnNumber() {
         return remainTurnNumber;
+    }
+
+    /**
+     * @return 味方のスコア
+     */
+    public int getFriendScore() {
+        return this.friendScore;
+    }
+
+    /**
+     * @return 敵のスコア
+     */
+    public int getEnemyScore() {
+        return this.enemyScore;
+    }
+
+    /**
+     * 指定した座標のスコアを返す
+     *
+     * @param x x座標
+     * @param y y座標
+     * @return スコア
+     */
+    public int getScore(int x, int y) {
+        return scores[y][x];
     }
 }
