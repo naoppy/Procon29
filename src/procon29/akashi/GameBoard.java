@@ -134,7 +134,7 @@ public class GameBoard {
     /**
      * スコアを計算する
      */
-    private void calcScore() {
+    public void calcScore() {
         //初期化
         friendScore = 0;
         enemyScore = 0;
