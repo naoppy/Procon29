@@ -15,19 +15,19 @@
             <children>
                 <VBox prefHeight="122.0" prefWidth="225.0">
                     <children>
-                        <Label fx:id="cnt1" text="後60ターン">
+                        <Label fx:id="cnt1">
                             <font>
                                 <Font size="40.0" />
                             </font>
                         </Label>
-                        <Label fx:id="cnt2" text="今20ターン目">
+                        <Label fx:id="cnt2">
                             <font>
                                 <Font size="40.0" />
                             </font>
                         </Label>
                     </children>
                 </VBox>
-                <Label fx:id="winOrLose" text="自分　＞　相手">
+                <Label fx:id="winOrLose">
                     <font>
                         <Font size="60.0" />
                     </font>
@@ -36,7 +36,7 @@
         </HBox>
     </top>
     <left>
-        <Label fx:id="leftSide" text="自分" BorderPane.alignment="CENTER">
+        <Label fx:id="leftSide" BorderPane.alignment="CENTER">
             <font>
                 <Font size="56.0" />
             </font>
@@ -45,7 +45,7 @@
     <right>
       <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
          <children>
-              <Label fx:id="rightSide" text="相手">
+              <Label fx:id="rightSide">
                   <font>
                       <Font size="56.0" />
                   </font>
