@@ -130,7 +130,7 @@ public class GameBoard {
         }
 
         //味方の囲い点計算クラスを作成
-        ScoreCalc calc = new ScoreCalc(this, Owner.Friend);
+        SurroundedScoreCalc calc = new SurroundedScoreCalc(this, Owner.Friend);
         for (int y = 0; y < maker.getHeight(); y++) {
             for (int x = 0; x < maker.getWidth(); x++) {
                 if (getOwn(x, y) != Owner.Friend) {//味方タイル以外なら、囲われているか判定(味方の囲い点を出す)
@@ -139,7 +139,7 @@ public class GameBoard {
             }
         }
         //敵の囲い点を計算するクラスを作成
-        calc = new ScoreCalc(this, Owner.Enemy);
+        calc = new SurroundedScoreCalc(this, Owner.Enemy);
         for (int y = 0; y < maker.getHeight(); y++) {
             for (int x = 0; x < maker.getWidth(); x++) {
                 if (getOwn(x, y) != Owner.Enemy) {//敵タイル以外なら、囲われているか判定(敵の囲い点を出す)

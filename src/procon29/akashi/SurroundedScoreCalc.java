@@ -7,7 +7,10 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-class ScoreCalc {
+/**
+ * 囲い点を計算するクラス
+ */
+class SurroundedScoreCalc {
     //8近傍移動用
     static private int[] dx = {1, 0, -1, 0}, dy = {0, 1, 0, -1};
 
@@ -18,7 +21,11 @@ class ScoreCalc {
 
     private Owner targetTeam;
 
-    ScoreCalc(GameBoard gameBoard, Owner targetTeam) {
+    /**
+     * @param gameBoard  盤面
+     * @param targetTeam 計算するチーム
+     */
+    SurroundedScoreCalc(GameBoard gameBoard, Owner targetTeam) {
         this.board = gameBoard;
         //探索用配列初期化
         this.used = new boolean[board.maker.getHeight()][board.maker.getWidth()];
