@@ -192,8 +192,7 @@ public class Viewer {
         //全てのノードのクリックイベントを削除
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = getImageViewFromGrid(x, y);
-                imageView.setOnMouseClicked(null);
+                getGroupFromGrid(x, y).setOnMouseClicked(null);
             }
         }
         //敵プレイヤーをクリックして行動を選べるように設定する
@@ -221,7 +220,7 @@ public class Viewer {
                 //範囲内なら
                 if (targetY >= 0 && targetY < gameBoard.maker.getHeight() && targetX >= 0 && targetX < gameBoard.maker.getWidth()) {
                     int dy = diffY[i], dx = diffX[i];
-                    getImageViewFromGrid(targetX, targetY).setOnMouseClicked(event2 -> {
+                    getGroupFromGrid(targetX, targetY).setOnMouseClicked(event2 -> {
                         targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[dy + 1], diffTX[dx + 1]));
                         clearAndSetEventHandler();
                     });
