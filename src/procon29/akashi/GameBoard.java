@@ -171,7 +171,7 @@ public class GameBoard {
      * @param y     指定するy座標
      * @param owner 新しく所持するチーム
      */
-    public void setOwn(int x, int y, Owner owner) {
+    private void setOwn(int x, int y, Owner owner) {
         owners[y + 1][x + 1] = owner;
     }
 
