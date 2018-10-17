@@ -2,6 +2,7 @@ package procon29.akashi.gui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -63,7 +64,7 @@ public class Viewer {
                     //ImageViewをクリックすると追加できるように
                     ImageView imageView1 = new ImageView(OwnerToImageConverter.convert(Owner.None));
                     int yy = y, xx = x;
-                    imageView1.setOnMouseClicked(event -> {
+                    group.setOnMouseClicked(event -> {
                         Point p = new Point(xx, yy);
                         if (!gameBoard.enemyPlayerSet.remove(p) && gameBoard.enemyPlayerSet.size() < 2) {//もう入っているなら消す、入っていないかつ2未満しか入っていないなら追加
                             gameBoard.enemyPlayerSet.add(p);
@@ -233,6 +234,10 @@ public class Viewer {
         Group group = (Group) controller.grid.getChildren().get(gameBoard.maker.getWidth() * y + x);
         ImageView imageView = (ImageView) group.getChildren().get(0);
         return imageView;
+    }
+
+    private Node getGroupFromGrid(int x, int y) {
+        return controller.grid.getChildren().get(gameBoard.maker.getWidth() * y + x);
     }
 
     /**
