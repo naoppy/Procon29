@@ -214,14 +214,24 @@ public class Viewer {
         });
     }
 
+    /**
+     * 指定した座標のタイル画像のImageViewを返す
+     *
+     * @param x x座標
+     * @param y y座標
+     * @return タイル画像が設定されるImageView
+     */
     private ImageView getTileImageViewFromGrid(int x, int y) {
         return (ImageView) getGroupFromGrid(x, y).getChildren().get(0);
     }
 
-    private ImageView getNumImageViewFromGrid(int x, int y) {
-        return (ImageView) getGroupFromGrid(x, y).getChildren().get(1);
-    }
-
+    /**
+     * 指定した座標のコンポーネント全体を囲むGroupを返す
+     *
+     * @param x x座標
+     * @param y y座標
+     * @return コンポーネントを囲むGroup
+     */
     private Group getGroupFromGrid(int x, int y) {
         return (Group) controller.grid.getChildren().get(gameBoard.maker.getWidth() * y + x);
     }
