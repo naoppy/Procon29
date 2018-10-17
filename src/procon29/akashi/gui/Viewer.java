@@ -1,6 +1,7 @@
 package procon29.akashi.gui;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -56,6 +57,7 @@ public class Viewer {
 
             for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
                 for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
+                    Group group = new Group();
                     //ImageViewをクリックすると追加できるように
                     ImageView imageView = new ImageView("NoneTile.png");
                     int yy = y, xx = x;
@@ -66,7 +68,9 @@ public class Viewer {
                         }
                         this.firstViewUpdate();
                     });
-                    controller.grid.add(imageView, x, y);
+
+                    group.getChildren().addAll(imageView);
+                    controller.grid.add(group, x, y);
 
                     //ボタンを押したら決定できるように
                     controller.solveButton.setOnMouseClicked(event -> {
@@ -112,7 +116,7 @@ public class Viewer {
         int i;
         do {
             System.out.println("舞台側を上として、チームの位置は右か左か入力してください。");
-            System.out.println("1：右　　2：左");
+            System.out.println("1：右    2：左");
             i = sc.nextInt();
         } while (!(i == 1 || i == 2));
 
