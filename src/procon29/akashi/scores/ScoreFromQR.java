@@ -25,8 +25,6 @@ public class ScoreFromQR extends ScoreMaker {
 
     /**
      * スコア配列を作成して返します
-     *
-     * @return スコアの配列
      */
     @Override
     protected void make() {

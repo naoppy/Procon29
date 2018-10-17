@@ -44,8 +44,6 @@ public class ScoreFromRandom extends ScoreMaker {
 
     /**
      * スコア配列を作成して返します
-     *
-     * @return スコアの配列
      */
     protected void make() {
         int height = getHeight();

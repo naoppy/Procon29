@@ -12,7 +12,9 @@ import procon29.akashi.solver.AlwaysStay;
 import procon29.akashi.solver.Solver;
 
 import java.awt.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -54,6 +56,8 @@ public class GameBoard {
 
     /**
      * 敵エージェントの位置を決定すると共に初期の所有マップを作成
+     *
+     * @return 不正でない位置によって正しく初期化が完了したらtrue
      */
     public boolean decideEnemyPlayerPlace() {
         if (enemyPlayerSet.size() != 2) return false;
@@ -93,9 +97,9 @@ public class GameBoard {
         remainTurnNumber -= 1;//1ターンカウントを減らす
         Point[] applyPoints = Stream.concat(Arrays.stream(players).map(Player::getApplyPoint), Arrays.stream(players).filter(player -> player.getSelection() == Selection.REMOVE).map(Player::getNowPoint)).toArray(Point[]::new);
 
-        Arrays.stream(players).filter(player -> Arrays.stream(applyPoints).filter(point -> player.getApplyPoint()==point).count() == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
+        Arrays.stream(players).filter(player -> Arrays.stream(applyPoints).filter(point -> player.getApplyPoint() == point).count() == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
             player.reset();
-            if (player.getSelection()==Selection.MOVE) {
+            if (player.getSelection() == Selection.MOVE) {
                 setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
             } else {//Selection.REMOVE case
                 setOwn(player.getApplyPoint().x, player.getApplyPoint().y, Owner.None);
