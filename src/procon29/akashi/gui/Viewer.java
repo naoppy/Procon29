@@ -59,7 +59,7 @@ public class Viewer {
                 for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
                     Group group = new Group();
                     //ImageViewをクリックすると追加できるように
-                    ImageView imageView = new ImageView("NoneTile.png");
+                    ImageView imageView = new ImageView(OwnerToImageConverter.convert(Owner.None));
                     int yy = y, xx = x;
                     imageView.setOnMouseClicked(event -> {
                         Point p = new Point(xx, yy);
