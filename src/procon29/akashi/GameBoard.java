@@ -36,17 +36,9 @@ public class GameBoard {
      */
     private Owner[][] owners = new Owner[maker.getHeight() + 2][maker.getWidth() + 2];
     /**
-     * 自分のチームのPlayer2人
+     * [0]と[1]が味方、[2]と[3]が相手
      */
-    private FriendPlayer fp1 = new FriendPlayer(maker.getFp1()), fp2 = new FriendPlayer(maker.getFp2());
-    /**
-     * 相手のチームのPlayer2人
-     */
-    private EnemyPlayer ep1, ep2;
-    /**
-     *
-     */
-    public Player[] players = {fp1, fp2, ep1, ep2};
+    public Player[] players = {new FriendPlayer(maker.getFp1()), new FriendPlayer(maker.getFp2()), null, null};
     /**
      * 青プレイヤーの初期位置を入力するためのセット
      */
@@ -67,11 +59,11 @@ public class GameBoard {
         if (enemyPlayerSet.size() != 2) return false;
 
         Point[] points = enemyPlayerSet.toArray(new Point[2]);
-        ep1 = new EnemyPlayer(points[0]);
-        players[2] = ep1;
-        ep2 = new EnemyPlayer(points[1]);
-        players[3] = ep2;
+        players[2] = new EnemyPlayer(points[0]);
+        players[3] = new EnemyPlayer(points[1]);
 
+
+        //所有マップを初期化する
         for (int y = 0; y < maker.getHeight(); y++) {
             for (int x = 0; x < maker.getWidth(); x++) {
                 setOwn(x, y, Owner.None);
@@ -87,7 +79,7 @@ public class GameBoard {
      * 味方のエージェント2人の動く方向を決定する
      */
     public void solve() {
-        solver.solve(scores, owners, fp1, fp2, ep1, ep2);
+        solver.solve(scores, owners, players);
     }
 
     /**
