@@ -144,7 +144,7 @@ public class Viewer {
 
         Arrays.stream(gameBoard.players).forEach(player -> {
             ImageView imageView = (ImageView) controller.grid.getChildren().get(w * player.getNowPoint().y + player.getNowPoint().x);
-            imageView.setImage(images[i.getAndAdd(1)]);
+            imageView.setImage(images[i.getAndIncrement()]);
         });
     }
 
@@ -166,7 +166,7 @@ public class Viewer {
 
         ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
         AtomicInteger i = new AtomicInteger();
-        Arrays.stream(gameBoard.players).forEach(player -> arr[i.getAndAdd(1)].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
+        Arrays.stream(gameBoard.players).forEach(player -> arr[i.getAndIncrement()].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
     }
 
     /**
@@ -208,20 +208,13 @@ public class Viewer {
             }
         }
 
-        ImageView imageView = (ImageView) controller.grid.getChildren().get(w * gameBoard.maker.getFp1().y + gameBoard.maker.getFp1().x);
-        imageView.setImage(new Image("FriendPlayer1.png"));
-        imageView = (ImageView) controller.grid.getChildren().get(w * gameBoard.maker.getFp2().y + gameBoard.maker.getFp2().x);
-        imageView.setImage(new Image("FriendPlayer2.png"));
-        Point[] enemys = gameBoard.enemyPlayerSet.toArray(new Point[2]);
-        switch (gameBoard.enemyPlayerSet.size()) {
-            case 2:
-                imageView = (ImageView) controller.grid.getChildren().get(w * enemys[1].y + enemys[1].x);
-                imageView.setImage(new Image("EnemyPlayer2.png"));
-            case 1:
-                imageView = (ImageView) controller.grid.getChildren().get(w * enemys[0].y + enemys[0].x);
-                imageView.setImage(new Image("EnemyPlayer1.png"));
-                break;
-        }
+        Image[] images = {new Image("FriendPlayer1.png"), new Image("FriendPlayer2.png"), new Image("EnemyPlayer1.png"), new Image("EnemyPlayer2.png")};
+        AtomicInteger i = new AtomicInteger();
+
+        Stream.concat(Arrays.stream(gameBoard.players).filter(player -> player != null).map(player -> player.getNowPoint()), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
+            ImageView imageView = (ImageView) controller.grid.getChildren().get(w * point.y + point.x);
+            imageView.setImage(images[i.getAndIncrement()]);
+        });
 
     }
 
