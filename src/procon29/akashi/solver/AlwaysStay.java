@@ -9,7 +9,6 @@ import procon29.akashi.selection.XYDiff;
 
 public class AlwaysStay implements Solver {
     public void solve(int[][] scores, Owner[][] owners, Player[] players) {
-        System.err.println("solve");
         players[0].select(Selection.MOVE, new XYDiff(LongitudinalDiff.None, TransverseDiff.None));
         players[1].select(Selection.MOVE, new XYDiff(LongitudinalDiff.None, TransverseDiff.None));
     }
