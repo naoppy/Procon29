@@ -78,13 +78,13 @@ public class Viewer {
 
                     group.getChildren().addAll(imageView1, imageView2);
                     controller.grid.add(group, x, y);
-
-                    //ボタンを押したら決定できるように
-                    controller.solveButton.setOnMouseClicked(event -> {
-                        if (gameBoard.decideEnemyPlayerPlace()) startNextPhase();
-                    });
                 }
             }
+
+            //ボタンを押したら決定できるように
+            controller.solveButton.setOnMouseClicked(event -> {
+                if (gameBoard.decideEnemyPlayerPlace()) startNextPhase();
+            });
 
             inputSide();
         } catch (IOException e) {
