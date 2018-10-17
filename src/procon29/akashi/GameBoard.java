@@ -36,17 +36,9 @@ public class GameBoard {
      */
     private Owner[][] owners = new Owner[maker.getHeight() + 2][maker.getWidth() + 2];
     /**
-     * 自分のチームのPlayer2人
+     * [0]と[1]が味方、[2]と[3]が相手
      */
-    private FriendPlayer fp1 = new FriendPlayer(maker.getFp1()), fp2 = new FriendPlayer(maker.getFp2());
-    /**
-     * 相手のチームのPlayer2人
-     */
-    private EnemyPlayer ep1, ep2;
-    /**
-     *
-     */
-    public Player[] players = {fp1, fp2, ep1, ep2};
+    public Player[] players = {new FriendPlayer(maker.getFp1()), new FriendPlayer(maker.getFp2()), null, null};
     /**
      * 青プレイヤーの初期位置を入力するためのセット
      */
@@ -67,11 +59,11 @@ public class GameBoard {
         if (enemyPlayerSet.size() != 2) return false;
 
         Point[] points = enemyPlayerSet.toArray(new Point[2]);
-        ep1 = new EnemyPlayer(points[0]);
-        players[2] = ep1;
-        ep2 = new EnemyPlayer(points[1]);
-        players[3] = ep2;
+        players[2] = new EnemyPlayer(points[0]);
+        players[3] = new EnemyPlayer(points[1]);
 
+
+        //所有マップを初期化する
         for (int y = 0; y < maker.getHeight(); y++) {
             for (int x = 0; x < maker.getWidth(); x++) {
                 setOwn(x, y, Owner.None);
@@ -87,7 +79,7 @@ public class GameBoard {
      * 味方のエージェント2人の動く方向を決定する
      */
     public void solve() {
-        solver.solve(scores, owners, fp1, fp2, ep1, ep2);
+        solver.solve(scores, owners, players);
     }
 
     /**
@@ -96,32 +88,16 @@ public class GameBoard {
      * @return 全てのプレイヤーが移動方向を決定できていなければfalse、出来ていたのならtrue
      */
     public boolean nextStage() {
-        System.err.println("GameBoard.nextStage() called");
-        if (!Arrays.stream(players).allMatch(Player::isFinishNextSelect)) {
-            System.err.println("Not All player finished to select!");
-            return false;
-        }
+        if (!Arrays.stream(players).allMatch(Player::isFinishNextSelect)) return false;
 
         remainTurnNumber -= 1;//1ターンカウントを減らす
         Point[] applyPoints = Stream.concat(Arrays.stream(players).map(Player::getApplyPoint), Arrays.stream(players).filter(player -> player.getSelection() == Selection.REMOVE).map(Player::getNowPoint)).toArray(Point[]::new);
 
-        Map<Point, Integer> pointsMap = new HashMap<>();
-
-        for (Point point : applyPoints) {
-            if (pointsMap.containsKey(point)) {
-                pointsMap.put(point, pointsMap.get(point) + 1);
-            } else {
-                pointsMap.put(point, 1);
-            }
-        }
-
-        Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
+        Arrays.stream(players).filter(player -> Arrays.stream(applyPoints).filter(point -> player.getApplyPoint()==point).count() == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
             player.reset();
-            if (player.getSelection().equals(Selection.MOVE)) {
-                System.err.println("move");
+            if (player.getSelection()==Selection.MOVE) {
                 setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
             } else {//Selection.REMOVE case
-                System.err.println("remove");
                 setOwn(player.getApplyPoint().x, player.getApplyPoint().y, Owner.None);
             }
         });
@@ -154,7 +130,7 @@ public class GameBoard {
         }
 
         //味方の囲い点計算クラスを作成
-        ScoreCalc calc = new ScoreCalc(this, Owner.Friend);
+        SurroundedScoreCalc calc = new SurroundedScoreCalc(this, Owner.Friend);
         for (int y = 0; y < maker.getHeight(); y++) {
             for (int x = 0; x < maker.getWidth(); x++) {
                 if (getOwn(x, y) != Owner.Friend) {//味方タイル以外なら、囲われているか判定(味方の囲い点を出す)
@@ -163,7 +139,7 @@ public class GameBoard {
             }
         }
         //敵の囲い点を計算するクラスを作成
-        calc = new ScoreCalc(this, Owner.Enemy);
+        calc = new SurroundedScoreCalc(this, Owner.Enemy);
         for (int y = 0; y < maker.getHeight(); y++) {
             for (int x = 0; x < maker.getWidth(); x++) {
                 if (getOwn(x, y) != Owner.Enemy) {//敵タイル以外なら、囲われているか判定(敵の囲い点を出す)

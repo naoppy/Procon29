@@ -51,8 +51,8 @@ public abstract class Player {
     /**
      * 次の手を選択する
      *
-     * @param selection  行動の種類
-     * @param xyDiff 今の位置からの移動方向
+     * @param selection 行動の種類
+     * @param xyDiff    今の位置からの移動方向
      * @return ルールに則った選択ならtrue
      */
     public boolean select(Selection selection, XYDiff xyDiff) {
@@ -60,8 +60,6 @@ public abstract class Player {
         this.selection = selection;
         this.xyDiff = xyDiff;
         this.applyPoint = this.calcApplyPoint(xyDiff);
-
-        System.err.println("set" + applyPoint.toString());
 
         return true;
     }

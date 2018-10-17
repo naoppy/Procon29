@@ -36,7 +36,7 @@ public class Controller {
     public ImageView ep2;
 
     @FXML
-    public Button solveBotton;
+    public Button solveButton;
 
     @FXML
     public GridPane grid;

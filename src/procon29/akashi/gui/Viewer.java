@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 /**
  * GameBoardを視覚化するクラス
@@ -33,6 +34,10 @@ public class Viewer {
      * Viewerが視覚化する対象
      */
     private GameBoard gameBoard;
+    /**
+     * プレイヤーの画像をキャッシュしておく
+     */
+    private static Image[] images = {new Image("FriendPlayer1.png"), new Image("FriendPlayer2.png"), new Image("EnemyPlayer1.png"), new Image("EnemyPlayer2.png")};
 
     /**
      * 渡されたGameBoardの状態に基づいてViewerを作る
@@ -43,7 +48,7 @@ public class Viewer {
         this.gameBoard = gameBoard;
         try {
             //load FXML and load controller
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/root2.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/root.fxml"));
             root = loader.load();
             controller = loader.getController();
 
@@ -56,7 +61,7 @@ public class Viewer {
                     int yy = y, xx = x;
                     imageView.setOnMouseClicked(event -> {
                         Point p = new Point(xx, yy);
-                        if (!gameBoard.enemyPlayerSet.remove(p) && gameBoard.enemyPlayerSet.size() < 2) {
+                        if (!gameBoard.enemyPlayerSet.remove(p) && gameBoard.enemyPlayerSet.size() < 2) {//もう入っているなら消す、入っていないかつ2未満しか入っていないなら追加
                             gameBoard.enemyPlayerSet.add(p);
                         }
                         this.firstViewUpdate();
@@ -64,7 +69,7 @@ public class Viewer {
                     controller.grid.add(imageView, x, y);
 
                     //ボタンを押したら決定できるように
-                    controller.solveBotton.setOnMouseClicked(event -> {
+                    controller.solveButton.setOnMouseClicked(event -> {
                         if (gameBoard.decideEnemyPlayerPlace()) startNextPhase();
                     });
                 }
@@ -75,6 +80,28 @@ public class Viewer {
             e.printStackTrace();
         }
         this.firstViewUpdate();
+    }
+
+    /**
+     * 敵プレイヤーの暫定位置を表示する
+     */
+    private void firstViewUpdate() {
+        int w = gameBoard.maker.getWidth();
+
+        for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
+            for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
+                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
+                imageView.setImage(OwnerToImageConverter.convert(Owner.None));
+            }
+        }
+
+        AtomicInteger i = new AtomicInteger();
+
+        Stream.concat(Arrays.stream(gameBoard.players).filter(player -> player != null).map(player -> player.getNowPoint()), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
+            ImageView imageView = (ImageView) controller.grid.getChildren().get(w * point.y + point.x);
+            imageView.setImage(images[i.getAndIncrement()]);
+        });
+
     }
 
     /**
@@ -113,7 +140,7 @@ public class Viewer {
         clearAndSetEventHandler();
         reView();
 
-        controller.solveBotton.setOnMouseClicked(event1 -> {
+        controller.solveButton.setOnMouseClicked(event1 -> {
             if (gameBoard.nextStage()) {
                 stringsUpdate();
                 gameBoard.solve();
@@ -138,12 +165,11 @@ public class Viewer {
             }
         }
 
-        Image[] images = {new Image("FriendPlayer1.png"), new Image("FriendPlayer2.png"), new Image("EnemyPlayer1.png"), new Image("EnemyPlayer2.png")};
         AtomicInteger i = new AtomicInteger();
 
         Arrays.stream(gameBoard.players).forEach(player -> {
             ImageView imageView = (ImageView) controller.grid.getChildren().get(w * player.getNowPoint().y + player.getNowPoint().x);
-            imageView.setImage(images[i.getAndAdd(1)]);
+            imageView.setImage(images[i.getAndIncrement()]);
         });
     }
 
@@ -163,9 +189,10 @@ public class Viewer {
         //敵プレイヤーをクリックして行動を選べるように設定する
         Arrays.stream(gameBoard.players).skip(2L).forEach(this::setHandlerToSelect);
 
+        //右の矢印を更新
         ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
         AtomicInteger i = new AtomicInteger();
-        Arrays.stream(gameBoard.players).forEach(player -> arr[i.getAndAdd(1)].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
+        Arrays.stream(gameBoard.players).forEach(player -> arr[i.getAndIncrement()].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
     }
 
     /**
@@ -179,50 +206,20 @@ public class Viewer {
             TransverseDiff[] diffTX = {TransverseDiff.Left, TransverseDiff.None, TransverseDiff.Right};
             LongitudinalDiff[] diffTY = {LongitudinalDiff.Down, LongitudinalDiff.None, LongitudinalDiff.Up};
 
-            for (int dy : diffY) {
-                for (int dx : diffX) {
-                    int targetY = targetPlayer.getNowPoint().y + dy, targetX = targetPlayer.getNowPoint().x + dx;
-                    //範囲内なら
-                    if (targetY >= 0 && targetY < gameBoard.maker.getHeight() && targetX >= 0 && targetX < gameBoard.maker.getWidth()) {
-                        controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked(event2 -> {
-                            targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[dy + 1], diffTX[dx + 1]));
-                            clearAndSetEventHandler();
-                        });
-                    }
+            for (int i = 0; i < 8; i++) {
+                int targetY = targetPlayer.getNowPoint().y + diffY[i], targetX = targetPlayer.getNowPoint().x + diffX[i];
+                //範囲内なら
+                if (targetY >= 0 && targetY < gameBoard.maker.getHeight() && targetX >= 0 && targetX < gameBoard.maker.getWidth()) {
+                    int dy = diffY[i], dx = diffX[i];
+                    controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked(event2 -> {
+                        targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[dy + 1], diffTX[dx + 1]));
+                        clearAndSetEventHandler();
+                    });
                 }
             }
         });
     }
 
-    /**
-     * 敵プレイヤーの暫定位置を表示する
-     */
-    private void firstViewUpdate() {
-        int w = gameBoard.maker.getWidth();
-
-        for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
-            for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
-                imageView.setImage(new Image("NoneTile.png"));
-            }
-        }
-
-        ImageView imageView = (ImageView) controller.grid.getChildren().get(w * gameBoard.maker.getFp1().y + gameBoard.maker.getFp1().x);
-        imageView.setImage(new Image("FriendPlayer1.png"));
-        imageView = (ImageView) controller.grid.getChildren().get(w * gameBoard.maker.getFp2().y + gameBoard.maker.getFp2().x);
-        imageView.setImage(new Image("FriendPlayer2.png"));
-        Point[] enemys = gameBoard.enemyPlayerSet.toArray(new Point[2]);
-        switch (gameBoard.enemyPlayerSet.size()) {
-            case 2:
-                imageView = (ImageView) controller.grid.getChildren().get(w * enemys[1].y + enemys[1].x);
-                imageView.setImage(new Image("EnemyPlayer2.png"));
-            case 1:
-                imageView = (ImageView) controller.grid.getChildren().get(w * enemys[0].y + enemys[0].x);
-                imageView.setImage(new Image("EnemyPlayer1.png"));
-                break;
-        }
-
-    }
 
     /**
      * 表示の為に現在のゲーム画面のGUIを返す

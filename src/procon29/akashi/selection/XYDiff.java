@@ -1,9 +1,16 @@
 package procon29.akashi.selection;
 
+/**
+ * 二次元方向の向きを表すクラス
+ */
 public class XYDiff {
     private LongitudinalDiff yDiff;
     private TransverseDiff xDiff;
 
+    /**
+     * @param yDiff 縦の差
+     * @param xDiff 横の差
+     */
     public XYDiff(LongitudinalDiff yDiff, TransverseDiff xDiff) {
         this.yDiff = yDiff;
         this.xDiff = xDiff;
