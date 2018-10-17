@@ -88,11 +88,7 @@ public class GameBoard {
      * @return 全てのプレイヤーが移動方向を決定できていなければfalse、出来ていたのならtrue
      */
     public boolean nextStage() {
-        System.err.println("GameBoard.nextStage() called");
-        if (!Arrays.stream(players).allMatch(Player::isFinishNextSelect)) {
-            System.err.println("Not All player finished to select!");
-            return false;
-        }
+        if (!Arrays.stream(players).allMatch(Player::isFinishNextSelect)) return false;
 
         remainTurnNumber -= 1;//1ターンカウントを減らす
         Point[] applyPoints = Stream.concat(Arrays.stream(players).map(Player::getApplyPoint), Arrays.stream(players).filter(player -> player.getSelection() == Selection.REMOVE).map(Player::getNowPoint)).toArray(Point[]::new);
