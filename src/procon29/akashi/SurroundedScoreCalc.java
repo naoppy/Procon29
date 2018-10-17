@@ -44,8 +44,6 @@ class SurroundedScoreCalc {
         //探索済みなら帰る
         if (used[startY][startX]) return 0;
 
-        System.err.println("called");
-
         //キューを作成して座標点を入れる
         Queue<Point> queue = new LinkedList<>();
         queue.add(new Point(startY, startX));
@@ -76,11 +74,7 @@ class SurroundedScoreCalc {
             }
         }
 
-        if (isSurrounded) {
-            System.err.println("surrounded");
-            return score;
-        } else {
-            return 0;
-        }
+        if (isSurrounded) return score;
+        else return 0;
     }
 }
