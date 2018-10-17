@@ -98,7 +98,7 @@ public class Viewer {
     private void firstViewUpdate() {
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = getImageViewFromGrid(x, y);
+                ImageView imageView = getTileImageViewFromGrid(x, y);
                 imageView.setImage(OwnerToImageConverter.convert(Owner.None));
             }
         }
@@ -106,7 +106,7 @@ public class Viewer {
         AtomicInteger i = new AtomicInteger();
 
         Stream.concat(Arrays.stream(gameBoard.players).filter(Objects::nonNull).map(Player::getNowPoint), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
-            ImageView imageView = getImageViewFromGrid(point.x, point.y);
+            ImageView imageView = getNumImageViewFromGrid(point.x, point.y);
             imageView.setImage(images[i.getAndIncrement()]);
         });
 
@@ -165,7 +165,7 @@ public class Viewer {
     private void reView() {
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = getImageViewFromGrid(x, y);
+                ImageView imageView = getTileImageViewFromGrid(x, y);
                 Owner nowOwner = gameBoard.getOwn(x, y);
                 imageView.setImage(OwnerToImageConverter.convert(nowOwner));
             }
@@ -174,7 +174,7 @@ public class Viewer {
         AtomicInteger i = new AtomicInteger();
 
         Arrays.stream(gameBoard.players).forEach(player -> {
-            ImageView imageView = getImageViewFromGrid(player.getNowPoint().x, player.getNowPoint().y);
+            ImageView imageView = getNumImageViewFromGrid(player.getNowPoint().x, player.getNowPoint().y);
             imageView.setImage(images[i.getAndIncrement()]);
         });
     }
@@ -221,9 +221,12 @@ public class Viewer {
         });
     }
 
-    private ImageView getImageViewFromGrid(int x, int y) {
-        Group group = (Group) controller.grid.getChildren().get(gameBoard.maker.getWidth() * y + x);
-        return (ImageView) group.getChildren().get(0);
+    private ImageView getTileImageViewFromGrid(int x, int y) {
+        return (ImageView) getGroupFromGrid(x, y).getChildren().get(0);
+    }
+
+    private ImageView getNumImageViewFromGrid(int x, int y) {
+        return (ImageView) getGroupFromGrid(x, y).getChildren().get(1);
     }
 
     private Group getGroupFromGrid(int x, int y) {
