@@ -105,11 +105,9 @@ public class GameBoard {
 
         Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
             player.reset();
-            if (player.getSelection().equals(Selection.MOVE)) {
-                System.err.println("move");
+            if (player.getSelection()==Selection.MOVE) {
                 setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
             } else {//Selection.REMOVE case
-                System.err.println("remove");
                 setOwn(player.getApplyPoint().x, player.getApplyPoint().y, Owner.None);
             }
         });
