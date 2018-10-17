@@ -200,17 +200,16 @@ public class Viewer {
             TransverseDiff[] diffTX = {TransverseDiff.Left, TransverseDiff.None, TransverseDiff.Right};
             LongitudinalDiff[] diffTY = {LongitudinalDiff.Down, LongitudinalDiff.None, LongitudinalDiff.Up};
 
-            for (int i = 0; i < 9; i++) {
+            IntStream.range(0, 9).forEach(i -> {
                 int targetY = targetPlayer.getNowPoint().y + diffY[i], targetX = targetPlayer.getNowPoint().x + diffX[i];
                 //範囲内なら
                 if (targetY >= 0 && targetY < gameBoard.maker.getHeight() && targetX >= 0 && targetX < gameBoard.maker.getWidth()) {
-                    int dy = diffY[i], dx = diffX[i];
                     getGroupFromGrid(targetX, targetY).setOnMouseClicked(event2 -> {
-                        targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[dy + 1], diffTX[dx + 1]));
+                        targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[diffY[i] + 1], diffTX[diffX[i] + 1]));
                         clearAndSetEventHandler();
                     });
                 }
-            }
+            });
         });
     }
 
