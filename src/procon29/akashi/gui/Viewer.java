@@ -1,6 +1,7 @@
 package procon29.akashi.gui;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,11 +10,13 @@ import procon29.akashi.GameBoard;
 import procon29.akashi.owners.Owner;
 import procon29.akashi.owners.OwnerToImageConverter;
 import procon29.akashi.players.Player;
+import procon29.akashi.scores.ScoreToImageConverter;
 import procon29.akashi.selection.*;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
@@ -56,17 +59,24 @@ public class Viewer {
 
             for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
                 for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
+                    Group group = new Group();
+
                     //ImageViewをクリックすると追加できるように
-                    ImageView imageView = new ImageView("NoneTile.png");
+                    ImageView imageView1 = new ImageView(OwnerToImageConverter.convert(Owner.None));
                     int yy = y, xx = x;
-                    imageView.setOnMouseClicked(event -> {
+                    group.setOnMouseClicked(event -> {
                         Point p = new Point(xx, yy);
                         if (!gameBoard.enemyPlayerSet.remove(p) && gameBoard.enemyPlayerSet.size() < 2) {//もう入っているなら消す、入っていないかつ2未満しか入っていないなら追加
                             gameBoard.enemyPlayerSet.add(p);
                         }
                         this.firstViewUpdate();
                     });
-                    controller.grid.add(imageView, x, y);
+
+                    //スコアの数字を読み込む
+                    ImageView imageView2 = new ImageView(ScoreToImageConverter.convert(gameBoard.getScore(x, y)));
+
+                    group.getChildren().addAll(imageView1, imageView2);
+                    controller.grid.add(group, x, y);
 
                     //ボタンを押したら決定できるように
                     controller.solveButton.setOnMouseClicked(event -> {
@@ -86,20 +96,21 @@ public class Viewer {
      * 敵プレイヤーの暫定位置を表示する
      */
     private void firstViewUpdate() {
-        int w = gameBoard.maker.getWidth();
-
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
+                ImageView imageView = getTileImageViewFromGrid(x, y);
                 imageView.setImage(OwnerToImageConverter.convert(Owner.None));
             }
         }
 
-        AtomicInteger i = new AtomicInteger();
+        //プレイヤーの画像があるノードはプレイヤーの画像をImageViewごと削除
+        controller.grid.getChildren().stream().filter(group -> ((Group) group).getChildren().size() == 3).forEach(group -> ((Group) group).getChildren().remove(2));
 
-        Stream.concat(Arrays.stream(gameBoard.players).filter(player -> player != null).map(player -> player.getNowPoint()), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
-            ImageView imageView = (ImageView) controller.grid.getChildren().get(w * point.y + point.x);
-            imageView.setImage(images[i.getAndIncrement()]);
+        //プレイヤーの画像を3層目にImageViewごと追加
+        AtomicInteger i = new AtomicInteger();
+        Stream.concat(Arrays.stream(gameBoard.players).filter(Objects::nonNull).map(Player::getNowPoint), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
+            ImageView playerView = new ImageView(images[i.getAndIncrement()]);
+            getGroupFromGrid(point.x, point.y).getChildren().add(2, playerView);
         });
 
     }
@@ -112,7 +123,7 @@ public class Viewer {
         int i;
         do {
             System.out.println("舞台側を上として、チームの位置は右か左か入力してください。");
-            System.out.println("1：右　　2：左");
+            System.out.println("1：右    2：左");
             i = sc.nextInt();
         } while (!(i == 1 || i == 2));
 
@@ -155,21 +166,21 @@ public class Viewer {
      * GameBoardの所有者マップを基にimageViewの画像を変更する
      */
     private void reView() {
-        int w = gameBoard.maker.getWidth();
-
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
+                ImageView imageView = getTileImageViewFromGrid(x, y);
                 Owner nowOwner = gameBoard.getOwn(x, y);
                 imageView.setImage(OwnerToImageConverter.convert(nowOwner));
             }
         }
 
+        //プレイヤーの画像があるノードはプレイヤーの画像をImageViewごと削除
+        controller.grid.getChildren().stream().filter(group -> ((Group) group).getChildren().size() == 3).forEach(group -> ((Group) group).getChildren().remove(2));
+        //プレイヤーの画像をImageViewごと3層目に追加
         AtomicInteger i = new AtomicInteger();
-
         Arrays.stream(gameBoard.players).forEach(player -> {
-            ImageView imageView = (ImageView) controller.grid.getChildren().get(w * player.getNowPoint().y + player.getNowPoint().x);
-            imageView.setImage(images[i.getAndIncrement()]);
+            ImageView playerView = new ImageView(images[i.getAndIncrement()]);
+            getGroupFromGrid(player.getNowPoint().x, player.getNowPoint().y).getChildren().add(2, playerView);
         });
     }
 
@@ -177,13 +188,10 @@ public class Viewer {
      * クリックイベントを全て削除する
      */
     private void clearAndSetEventHandler() {
-        int w = gameBoard.maker.getWidth();
-
         //全てのノードのクリックイベントを削除
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
-                imageView.setOnMouseClicked(null);
+                getGroupFromGrid(x, y).setOnMouseClicked(null);
             }
         }
         //敵プレイヤーをクリックして行動を選べるように設定する
@@ -199,9 +207,7 @@ public class Viewer {
      * 敵の動きを入力させるためにイベントハンドラを設定する
      */
     private void setHandlerToSelect(Player targetPlayer) {
-        int w = gameBoard.maker.getWidth();
-
-        controller.grid.getChildren().get(w * targetPlayer.getNowPoint().y + targetPlayer.getNowPoint().x).setOnMouseClicked(event1 -> {
+        getGroupFromGrid(targetPlayer.getNowPoint().x, targetPlayer.getNowPoint().y).setOnMouseClicked(event1 -> {
             int[] diffX = {0, 1, 1, 0, -1, -1, -1, 0, 1}, diffY = {0, 0, 1, 1, 1, 0, -1, -1, -1};
             TransverseDiff[] diffTX = {TransverseDiff.Left, TransverseDiff.None, TransverseDiff.Right};
             LongitudinalDiff[] diffTY = {LongitudinalDiff.Down, LongitudinalDiff.None, LongitudinalDiff.Up};
@@ -211,7 +217,7 @@ public class Viewer {
                 //範囲内なら
                 if (targetY >= 0 && targetY < gameBoard.maker.getHeight() && targetX >= 0 && targetX < gameBoard.maker.getWidth()) {
                     int dy = diffY[i], dx = diffX[i];
-                    controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked(event2 -> {
+                    getGroupFromGrid(targetX, targetY).setOnMouseClicked(event2 -> {
                         targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[dy + 1], diffTX[dx + 1]));
                         clearAndSetEventHandler();
                     });
@@ -220,6 +226,17 @@ public class Viewer {
         });
     }
 
+    private ImageView getTileImageViewFromGrid(int x, int y) {
+        return (ImageView) getGroupFromGrid(x, y).getChildren().get(0);
+    }
+
+    private ImageView getNumImageViewFromGrid(int x, int y) {
+        return (ImageView) getGroupFromGrid(x, y).getChildren().get(1);
+    }
+
+    private Group getGroupFromGrid(int x, int y) {
+        return (Group) controller.grid.getChildren().get(gameBoard.maker.getWidth() * y + x);
+    }
 
     /**
      * 表示の為に現在のゲーム画面のGUIを返す
