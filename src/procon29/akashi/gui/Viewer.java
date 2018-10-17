@@ -61,7 +61,7 @@ public class Viewer {
                     int yy = y, xx = x;
                     imageView.setOnMouseClicked(event -> {
                         Point p = new Point(xx, yy);
-                        if (!gameBoard.enemyPlayerSet.remove(p) && gameBoard.enemyPlayerSet.size() < 2) {
+                        if (!gameBoard.enemyPlayerSet.remove(p) && gameBoard.enemyPlayerSet.size() < 2) {//もう入っているなら消す、入っていないかつ2未満しか入っていないなら追加
                             gameBoard.enemyPlayerSet.add(p);
                         }
                         this.firstViewUpdate();
@@ -80,6 +80,28 @@ public class Viewer {
             e.printStackTrace();
         }
         this.firstViewUpdate();
+    }
+
+    /**
+     * 敵プレイヤーの暫定位置を表示する
+     */
+    private void firstViewUpdate() {
+        int w = gameBoard.maker.getWidth();
+
+        for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
+            for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
+                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
+                imageView.setImage(OwnerToImageConverter.convert(Owner.None));
+            }
+        }
+
+        AtomicInteger i = new AtomicInteger();
+
+        Stream.concat(Arrays.stream(gameBoard.players).filter(player -> player != null).map(player -> player.getNowPoint()), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
+            ImageView imageView = (ImageView) controller.grid.getChildren().get(w * point.y + point.x);
+            imageView.setImage(images[i.getAndIncrement()]);
+        });
+
     }
 
     /**
@@ -198,27 +220,6 @@ public class Viewer {
         });
     }
 
-    /**
-     * 敵プレイヤーの暫定位置を表示する
-     */
-    private void firstViewUpdate() {
-        int w = gameBoard.maker.getWidth();
-
-        for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
-            for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
-                imageView.setImage(OwnerToImageConverter.convert(Owner.None));
-            }
-        }
-
-        AtomicInteger i = new AtomicInteger();
-
-        Stream.concat(Arrays.stream(gameBoard.players).filter(player -> player != null).map(player -> player.getNowPoint()), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
-            ImageView imageView = (ImageView) controller.grid.getChildren().get(w * point.y + point.x);
-            imageView.setImage(images[i.getAndIncrement()]);
-        });
-
-    }
 
     /**
      * 表示の為に現在のゲーム画面のGUIを返す
