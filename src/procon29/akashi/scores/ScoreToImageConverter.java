@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 /**
  * 画像をキャッシュして数字から画像に変換するクラス
@@ -15,6 +16,9 @@ public class ScoreToImageConverter {
     private static Map<Integer, Image> scoreImageMap = new HashMap<>();
 
     static {
+        IntStream.rangeClosed(-16, 16).forEach(i -> {
+            scoreImageMap.put(i, new Image("/score/num" + i + ".png"));
+        });
     }
 
     /**
