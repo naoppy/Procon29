@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 /**
  * GameBoardを視覚化するクラス
@@ -203,7 +204,7 @@ public class Viewer {
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
                 ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
-                imageView.setImage(new Image("NoneTile.png"));
+                imageView.setImage(OwnerToImageConverter.convert(Owner.None));
             }
         }
 
