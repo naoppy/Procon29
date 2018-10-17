@@ -94,7 +94,7 @@ public class Viewer {
 
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
+                ImageView imageView = getImageViewFromGrid(x, y);
                 imageView.setImage(OwnerToImageConverter.convert(Owner.None));
             }
         }
@@ -102,7 +102,7 @@ public class Viewer {
         AtomicInteger i = new AtomicInteger();
 
         Stream.concat(Arrays.stream(gameBoard.players).filter(player -> player != null).map(player -> player.getNowPoint()), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
-            ImageView imageView = (ImageView) controller.grid.getChildren().get(w * point.y + point.x);
+            ImageView imageView = getImageViewFromGrid(point.x, point.y);
             imageView.setImage(images[i.getAndIncrement()]);
         });
 
@@ -163,7 +163,7 @@ public class Viewer {
 
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
+                ImageView imageView = getImageViewFromGrid(x, y);
                 Owner nowOwner = gameBoard.getOwn(x, y);
                 imageView.setImage(OwnerToImageConverter.convert(nowOwner));
             }
@@ -172,7 +172,7 @@ public class Viewer {
         AtomicInteger i = new AtomicInteger();
 
         Arrays.stream(gameBoard.players).forEach(player -> {
-            ImageView imageView = (ImageView) controller.grid.getChildren().get(w * player.getNowPoint().y + player.getNowPoint().x);
+            ImageView imageView = getImageViewFromGrid(player.getNowPoint().x, player.getNowPoint().y);
             imageView.setImage(images[i.getAndIncrement()]);
         });
     }
@@ -186,7 +186,7 @@ public class Viewer {
         //全てのノードのクリックイベントを削除
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = (ImageView) controller.grid.getChildren().get(w * y + x);
+                ImageView imageView = getImageViewFromGrid(x, y);
                 imageView.setOnMouseClicked(null);
             }
         }
@@ -205,7 +205,7 @@ public class Viewer {
     private void setHandlerToSelect(Player targetPlayer) {
         int w = gameBoard.maker.getWidth();
 
-        controller.grid.getChildren().get(w * targetPlayer.getNowPoint().y + targetPlayer.getNowPoint().x).setOnMouseClicked(event1 -> {
+        getImageViewFromGrid(targetPlayer.getNowPoint().x, targetPlayer.getNowPoint().y).setOnMouseClicked(event1 -> {
             int[] diffX = {0, 1, 1, 0, -1, -1, -1, 0, 1}, diffY = {0, 0, 1, 1, 1, 0, -1, -1, -1};
             TransverseDiff[] diffTX = {TransverseDiff.Left, TransverseDiff.None, TransverseDiff.Right};
             LongitudinalDiff[] diffTY = {LongitudinalDiff.Down, LongitudinalDiff.None, LongitudinalDiff.Up};
@@ -215,7 +215,7 @@ public class Viewer {
                 //範囲内なら
                 if (targetY >= 0 && targetY < gameBoard.maker.getHeight() && targetX >= 0 && targetX < gameBoard.maker.getWidth()) {
                     int dy = diffY[i], dx = diffX[i];
-                    controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked(event2 -> {
+                    getImageViewFromGrid(targetX, targetY).setOnMouseClicked(event2 -> {
                         targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[dy + 1], diffTX[dx + 1]));
                         clearAndSetEventHandler();
                     });
