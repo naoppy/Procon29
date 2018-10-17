@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 画像をキャッシュしてオーナーから画像に変換するクラス
+ */
 public class OwnerToImageConverter {
     private OwnerToImageConverter() {
     }
@@ -17,6 +20,9 @@ public class OwnerToImageConverter {
         ownerImageMap.put(Owner.Enemy, new Image("EnemyTile.png"));
     }
 
+    /**
+     * @return 対応する画像
+     */
     public static Image convert(Owner owner) {
         return ownerImageMap.get(owner);
     }
