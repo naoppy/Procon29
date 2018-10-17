@@ -2,7 +2,6 @@ package procon29.akashi.gui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -227,8 +226,8 @@ public class Viewer {
         return (ImageView) group.getChildren().get(0);
     }
 
-    private Node getGroupFromGrid(int x, int y) {
-        return controller.grid.getChildren().get(gameBoard.maker.getWidth() * y + x);
+    private Group getGroupFromGrid(int x, int y) {
+        return (Group) controller.grid.getChildren().get(gameBoard.maker.getWidth() * y + x);
     }
 
     /**
