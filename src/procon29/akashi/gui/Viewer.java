@@ -17,6 +17,7 @@ import procon29.akashi.selection.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
@@ -96,8 +97,6 @@ public class Viewer {
      * 敵プレイヤーの暫定位置を表示する
      */
     private void firstViewUpdate() {
-        int w = gameBoard.maker.getWidth();
-
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
                 ImageView imageView = getImageViewFromGrid(x, y);
@@ -107,7 +106,7 @@ public class Viewer {
 
         AtomicInteger i = new AtomicInteger();
 
-        Stream.concat(Arrays.stream(gameBoard.players).filter(player -> player != null).map(player -> player.getNowPoint()), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
+        Stream.concat(Arrays.stream(gameBoard.players).filter(Objects::nonNull).map(Player::getNowPoint), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
             ImageView imageView = getImageViewFromGrid(point.x, point.y);
             imageView.setImage(images[i.getAndIncrement()]);
         });
@@ -165,8 +164,6 @@ public class Viewer {
      * GameBoardの所有者マップを基にimageViewの画像を変更する
      */
     private void reView() {
-        int w = gameBoard.maker.getWidth();
-
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
                 ImageView imageView = getImageViewFromGrid(x, y);
@@ -187,8 +184,6 @@ public class Viewer {
      * クリックイベントを全て削除する
      */
     private void clearAndSetEventHandler() {
-        int w = gameBoard.maker.getWidth();
-
         //全てのノードのクリックイベントを削除
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
@@ -229,8 +224,7 @@ public class Viewer {
 
     private ImageView getImageViewFromGrid(int x, int y) {
         Group group = (Group) controller.grid.getChildren().get(gameBoard.maker.getWidth() * y + x);
-        ImageView imageView = (ImageView) group.getChildren().get(0);
-        return imageView;
+        return (ImageView) group.getChildren().get(0);
     }
 
     private Node getGroupFromGrid(int x, int y) {
