@@ -11,11 +11,13 @@ public class OwnerToImageConverter {
 
     private static Map<Owner, Image> ownerImageMap = new HashMap<>();
 
-    public static Image convert(Owner owner) {
-        if(!ownerImageMap.containsKey(Owner.None)) ownerImageMap.put(Owner.None, new Image("NoneTile.png"));
-        if(!ownerImageMap.containsKey(Owner.Friend)) ownerImageMap.put(Owner.Friend, new Image("FriendTile.png"));
-        if(!ownerImageMap.containsKey(Owner.Enemy)) ownerImageMap.put(Owner.Enemy, new Image("EnemyTile.png"));
+    static {
+        ownerImageMap.put(Owner.None, new Image("NoneTile.png"));
+        ownerImageMap.put(Owner.Friend, new Image("FriendTile.png"));
+        ownerImageMap.put(Owner.Enemy, new Image("EnemyTile.png"));
+    }
 
+    public static Image convert(Owner owner) {
         return ownerImageMap.get(owner);
     }
 }
