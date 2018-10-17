@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -96,15 +97,10 @@ public class Viewer {
      * 敵プレイヤーの暫定位置を表示する
      */
     private void firstViewUpdate() {
-        for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
-            for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = getTileImageViewFromGrid(x, y);
-                imageView.setImage(OwnerToImageConverter.convert(Owner.None));
-            }
-        }
+        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getTileImageViewFromGrid(x, y).setImage(OwnerToImageConverter.convert(Owner.None))));
 
         //プレイヤーの画像があるノードはプレイヤーの画像をImageViewごと削除
-        controller.grid.getChildren().stream().filter(group -> ((Group) group).getChildren().size() == 3).forEach(group -> ((Group) group).getChildren().remove(2));
+        controller.grid.getChildren().parallelStream().map(node -> (Group) node).filter(group -> group.getChildren().size() == 3).forEach(group -> group.getChildren().remove(2));
 
         //プレイヤーの画像を3層目にImageViewごと追加
         AtomicInteger i = new AtomicInteger();
@@ -166,13 +162,8 @@ public class Viewer {
      * GameBoardの所有者マップを基にimageViewの画像を変更する
      */
     private void reView() {
-        for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
-            for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                ImageView imageView = getTileImageViewFromGrid(x, y);
-                Owner nowOwner = gameBoard.getOwn(x, y);
-                imageView.setImage(OwnerToImageConverter.convert(nowOwner));
-            }
-        }
+        //今のOwnerの画像に
+        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getTileImageViewFromGrid(x, y).setImage(OwnerToImageConverter.convert(gameBoard.getOwn(x, y)))));
 
         //プレイヤーの画像があるノードはプレイヤーの画像をImageViewごと削除
         controller.grid.getChildren().stream().filter(group -> ((Group) group).getChildren().size() == 3).forEach(group -> ((Group) group).getChildren().remove(2));
@@ -189,11 +180,8 @@ public class Viewer {
      */
     private void clearAndSetEventHandler() {
         //全てのノードのクリックイベントを削除
-        for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
-            for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                getGroupFromGrid(x, y).setOnMouseClicked(null);
-            }
-        }
+        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getGroupFromGrid(x, y).setOnMouseClicked(null)));
+
         //敵プレイヤーをクリックして行動を選べるように設定する
         Arrays.stream(gameBoard.players).skip(2L).forEach(this::setHandlerToSelect);
 
