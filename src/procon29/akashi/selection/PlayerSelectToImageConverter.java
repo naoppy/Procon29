@@ -22,7 +22,6 @@ public class PlayerSelectToImageConverter {
     }
 
     public static Image convert(String state) {
-
         return selectImageMap.get(state);
     }
 }
