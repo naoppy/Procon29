@@ -189,6 +189,7 @@ public class Viewer {
         //敵プレイヤーをクリックして行動を選べるように設定する
         Arrays.stream(gameBoard.players).skip(2L).forEach(this::setHandlerToSelect);
 
+        //右の矢印を更新
         ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
         AtomicInteger i = new AtomicInteger();
         Arrays.stream(gameBoard.players).forEach(player -> arr[i.getAndIncrement()].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
@@ -205,16 +206,15 @@ public class Viewer {
             TransverseDiff[] diffTX = {TransverseDiff.Left, TransverseDiff.None, TransverseDiff.Right};
             LongitudinalDiff[] diffTY = {LongitudinalDiff.Down, LongitudinalDiff.None, LongitudinalDiff.Up};
 
-            for (int dy : diffY) {
-                for (int dx : diffX) {
-                    int targetY = targetPlayer.getNowPoint().y + dy, targetX = targetPlayer.getNowPoint().x + dx;
-                    //範囲内なら
-                    if (targetY >= 0 && targetY < gameBoard.maker.getHeight() && targetX >= 0 && targetX < gameBoard.maker.getWidth()) {
-                        controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked(event2 -> {
-                            targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[dy + 1], diffTX[dx + 1]));
-                            clearAndSetEventHandler();
-                        });
-                    }
+            for (int i = 0; i < 8; i++) {
+                int targetY = targetPlayer.getNowPoint().y + diffY[i], targetX = targetPlayer.getNowPoint().x + diffX[i];
+                //範囲内なら
+                if (targetY >= 0 && targetY < gameBoard.maker.getHeight() && targetX >= 0 && targetX < gameBoard.maker.getWidth()) {
+                    int dy = diffY[i], dx = diffX[i];
+                    controller.grid.getChildren().get(w * targetY + targetX).setOnMouseClicked(event2 -> {
+                        targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[dy + 1], diffTX[dx + 1]));
+                        clearAndSetEventHandler();
+                    });
                 }
             }
         });
