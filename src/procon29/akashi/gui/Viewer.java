@@ -10,6 +10,7 @@ import procon29.akashi.GameBoard;
 import procon29.akashi.owners.Owner;
 import procon29.akashi.owners.OwnerToImageConverter;
 import procon29.akashi.players.Player;
+import procon29.akashi.scores.ScoreToImageConverter;
 import procon29.akashi.selection.*;
 
 import java.awt.*;
@@ -58,10 +59,11 @@ public class Viewer {
             for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
                 for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
                     Group group = new Group();
+
                     //ImageViewをクリックすると追加できるように
-                    ImageView imageView = new ImageView(OwnerToImageConverter.convert(Owner.None));
+                    ImageView imageView1 = new ImageView(OwnerToImageConverter.convert(Owner.None));
                     int yy = y, xx = x;
-                    imageView.setOnMouseClicked(event -> {
+                    imageView1.setOnMouseClicked(event -> {
                         Point p = new Point(xx, yy);
                         if (!gameBoard.enemyPlayerSet.remove(p) && gameBoard.enemyPlayerSet.size() < 2) {//もう入っているなら消す、入っていないかつ2未満しか入っていないなら追加
                             gameBoard.enemyPlayerSet.add(p);
@@ -69,7 +71,10 @@ public class Viewer {
                         this.firstViewUpdate();
                     });
 
-                    group.getChildren().addAll(imageView);
+                    //スコアの数字を読み込む
+                    ImageView imageView2 = new ImageView(ScoreToImageConverter.convert(gameBoard.getScore(x, y)));
+
+                    group.getChildren().addAll(imageView1, imageView2);
                     controller.grid.add(group, x, y);
 
                     //ボタンを押したら決定できるように
