@@ -224,6 +224,11 @@ public class Viewer {
         });
     }
 
+    private ImageView getImageViewFromGrid(int x, int y) {
+        Group group = (Group) controller.grid.getChildren().get(gameBoard.maker.getWidth() * y + x);
+        ImageView imageView = (ImageView) group.getChildren().get(0);
+        return imageView;
+    }
 
     /**
      * 表示の為に現在のゲーム画面のGUIを返す
