@@ -34,6 +34,10 @@ public class Viewer {
      * Viewerが視覚化する対象
      */
     private GameBoard gameBoard;
+    /**
+     * プレイヤーの画像をキャッシュしておく
+     */
+    private static Image[] images = {new Image("FriendPlayer1.png"), new Image("FriendPlayer2.png"), new Image("EnemyPlayer1.png"), new Image("EnemyPlayer2.png")};
 
     /**
      * 渡されたGameBoardの状態に基づいてViewerを作る
@@ -139,7 +143,6 @@ public class Viewer {
             }
         }
 
-        Image[] images = {new Image("FriendPlayer1.png"), new Image("FriendPlayer2.png"), new Image("EnemyPlayer1.png"), new Image("EnemyPlayer2.png")};
         AtomicInteger i = new AtomicInteger();
 
         Arrays.stream(gameBoard.players).forEach(player -> {
@@ -208,7 +211,6 @@ public class Viewer {
             }
         }
 
-        Image[] images = {new Image("FriendPlayer1.png"), new Image("FriendPlayer2.png"), new Image("EnemyPlayer1.png"), new Image("EnemyPlayer2.png")};
         AtomicInteger i = new AtomicInteger();
 
         Stream.concat(Arrays.stream(gameBoard.players).filter(player -> player != null).map(player -> player.getNowPoint()), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
