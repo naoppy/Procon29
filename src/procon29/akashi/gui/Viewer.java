@@ -103,11 +103,14 @@ public class Viewer {
             }
         }
 
-        AtomicInteger i = new AtomicInteger();
+        //プレイヤーの画像があるノードはプレイヤーの画像をImageViewごと削除
+        controller.grid.getChildren().stream().filter(group -> ((Group) group).getChildren().size() == 3).forEach(group -> ((Group) group).getChildren().remove(2));
 
+        //プレイヤーの画像を3層目にImageViewごと追加
+        AtomicInteger i = new AtomicInteger();
         Stream.concat(Arrays.stream(gameBoard.players).filter(Objects::nonNull).map(Player::getNowPoint), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
-            ImageView imageView = getNumImageViewFromGrid(point.x, point.y);
-            imageView.setImage(images[i.getAndIncrement()]);
+            ImageView playerView = new ImageView(images[i.getAndIncrement()]);
+            getGroupFromGrid(point.x, point.y).getChildren().add(2, playerView);
         });
 
     }
@@ -171,11 +174,13 @@ public class Viewer {
             }
         }
 
+        //プレイヤーの画像があるノードはプレイヤーの画像をImageViewごと削除
+        controller.grid.getChildren().stream().filter(group -> ((Group) group).getChildren().size() == 3).forEach(group -> ((Group) group).getChildren().remove(2));
+        //プレイヤーの画像をImageViewごと3層目に追加
         AtomicInteger i = new AtomicInteger();
-
         Arrays.stream(gameBoard.players).forEach(player -> {
-            ImageView imageView = getNumImageViewFromGrid(player.getNowPoint().x, player.getNowPoint().y);
-            imageView.setImage(images[i.getAndIncrement()]);
+            ImageView playerView = new ImageView(images[i.getAndIncrement()]);
+            getGroupFromGrid(player.getNowPoint().x, player.getNowPoint().y).getChildren().add(2, playerView);
         });
     }
 
