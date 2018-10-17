@@ -93,17 +93,7 @@ public class GameBoard {
         remainTurnNumber -= 1;//1ターンカウントを減らす
         Point[] applyPoints = Stream.concat(Arrays.stream(players).map(Player::getApplyPoint), Arrays.stream(players).filter(player -> player.getSelection() == Selection.REMOVE).map(Player::getNowPoint)).toArray(Point[]::new);
 
-        Map<Point, Integer> pointsMap = new HashMap<>();
-
-        for (Point point : applyPoints) {
-            if (pointsMap.containsKey(point)) {
-                pointsMap.put(point, pointsMap.get(point) + 1);
-            } else {
-                pointsMap.put(point, 1);
-            }
-        }
-
-        Arrays.stream(players).filter(player -> pointsMap.get(player.getApplyPoint()) == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
+        Arrays.stream(players).filter(player -> Arrays.stream(applyPoints).filter(point -> player.getApplyPoint()==point).count() == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
             player.reset();
             if (player.getSelection()==Selection.MOVE) {
                 setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
