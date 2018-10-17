@@ -100,7 +100,7 @@ public class Viewer {
         IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getTileImageViewFromGrid(x, y).setImage(OwnerToImageConverter.convert(Owner.None))));
 
         //プレイヤーの画像があるノードはプレイヤーの画像をImageViewごと削除
-        controller.grid.getChildren().parallelStream().map(node -> (Group) node).filter(group -> group.getChildren().size() == 3).forEach(group -> group.getChildren().remove(2));
+        controller.grid.getChildren().stream().map(node -> (Group) node).filter(group -> group.getChildren().size() == 3).forEach(group -> group.getChildren().remove(2));
 
         //プレイヤーの画像を3層目にImageViewごと追加
         AtomicInteger i = new AtomicInteger();
