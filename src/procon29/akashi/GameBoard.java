@@ -116,41 +116,8 @@ public class GameBoard {
      */
     public void calcScore() {
         //初期化
-        friendScore = 0;
-        enemyScore = 0;
-
-        //所有しているタイルの点数を加算
-        for (int y = 0; y < maker.getHeight(); y++) {
-            for (int x = 0; x < maker.getWidth(); x++) {
-                switch (getOwn(x, y)) {
-                    case Friend:
-                        friendScore += getScore(x, y);
-                        break;
-                    case Enemy:
-                        enemyScore += getScore(x, y);
-                        break;
-                }
-            }
-        }
-
-        //味方の囲い点計算クラスを作成
-        SurroundedScoreCalc calc = new SurroundedScoreCalc(this, Owner.Friend);
-        for (int y = 0; y < maker.getHeight(); y++) {
-            for (int x = 0; x < maker.getWidth(); x++) {
-                if (getOwn(x, y) != Owner.Friend) {//味方タイル以外なら、囲われているか判定(味方の囲い点を出す)
-                    friendScore += calc.calcSurroundScore(y, x);
-                }
-            }
-        }
-        //敵の囲い点を計算するクラスを作成
-        calc = new SurroundedScoreCalc(this, Owner.Enemy);
-        for (int y = 0; y < maker.getHeight(); y++) {
-            for (int x = 0; x < maker.getWidth(); x++) {
-                if (getOwn(x, y) != Owner.Enemy) {//敵タイル以外なら、囲われているか判定(敵の囲い点を出す)
-                    enemyScore += calc.calcSurroundScore(y, x);
-                }
-            }
-        }
+        friendScore = AllScoreCalc.calc(this, Owner.Friend);
+        enemyScore = AllScoreCalc.calc(this, Owner.Enemy);
     }
 
     /**
