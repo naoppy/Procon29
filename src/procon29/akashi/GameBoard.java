@@ -15,6 +15,7 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -68,11 +69,7 @@ public class GameBoard {
 
 
         //所有マップを初期化する
-        for (int y = 0; y < maker.getHeight(); y++) {
-            for (int x = 0; x < maker.getWidth(); x++) {
-                setOwn(x, y, Owner.None);
-            }
-        }
+        IntStream.range(0, maker.getHeight()).forEach(y -> IntStream.range(0, maker.getWidth()).forEach(x -> setOwn(x, y, Owner.None)));
 
         Arrays.stream(players).forEach(player -> setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy));
 
@@ -97,9 +94,10 @@ public class GameBoard {
         remainTurnNumber -= 1;//1ターンカウントを減らす
         Point[] applyPoints = Stream.concat(Arrays.stream(players).map(Player::getApplyPoint), Arrays.stream(players).filter(player -> player.getSelection() == Selection.REMOVE).map(Player::getNowPoint)).toArray(Point[]::new);
 
-        Arrays.stream(players).filter(player -> Arrays.stream(applyPoints).filter(point -> player.getApplyPoint() == point).count() == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
-            player.reset();
+        Arrays.stream(players).forEach(Player::resetSelection);
+        Arrays.stream(players).filter(player -> Arrays.stream(applyPoints).filter(point -> player.getApplyPoint().equals(point)).count() == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
             if (player.getSelection() == Selection.MOVE) {
+                player.move(player.getXyDiff());
                 setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
             } else {//Selection.REMOVE case
                 setOwn(player.getApplyPoint().x, player.getApplyPoint().y, Owner.None);

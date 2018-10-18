@@ -108,6 +108,14 @@ public abstract class Player {
     }
 
     /**
+     * 移動する
+     * @param diff x方向、y方向の移動ベクトル
+     */
+    public void move(XYDiff diff) {
+        nowPoint = calcApplyPoint(diff);
+    }
+
+    /**
      * @return 次の操作の対象座標
      */
     public Point getApplyPoint() {
@@ -131,14 +139,8 @@ public abstract class Player {
     /**
      * 内部の状態を更新する
      */
-    public void reset() {
-        if (!isFinishNextSelect) return;
-
+    public void resetSelection() {
         isFinishNextSelect = false;
-
-        if (selection.equals(Selection.MOVE)) {
-            nowPoint = applyPoint;
-        }
     }
 
     @Override
