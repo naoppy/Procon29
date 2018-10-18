@@ -58,28 +58,26 @@ public class Viewer {
 
             stringsUpdate();
 
-            for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
-                for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
-                    Group group = new Group();
+            IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> {
+                Group group = new Group();
 
-                    //ImageViewをクリックすると追加できるように
-                    ImageView imageView1 = new ImageView(OwnerToImageConverter.convert(Owner.None));
-                    int yy = y, xx = x;
-                    group.setOnMouseClicked(event -> {
-                        Point p = new Point(xx, yy);
-                        if (!gameBoard.enemyPlayerSet.remove(p) && gameBoard.enemyPlayerSet.size() < 2) {//もう入っているなら消す、入っていないかつ2未満しか入っていないなら追加
-                            gameBoard.enemyPlayerSet.add(p);
-                        }
-                        this.firstViewUpdate();
-                    });
+                //ImageViewをクリックすると追加できるように
+                ImageView imageView1 = new ImageView(OwnerToImageConverter.convert(Owner.None));
+                group.setOnMouseClicked(event -> {
+                    Point p = new Point(x, y);
+                    if (!gameBoard.enemyPlayerSet.remove(p) && gameBoard.enemyPlayerSet.size() < 2) {//もう入っているなら消す、入っていないかつ2未満しか入っていないなら追加
+                        gameBoard.enemyPlayerSet.add(p);
+                    }
+                    this.firstViewUpdate();
+                });
 
-                    //スコアの数字を読み込む
-                    ImageView imageView2 = new ImageView(ScoreToImageConverter.convert(gameBoard.getScore(x, y)));
+                //スコアの数字を読み込む
+                ImageView imageView2 = new ImageView(ScoreToImageConverter.convert(gameBoard.getScore(x, y)));
 
-                    group.getChildren().addAll(imageView1, imageView2);
-                    controller.grid.add(group, x, y);
-                }
-            }
+                group.getChildren().addAll(imageView1, imageView2);
+                controller.grid.add(group, x, y);
+            }));
+
 
             //ボタンを押したら決定できるように
             controller.solveButton.setOnMouseClicked(event -> {
