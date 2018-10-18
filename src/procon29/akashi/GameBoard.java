@@ -113,7 +113,7 @@ public class GameBoard {
      * スコアを計算する
      */
     public void calcScore() {
-        //初期化
+        //AllScoreCalcクラスに処理を委譲
         friendScore = AllScoreCalc.calc(this, Owner.Friend);
         enemyScore = AllScoreCalc.calc(this, Owner.Enemy);
     }

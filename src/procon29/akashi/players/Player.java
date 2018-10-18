@@ -109,6 +109,7 @@ public abstract class Player {
 
     /**
      * 移動する
+     *
      * @param diff x方向、y方向の移動ベクトル
      */
     public void move(XYDiff diff) {
