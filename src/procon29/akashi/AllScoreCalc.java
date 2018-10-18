@@ -14,7 +14,8 @@ public class AllScoreCalc {
 
     /**
      * タイル点と囲い点を足し合わせた総得点を返す
-     * @param board 盤面
+     *
+     * @param board      盤面
      * @param targetTeam 点数を計算するチーム
      * @return 点数
      */
