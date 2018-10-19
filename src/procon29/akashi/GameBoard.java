@@ -9,12 +9,14 @@ import procon29.akashi.scores.ScoreFromQR;
 import procon29.akashi.scores.ScoreMaker;
 import procon29.akashi.selection.Selection;
 import procon29.akashi.solver.AlwaysStay;
+import procon29.akashi.solver.RandomSelect;
 import procon29.akashi.solver.Solver;
 
 import java.awt.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -48,7 +50,7 @@ public class GameBoard {
     /**
      * ソルバー
      */
-    private Solver solver = new AlwaysStay();
+    private Solver solver = new RandomSelect();
     /**
      * 敵と味方のスコア
      */
@@ -68,11 +70,7 @@ public class GameBoard {
 
 
         //所有マップを初期化する
-        for (int y = 0; y < maker.getHeight(); y++) {
-            for (int x = 0; x < maker.getWidth(); x++) {
-                setOwn(x, y, Owner.None);
-            }
-        }
+        IntStream.range(0, maker.getHeight()).forEach(y -> IntStream.range(0, maker.getWidth()).forEach(x -> setOwn(x, y, Owner.None)));
 
         Arrays.stream(players).forEach(player -> setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy));
 
@@ -97,9 +95,10 @@ public class GameBoard {
         remainTurnNumber -= 1;//1ターンカウントを減らす
         Point[] applyPoints = Stream.concat(Arrays.stream(players).map(Player::getApplyPoint), Arrays.stream(players).filter(player -> player.getSelection() == Selection.REMOVE).map(Player::getNowPoint)).toArray(Point[]::new);
 
-        Arrays.stream(players).filter(player -> Arrays.stream(applyPoints).filter(point -> player.getApplyPoint() == point).count() == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
-            player.reset();
+        Arrays.stream(players).forEach(Player::resetSelection);
+        Arrays.stream(players).filter(player -> Arrays.stream(applyPoints).filter(point -> player.getApplyPoint().equals(point)).count() == 1).forEach(player -> {//意思表示が無効にならないなら以下を実行
             if (player.getSelection() == Selection.MOVE) {
+                player.move(player.getXyDiff());
                 setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy);
             } else {//Selection.REMOVE case
                 setOwn(player.getApplyPoint().x, player.getApplyPoint().y, Owner.None);
@@ -115,42 +114,9 @@ public class GameBoard {
      * スコアを計算する
      */
     public void calcScore() {
-        //初期化
-        friendScore = 0;
-        enemyScore = 0;
-
-        //所有しているタイルの点数を加算
-        for (int y = 0; y < maker.getHeight(); y++) {
-            for (int x = 0; x < maker.getWidth(); x++) {
-                switch (getOwn(x, y)) {
-                    case Friend:
-                        friendScore += getScore(x, y);
-                        break;
-                    case Enemy:
-                        enemyScore += getScore(x, y);
-                        break;
-                }
-            }
-        }
-
-        //味方の囲い点計算クラスを作成
-        SurroundedScoreCalc calc = new SurroundedScoreCalc(this, Owner.Friend);
-        for (int y = 0; y < maker.getHeight(); y++) {
-            for (int x = 0; x < maker.getWidth(); x++) {
-                if (getOwn(x, y) != Owner.Friend) {//味方タイル以外なら、囲われているか判定(味方の囲い点を出す)
-                    friendScore += calc.calcSurroundScore(y, x);
-                }
-            }
-        }
-        //敵の囲い点を計算するクラスを作成
-        calc = new SurroundedScoreCalc(this, Owner.Enemy);
-        for (int y = 0; y < maker.getHeight(); y++) {
-            for (int x = 0; x < maker.getWidth(); x++) {
-                if (getOwn(x, y) != Owner.Enemy) {//敵タイル以外なら、囲われているか判定(敵の囲い点を出す)
-                    enemyScore += calc.calcSurroundScore(y, x);
-                }
-            }
-        }
+        //AllScoreCalcクラスに処理を委譲
+        friendScore = AllScoreCalc.calc(this, Owner.Friend);
+        enemyScore = AllScoreCalc.calc(this, Owner.Enemy);
     }
 
     /**
