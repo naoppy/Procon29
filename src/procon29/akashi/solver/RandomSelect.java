@@ -22,7 +22,7 @@ public class RandomSelect implements Solver {
             while (!player.isFinishNextSelect()) {
                 int newY = player.getNowPoint().y + random.nextInt(3) - 1;
                 int newX = player.getNowPoint().x + random.nextInt(3) - 1;
-                if (newX < 0 || newX >= h || newY < 0 || newY >= w) continue;
+                if (newX < 0 || newX >= w || newY < 0 || newY >= h) continue;
                 Selection selection = owners[newY + 1][newX + 1] == Owner.Enemy ? Selection.REMOVE : Selection.MOVE;
                 player.select(selection, new Point(newX, newY));
             }
