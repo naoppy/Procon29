@@ -9,6 +9,7 @@ import procon29.akashi.scores.ScoreFromQR;
 import procon29.akashi.scores.ScoreMaker;
 import procon29.akashi.selection.Selection;
 import procon29.akashi.solver.AlwaysStay;
+import procon29.akashi.solver.RandomSelect;
 import procon29.akashi.solver.Solver;
 
 import java.awt.*;
@@ -49,7 +50,7 @@ public class GameBoard {
     /**
      * ソルバー
      */
-    private Solver solver = new AlwaysStay();
+    private Solver solver = new RandomSelect();
     /**
      * 敵と味方のスコア
      */
