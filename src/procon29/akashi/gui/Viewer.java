@@ -83,8 +83,6 @@ public class Viewer {
             controller.solveButton.setOnMouseClicked(event -> {
                 if (gameBoard.decideEnemyPlayerPlace()) startNextPhase();
             });
-
-            inputSide();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,22 +105,6 @@ public class Viewer {
             getGroupFromGrid(point.x, point.y).getChildren().add(2, playerView);
         });
 
-    }
-
-    /**
-     * 自分のチームが右か左か入力する
-     */
-    private void inputSide() {
-        Scanner sc = new Scanner(System.in);
-        int i;
-        do {
-            System.out.println("舞台側を上として、チームの位置は右か左か入力してください。");
-            System.out.println("1：右    2：左");
-            i = sc.nextInt();
-        } while (!(i == 1 || i == 2));
-
-        controller.rightSide.setText(i == 1 ? "味方" : "相手");
-        controller.leftSide.setText(i == 1 ? "相手" : "味方");
     }
 
     /**
