@@ -59,14 +59,16 @@ public abstract class ScoreMaker {
 
     /**
      * ターン数を返す
+     *
      * @return ターン数
      */
-    int getTurnNumber() {
+    public int getTurnNumber() {
         return turnNumber;
     }
 
     /**
      * ターン数を設定する
+     *
      * @param turnNumber 設定するターン数、2018/10/11時点では40～80
      */
     void setTurnNumber(int turnNumber) {
