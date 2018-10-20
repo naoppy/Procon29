@@ -13,7 +13,6 @@ public class ScoreFromQR extends ScoreMaker {
      */
     private String QRData;
 
-    private int side;
     /**
      * QRコードで読み取った高さと幅
      */
