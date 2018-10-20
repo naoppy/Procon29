@@ -19,11 +19,11 @@ public abstract class ScoreMaker {
     /**
      * 味方チームのプレイヤーの初期座標
      */
-    protected Point fp1, fp2;
+    Point fp1, fp2;
     /**
      * 敵チームのプレイヤーの初期座標
      */
-    protected Point ep1, ep2;
+    Point ep1, ep2;
 
     /**
      * マップを作って登録する関数
@@ -61,7 +61,7 @@ public abstract class ScoreMaker {
      * ターン数を返す
      * @return ターン数
      */
-    public int getTurnNumber() {
+    int getTurnNumber() {
         return turnNumber;
     }
 
@@ -69,7 +69,7 @@ public abstract class ScoreMaker {
      * ターン数を設定する
      * @param turnNumber 設定するターン数、2018/10/11時点では40～80
      */
-    public void setTurnNumber(int turnNumber) {
+    void setTurnNumber(int turnNumber) {
         this.turnNumber = turnNumber;
     }
 
@@ -78,7 +78,7 @@ public abstract class ScoreMaker {
      *
      * @param map マップとして使う二次元配列
      */
-    protected void setMap(int[][] map) {
+    void setMap(int[][] map) {
         this.map = map;
     }
 
@@ -87,7 +87,7 @@ public abstract class ScoreMaker {
      *
      * @param height 縦の長さ
      */
-    protected void setHeight(int height) {
+    void setHeight(int height) {
         this.height = height;
     }
 
@@ -96,7 +96,7 @@ public abstract class ScoreMaker {
      *
      * @param width 横の長さ
      */
-    protected void setWidth(int width) {
+    void setWidth(int width) {
         this.width = width;
     }
 
