@@ -96,7 +96,7 @@ public class ScoreFromQR extends ScoreMaker {
         Scanner sc = new Scanner(System.in);
         int i;
         do {
-            System.out.println("舞台側を上として、チームの位置は右か左か入力してください。");
+            System.out.println("\n舞台側を上として、チームの位置は右か左か入力してください。");
             System.out.println("1：右    2：左");
             i = sc.nextInt();
         } while (!(i == 1 || i == 2));
@@ -111,7 +111,7 @@ public class ScoreFromQR extends ScoreMaker {
      * @return 新しく作られる回転後の座標
      */
     private Point rotate90(Point point) {
-        return new Point(QRHeight - 1 + point.y, point.x);
+        return new Point(QRHeight - 1 - point.y, point.x);
     }
 
     /**
@@ -137,7 +137,7 @@ public class ScoreFromQR extends ScoreMaker {
      * @return 新しく作られる回転後の座標
      */
     private Point rotate270(Point point) {
-        return new Point(QRHeight - 1 + point.y, point.x);
+        return new Point(point.y, QRWidth - 1 - point.x);
     }
 
     /**
