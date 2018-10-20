@@ -9,11 +9,15 @@ public abstract class ScoreMaker {
     private int height;
     private int width;
     /**
+     * 回転方向
+     */
+    int side;
+    /**
      * ターン数
      */
     private int turnNumber;
     /**
-     * マップ
+     * スコアマップ
      */
     private int[][] map;
     /**
@@ -31,17 +35,13 @@ public abstract class ScoreMaker {
     protected abstract void make();
 
     /**
-     * マップを返す
-     *
-     * @return 二次元配列で表したマップ
+     * @return 二次元配列で表したスコアマップ
      */
     public int[][] getMap() {
         return map;
     }
 
     /**
-     * 縦の長さを返す
-     *
      * @return マップの縦の高さ
      */
     public int getHeight() {
@@ -49,8 +49,6 @@ public abstract class ScoreMaker {
     }
 
     /**
-     * 横の長さを返す
-     *
      * @return マップの横の高さ
      */
     public int getWidth() {
@@ -58,12 +56,17 @@ public abstract class ScoreMaker {
     }
 
     /**
-     * ターン数を返す
-     *
      * @return ターン数
      */
     public int getTurnNumber() {
         return turnNumber;
+    }
+
+    /**
+     * @return 1なら右回転、2なら左回転
+     */
+    public int getSide() {
+        return side;
     }
 
     /**
@@ -103,8 +106,6 @@ public abstract class ScoreMaker {
     }
 
     /**
-     * 味方チームの一人目の初期位置を返す
-     *
      * @return 味方チームの一人目の初期位置
      */
     public Point getFp1() {
@@ -112,8 +113,6 @@ public abstract class ScoreMaker {
     }
 
     /**
-     * 味方チームの二人目の初期位置を返す
-     *
      * @return 味方チームの二人目の初期位置
      */
     public Point getFp2() {
@@ -121,8 +120,6 @@ public abstract class ScoreMaker {
     }
 
     /**
-     * 敵チームの一人目の初期位置を返す
-     *
      * @return 敵チームの一人目の初期位置
      */
     public Point getEp1() {
@@ -130,8 +127,6 @@ public abstract class ScoreMaker {
     }
 
     /**
-     * 敵チームの二人目の初期位置を返す
-     *
      * @return 敵チームの二人目の初期位置
      */
     public Point getEp2() {
