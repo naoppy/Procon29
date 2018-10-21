@@ -99,7 +99,7 @@ public class Viewer {
 
         //プレイヤーの画像を3層目にImageViewごと追加
         AtomicInteger i = new AtomicInteger();
-        Stream.concat(Arrays.stream(gameBoard.players).filter(Objects::nonNull).map(Player::getNowPoint), gameBoard.enemyPlayerSet.stream()).forEach(point -> {
+        Stream.concat(Arrays.stream(gameBoard.players).filter(Objects::nonNull).map(Player::getNowPoint), gameBoard.enemyPlayerSet.stream()).limit(4).forEach(point -> {
             ImageView playerView = new ImageView(images[i.getAndIncrement()]);
             getGroupFromGrid(point.x, point.y).getChildren().add(2, playerView);
         });
