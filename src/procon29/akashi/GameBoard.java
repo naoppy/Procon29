@@ -62,12 +62,13 @@ public class GameBoard {
      * @return 不正でない位置によって正しく初期化が完了したらtrue
      */
     public boolean decideEnemyPlayerPlace() {
-        if (enemyPlayerSet.size() != 2) return false;
+        if (!Arrays.stream(players).skip(2).allMatch(Objects::nonNull)) {
+            if (enemyPlayerSet.size() != 2) return false;
 
-        Point[] points = enemyPlayerSet.toArray(new Point[2]);
-        players[2] = new EnemyPlayer(points[0]);
-        players[3] = new EnemyPlayer(points[1]);
-
+            Point[] points = enemyPlayerSet.toArray(new Point[2]);
+            players[2] = new EnemyPlayer(points[0]);
+            players[3] = new EnemyPlayer(points[1]);
+        }
 
         //所有マップを初期化する
         IntStream.range(0, maker.getHeight()).forEach(y -> IntStream.range(0, maker.getWidth()).forEach(x -> setOwn(x, y, Owner.None)));
