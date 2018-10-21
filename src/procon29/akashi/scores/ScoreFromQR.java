@@ -1,7 +1,6 @@
 package procon29.akashi.scores;
 
 import java.awt.*;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -156,22 +155,18 @@ public class ScoreFromQR extends ScoreMaker {
     }
 
     /**
-     * EnemyPlayerの初期位置はQRデータからは読み取ることができない
-     *
-     * @return 例外(NoSuchElementException)を常にThrow
+     * EnemyPlayerの初期位置はQRデータからは読み取ることができないのでnullを返す
      */
     @Override
     public Point getEp1() {
-        throw new NoSuchElementException("決定できないので存在しません");
+        return null;
     }
 
     /**
-     * EnemyPlayerの初期位置はQRデータからは読み取ることができない
-     *
-     * @return 例外(NoSuchElementException)を常にThrow
+     * EnemyPlayerの初期位置はQRデータからは読み取ることができないのでnullを返す
      */
     @Override
     public Point getEp2() {
-        throw new NoSuchElementException("決定できないので存在しません");
+        return null;
     }
 }
