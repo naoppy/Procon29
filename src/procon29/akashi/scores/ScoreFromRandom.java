@@ -23,7 +23,7 @@ public class ScoreFromRandom extends ScoreMaker {
      * @param w               マップの横のサイズ
      * @param vLineIsSymmetry 縦線で線対称か
      * @param hLineIsSymmetry 横線で線対称か
-     * @param turnNumber 試合のターン数
+     * @param turnNumber      試合のターン数
      */
     public ScoreFromRandom(int h, int w, boolean vLineIsSymmetry, boolean hLineIsSymmetry, int turnNumber) {
         if (!(vLineIsSymmetry || hLineIsSymmetry)) {
@@ -144,5 +144,10 @@ public class ScoreFromRandom extends ScoreMaker {
         }
 
         setMap(scores);
+
+        StringBuilder QRCodeBuilder = new StringBuilder();
+        QRCodeBuilder.append(height).append(" ").append(width).append(":");
+
+        System.err.println(QRCodeBuilder);
     }
 }
