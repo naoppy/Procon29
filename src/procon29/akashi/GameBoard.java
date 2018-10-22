@@ -6,15 +6,16 @@ import procon29.akashi.players.FriendPlayer;
 import procon29.akashi.players.Player;
 import procon29.akashi.scores.QRInputer;
 import procon29.akashi.scores.ScoreFromQR;
+import procon29.akashi.scores.ScoreFromRandom;
 import procon29.akashi.scores.ScoreMaker;
 import procon29.akashi.selection.Selection;
-import procon29.akashi.solver.AlwaysStay;
 import procon29.akashi.solver.RandomSelect;
 import procon29.akashi.solver.Solver;
 
 import java.awt.*;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -26,6 +27,7 @@ public class GameBoard {
     /**
      * スコアと自分の位置を与える
      */
+    //public ScoreMaker maker = new ScoreFromRandom(9, 10, true, false, 70);
     public ScoreMaker maker = new ScoreFromQR(QRInputer.inputCode());
     /**
      * スコア
@@ -42,7 +44,7 @@ public class GameBoard {
     /**
      * [0]と[1]が味方、[2]と[3]が相手
      */
-    public Player[] players = {new FriendPlayer(maker.getFp1()), new FriendPlayer(maker.getFp2()), null, null};
+    public Player[] players = {new FriendPlayer(maker.getFp1()), new FriendPlayer(maker.getFp2()), maker.getEp1() == null ? null : new EnemyPlayer(maker.getEp1()), maker.getEp2() == null ? null : new EnemyPlayer(maker.getEp2())};
     /**
      * 青プレイヤーの初期位置を入力するためのセット
      */
@@ -62,12 +64,13 @@ public class GameBoard {
      * @return 不正でない位置によって正しく初期化が完了したらtrue
      */
     public boolean decideEnemyPlayerPlace() {
-        if (enemyPlayerSet.size() != 2) return false;
+        if (!Arrays.stream(players).skip(2).allMatch(Objects::nonNull)) {
+            if (enemyPlayerSet.size() != 2) return false;
 
-        Point[] points = enemyPlayerSet.toArray(new Point[2]);
-        players[2] = new EnemyPlayer(points[0]);
-        players[3] = new EnemyPlayer(points[1]);
-
+            Point[] points = enemyPlayerSet.toArray(new Point[2]);
+            players[2] = new EnemyPlayer(points[0]);
+            players[3] = new EnemyPlayer(points[1]);
+        }
 
         //所有マップを初期化する
         IntStream.range(0, maker.getHeight()).forEach(y -> IntStream.range(0, maker.getWidth()).forEach(x -> setOwn(x, y, Owner.None)));

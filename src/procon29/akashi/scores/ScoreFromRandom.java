@@ -1,7 +1,11 @@
 package procon29.akashi.scores;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * マップの各座標における点を決定するクラス
@@ -23,7 +27,7 @@ public class ScoreFromRandom extends ScoreMaker {
      * @param w               マップの横のサイズ
      * @param vLineIsSymmetry 縦線で線対称か
      * @param hLineIsSymmetry 横線で線対称か
-     * @param turnNumber 試合のターン数
+     * @param turnNumber      試合のターン数
      */
     public ScoreFromRandom(int h, int w, boolean vLineIsSymmetry, boolean hLineIsSymmetry, int turnNumber) {
         if (!(vLineIsSymmetry || hLineIsSymmetry)) {
@@ -144,5 +148,14 @@ public class ScoreFromRandom extends ScoreMaker {
         }
 
         setMap(scores);
+
+        StringJoiner QRJoiner = new StringJoiner(":", "", ":");
+        QRJoiner.add(Stream.of(height, width).map(String::valueOf).collect(Collectors.joining(" ")));
+        for (int[] arr : scores)
+            QRJoiner.add(Arrays.stream(arr).boxed().map(String::valueOf).collect(Collectors.joining(" ")));
+        QRJoiner.add(Stream.of(fp1.y, fp1.x).map(String::valueOf).collect(Collectors.joining(" ")));
+        QRJoiner.add(Stream.of(fp2.y, fp2.x).map(String::valueOf).collect(Collectors.joining(" ")));
+
+        System.err.println(QRJoiner);
     }
 }
