@@ -153,8 +153,8 @@ public class ScoreFromRandom extends ScoreMaker {
         QRJoiner.add(Stream.of(height, width).map(String::valueOf).collect(Collectors.joining(" ")));
         for (int[] arr : scores)
             QRJoiner.add(Arrays.stream(arr).boxed().map(String::valueOf).collect(Collectors.joining(" ")));
-        QRJoiner.add(Stream.of(fp1.y, fp1.x).map(String::valueOf).collect(Collectors.joining(" ")));
-        QRJoiner.add(Stream.of(fp2.y, fp2.x).map(String::valueOf).collect(Collectors.joining(" ")));
+        QRJoiner.add(Stream.of(fp1.y + 1, fp1.x + 1).map(String::valueOf).collect(Collectors.joining(" ")));
+        QRJoiner.add(Stream.of(fp2.y + 1, fp2.x + 1).map(String::valueOf).collect(Collectors.joining(" ")));
 
         System.err.println(QRJoiner);
     }
