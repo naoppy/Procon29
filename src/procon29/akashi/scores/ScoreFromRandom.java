@@ -1,7 +1,11 @@
 package procon29.akashi.scores;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * マップの各座標における点を決定するクラス
@@ -145,9 +149,13 @@ public class ScoreFromRandom extends ScoreMaker {
 
         setMap(scores);
 
-        StringBuilder QRCodeBuilder = new StringBuilder();
-        QRCodeBuilder.append(height).append(" ").append(width).append(":");
+        StringJoiner QRJoiner = new StringJoiner(":", "", ":");
+        QRJoiner.add(Stream.of(height, width).map(String::valueOf).collect(Collectors.joining(" ")));
+        for (int[] arr : scores)
+            QRJoiner.add(Arrays.stream(arr).boxed().map(String::valueOf).collect(Collectors.joining(" ")));
+        QRJoiner.add(Stream.of(fp1.y, fp1.x).map(String::valueOf).collect(Collectors.joining(" ")));
+        QRJoiner.add(Stream.of(fp2.y, fp2.x).map(String::valueOf).collect(Collectors.joining(" ")));
 
-        System.err.println(QRCodeBuilder);
+        System.err.println(QRJoiner);
     }
 }
