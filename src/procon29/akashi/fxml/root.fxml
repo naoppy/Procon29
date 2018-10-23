@@ -4,27 +4,28 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="procon29.akashi.gui.Controller">
+<BorderPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="procon29.akashi.gui.Controller">
     <top>
         <HBox>
             <children>
-                <VBox prefHeight="122.0" prefWidth="225.0">
+                <VBox>
                     <children>
                         <Text fx:id="cnt1" strokeType="OUTSIDE" strokeWidth="0.0">
                             <font>
-                                <Font size="40.0" />
+                                <Font size="40.0"/>
                             </font>
                         </Text>
                         <Text fx:id="cnt2" strokeType="OUTSIDE" strokeWidth="0.0">
                             <font>
-                                <Font size="40.0" />
+                                <Font size="40.0"/>
                             </font>
                         </Text>
                     </children>
                 </VBox>
                 <Text fx:id="winOrLose" strokeType="OUTSIDE" strokeWidth="0.0">
                     <font>
-                        <Font size="60.0" />
+                        <Font size="60.0"/>
                     </font>
                 </Text>
             </children>
@@ -33,17 +34,17 @@
     <right>
         <VBox alignment="CENTER_LEFT" spacing="20.0">
             <children>
-                <ImageView fx:id="fp1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="fp2" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="ep1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="ep2" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="fp1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true"/>
+                <ImageView fx:id="fp2" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true"/>
+                <ImageView fx:id="ep1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true"/>
+                <ImageView fx:id="ep2" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true"/>
             </children>
         </VBox>
     </right>
     <bottom>
         <Button fx:id="solveButton" mnemonicParsing="false" text="Solve" BorderPane.alignment="CENTER">
             <font>
-                <Font size="44.0" />
+                <Font size="44.0"/>
             </font>
         </Button>
     </bottom>
