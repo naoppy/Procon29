@@ -242,9 +242,10 @@ public class Viewer {
     }
 
     private void setHandlerToMovePlayer() {
-        //DragDetectedの設定
+        //イベント発生側処理
         Arrays.stream(gameBoard.players).map(Player::getNowPoint).forEach(point -> {
             Group source = getGroupFromGrid(point.x, point.y);
+            //DragDetectedの設定
             source.setOnDragDetected(event -> {
                 //グループに対してMOVEのD&Dを設定
                 Dragboard dragboard = source.startDragAndDrop(TransferMode.MOVE);
@@ -256,12 +257,18 @@ public class Viewer {
 
                 event.consume();
             });
+            //DragDoneの設定
+            source.setOnDragDone(event -> {
+                if (event.getSource() != source) {
+                    source.getChildren().remove(2);
+                }
+
+                event.consume();
+            });
         });
-        //DragDoneの設定
-        Arrays.stream(gameBoard.players).map(Player::getNowPoint).forEach(point -> {
-            Group source = getGroupFromGrid(point.x, point.y);
-            source.setOnDragDone();
-        });
+
+        //イベント受け入れ側処理
+        
     }
 
     /**
