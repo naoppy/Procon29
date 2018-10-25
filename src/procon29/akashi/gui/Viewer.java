@@ -274,7 +274,7 @@ public class Viewer {
                     //DragOverの設定
                     Group target = getGroupFromGrid(point.x, point.y);
                     target.setOnDragOver(event -> {
-                        if(event.getGestureSource() != target && event.getDragboard().hasImage()) {
+                        if (event.getGestureSource() != target && event.getDragboard().hasImage()) {
                             event.acceptTransferModes(TransferMode.MOVE);
                         }
 
@@ -282,7 +282,17 @@ public class Viewer {
                     });
                     //DragDroppedの設定
                     target.setOnDragDropped(event -> {
+                        Dragboard dragboard = event.getDragboard();
+                        boolean success = false;
 
+                        if (dragboard.hasImage()) {
+                            success = true;
+                            target.getChildren().add(2, new ImageView(dragboard.getImage()));
+                        }
+
+                        event.setDropCompleted(success);
+
+                        event.consume();
                     });
                 });
     }
