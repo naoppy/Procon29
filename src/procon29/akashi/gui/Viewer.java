@@ -5,6 +5,9 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import procon29.akashi.GameBoard;
 import procon29.akashi.owners.Owner;
@@ -146,9 +149,12 @@ public class Viewer {
         });
 
         controller.moveButton.setOnMouseClicked(event2 -> {
+            //ハンドラ系処理
             clearEventHandler();
             setHandlerToPutTile();
+            setHandlerToMovePlayer();
 
+            //通常モードに戻る処理
             controller.solveButton.setOnMouseClicked(event -> {
                 Arrays.stream(gameBoard.players).forEach(Player::resetSelection);
                 startNextPhase();
@@ -233,6 +239,29 @@ public class Viewer {
             }
             reView();
         })));
+    }
+
+    private void setHandlerToMovePlayer() {
+        //DragDetectedの設定
+        Arrays.stream(gameBoard.players).map(Player::getNowPoint).forEach(point -> {
+            Group source = getGroupFromGrid(point.x, point.y);
+            source.setOnDragDetected(event -> {
+                //グループに対してMOVEのD&Dを設定
+                Dragboard dragboard = source.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent clipboardContent = new ClipboardContent();
+                ImageView imageView = (ImageView) source.getChildren().get(2);
+                //クリップボードにはプレイヤーのイメージを入れる
+                clipboardContent.putImage(imageView.getImage());
+                dragboard.setContent(clipboardContent);
+
+                event.consume();
+            });
+        });
+        //DragDoneの設定
+        Arrays.stream(gameBoard.players).map(Player::getNowPoint).forEach(point -> {
+            Group source = getGroupFromGrid(point.x, point.y);
+            source.setOnDragDone();
+        });
     }
 
     /**
