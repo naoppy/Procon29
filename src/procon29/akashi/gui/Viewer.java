@@ -146,7 +146,11 @@ public class Viewer {
         });
 
         controller.moveButton.setOnMouseClicked(event2 -> {
-
+            clearEventHandler();
+            controller.solveButton.setOnMouseClicked(event -> {
+                Arrays.stream(gameBoard.players).forEach(Player::resetSelection);
+                startNextPhase();
+            });
         });
     }
 
