@@ -147,6 +147,8 @@ public class Viewer {
 
         controller.moveButton.setOnMouseClicked(event2 -> {
             clearEventHandler();
+            setHandlerToPutTile();
+
             controller.solveButton.setOnMouseClicked(event -> {
                 Arrays.stream(gameBoard.players).forEach(Player::resetSelection);
                 startNextPhase();
@@ -214,6 +216,23 @@ public class Viewer {
                 }
             });
         });
+    }
+
+    private void setHandlerToPutTile() {
+        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getGroupFromGrid(x, y).setOnMouseClicked(event -> {
+            switch (event.getButton()) {
+                case PRIMARY:
+                    gameBoard.setOwn(x, y, Owner.Friend);
+                    break;
+                case SECONDARY:
+                    gameBoard.setOwn(x, y, Owner.Enemy);
+                    break;
+                case MIDDLE:
+                    gameBoard.setOwn(x, y, Owner.None);
+                    break;
+            }
+            reView();
+        })));
     }
 
     /**
