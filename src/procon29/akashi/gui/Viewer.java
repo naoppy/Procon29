@@ -137,7 +137,7 @@ public class Viewer {
         stringsUpdate();
         gameBoard.solve();
         clearAndSetEventHandler();
-        reView();
+        refresh();
 
         controller.solveButton.setOnMouseClicked(event1 -> {
             if (gameBoard.nextStage()) {
@@ -145,7 +145,7 @@ public class Viewer {
                 gameBoard.solve();
             }
             clearAndSetEventHandler();
-            reView();
+            refresh();
         });
 
         controller.moveButton.setOnMouseClicked(event2 -> {
@@ -167,7 +167,7 @@ public class Viewer {
      * プレイヤーの新しい位置に合わせて再描画する
      * プレイヤーの設定中の行動に合わせて矢印を更新する
      */
-    private void reView() {
+    private void refresh() {
         //今のOwnerの画像に
         IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getTileImageViewFromGrid(x, y).setImage(OwnerToImageConverter.convert(gameBoard.getOwn(x, y)))));
 
@@ -237,7 +237,7 @@ public class Viewer {
                     gameBoard.setOwn(x, y, Owner.None);
                     break;
             }
-            reView();
+            refresh();
         })));
     }
 
@@ -259,8 +259,9 @@ public class Viewer {
             });
             //DragDoneの設定
             source.setOnDragDone(event -> {
-                if (event.getSource() != source) {
-                    source.getChildren().remove(2);
+                //D&D成功時
+                if (event.getTransferMode() == TransferMode.MOVE) {
+                    source.getChildren().remove(2);//refresh()を呼び出せば必要ない処理
                 }
 
                 event.consume();
@@ -287,7 +288,7 @@ public class Viewer {
 
                         if (dragboard.hasImage()) {
                             success = true;
-                            target.getChildren().add(2, new ImageView(dragboard.getImage()));
+                            target.getChildren().add(2, new ImageView(dragboard.getImage()));//refresh()を呼び出せば必要ない処理
                         }
 
                         event.setDropCompleted(success);
