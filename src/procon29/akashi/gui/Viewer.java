@@ -268,7 +268,23 @@ public class Viewer {
         });
 
         //イベント受け入れ側処理
-        
+        IntStream.range(0, gameBoard.maker.getHeight()).boxed().flatMap(y -> IntStream.range(0, gameBoard.maker.getWidth()).boxed().map(x -> new Point(x, y)))
+                .filter(point -> Arrays.stream(gameBoard.players).map(Player::getNowPoint).noneMatch(playerPoint -> playerPoint.equals(point)))
+                .forEach(point -> {
+                    //DragOverの設定
+                    Group target = getGroupFromGrid(point.x, point.y);
+                    target.setOnDragOver(event -> {
+                        if(event.getGestureSource() != target && event.getDragboard().hasImage()) {
+                            event.acceptTransferModes(TransferMode.MOVE);
+                        }
+
+                        event.consume();
+                    });
+                    //DragDroppedの設定
+                    target.setOnDragDropped(event -> {
+
+                    });
+                });
     }
 
     /**
