@@ -30,9 +30,11 @@ public class Controller {
     public ImageView ep2;
 
     @FXML
+    public GridPane grid;
+
+    @FXML
     public Button solveButton;
 
     @FXML
-    public GridPane grid;
-
+    public Button moveButton;
 }
