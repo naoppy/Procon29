@@ -117,6 +117,16 @@ public class Viewer {
     }
 
     /**
+     * 矢印の画像を更新する
+     */
+    private void arrowUpdate() {
+        //右の矢印を更新
+        ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
+        AtomicInteger i2 = new AtomicInteger();
+        Arrays.stream(gameBoard.players).forEach(player -> arr[i2.getAndIncrement()].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
+    }
+
+    /**
      * ゲームのメインループに入る
      */
     private void startNextPhase() {
@@ -136,7 +146,7 @@ public class Viewer {
         });
 
         controller.moveButton.setOnMouseClicked(event2 -> {
-            
+
         });
     }
 
@@ -158,10 +168,7 @@ public class Viewer {
             getGroupFromGrid(player.getNowPoint().x, player.getNowPoint().y).getChildren().add(2, playerView);
         });
 
-        //右の矢印を更新
-        ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
-        AtomicInteger i2 = new AtomicInteger();
-        Arrays.stream(gameBoard.players).forEach(player -> arr[i2.getAndIncrement()].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
+        arrowUpdate();
     }
 
     /**
@@ -198,6 +205,7 @@ public class Viewer {
                     getGroupFromGrid(targetX, targetY).setOnMouseClicked(event2 -> {
                         targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[diffY[i] + 1], diffTX[diffX[i] + 1]));
                         clearAndSetEventHandler();
+                        arrowUpdate();
                     });
                 }
             });
