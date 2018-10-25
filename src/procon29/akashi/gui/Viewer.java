@@ -134,10 +134,16 @@ public class Viewer {
             clearAndSetEventHandler();
             reView();
         });
+
+        controller.moveButton.setOnMouseClicked(event2 -> {
+            
+        });
     }
 
     /**
      * GameBoardの所有者マップを基にimageViewの画像を変更する
+     * プレイヤーの新しい位置に合わせて再描画する
+     * プレイヤーの設定中の行動に合わせて矢印を更新する
      */
     private void reView() {
         //今のOwnerの画像に
@@ -151,22 +157,29 @@ public class Viewer {
             ImageView playerView = new ImageView(images[i.getAndIncrement()]);
             getGroupFromGrid(player.getNowPoint().x, player.getNowPoint().y).getChildren().add(2, playerView);
         });
+
+        //右の矢印を更新
+        ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
+        AtomicInteger i2 = new AtomicInteger();
+        Arrays.stream(gameBoard.players).forEach(player -> arr[i2.getAndIncrement()].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
+    }
+
+    /**
+     * 内部で関数を呼ぶだけ
+     */
+    private void clearAndSetEventHandler() {
+        clearEventHandler();
+
+        //敵プレイヤーをクリックして行動を選べるように設定する
+        Arrays.stream(gameBoard.players).skip(2L).forEach(this::setHandlerToSelect);
     }
 
     /**
      * クリックイベントを全て削除する
      */
-    private void clearAndSetEventHandler() {
+    private void clearEventHandler() {
         //全てのノードのクリックイベントを削除
         IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getGroupFromGrid(x, y).setOnMouseClicked(null)));
-
-        //敵プレイヤーをクリックして行動を選べるように設定する
-        Arrays.stream(gameBoard.players).skip(2L).forEach(this::setHandlerToSelect);
-
-        //右の矢印を更新
-        ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
-        AtomicInteger i = new AtomicInteger();
-        Arrays.stream(gameBoard.players).forEach(player -> arr[i.getAndIncrement()].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
     }
 
     /**
