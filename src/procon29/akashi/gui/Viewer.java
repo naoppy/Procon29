@@ -191,7 +191,7 @@ public class Viewer {
         clearEventHandler();
 
         //敵プレイヤーをクリックして行動を選べるように設定する
-        Arrays.stream(gameBoard.players).skip(2L).forEach(this::setHandlerToSelect);
+        Arrays.stream(gameBoard.players).forEach(this::setHandlerToSelect);
     }
 
     /**

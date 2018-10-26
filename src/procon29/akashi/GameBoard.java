@@ -6,10 +6,10 @@ import procon29.akashi.players.FriendPlayer;
 import procon29.akashi.players.Player;
 import procon29.akashi.scores.QRInputer;
 import procon29.akashi.scores.ScoreFromQR;
-import procon29.akashi.scores.ScoreFromRandom;
 import procon29.akashi.scores.ScoreMaker;
 import procon29.akashi.selection.Selection;
-import procon29.akashi.solver.RandomSelect;
+import procon29.akashi.solver.DoNothingSolver;
+import procon29.akashi.solver.PrintMapForOtherSolver;
 import procon29.akashi.solver.Solver;
 
 import java.awt.*;
@@ -52,7 +52,11 @@ public class GameBoard {
     /**
      * ソルバー
      */
-    private Solver solver = new RandomSelect();
+    private Solver solver = new DoNothingSolver();
+    /**
+     * クリップボードに盤面の状態を出力するクラス
+     */
+    private PrintMapForOtherSolver PMFOS = new PrintMapForOtherSolver(this);
     /**
      * 敵と味方のスコア
      */
@@ -84,6 +88,7 @@ public class GameBoard {
      * 味方のエージェント2人の動く方向を決定する
      */
     public void solve() {
+        PMFOS.print();
         solver.solve(scores, owners, players);
     }
 
