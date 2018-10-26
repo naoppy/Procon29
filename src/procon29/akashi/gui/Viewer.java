@@ -231,6 +231,9 @@ public class Viewer {
         });
     }
 
+    /***
+     * タイルを置くクリックイベントを設定する
+     */
     private void setHandlerToPutTile() {
         IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getGroupFromGrid(x, y).setOnMouseClicked(event -> {
             switch (event.getButton()) {
@@ -248,6 +251,9 @@ public class Viewer {
         })));
     }
 
+    /**
+     * プレイヤーの強制移動するためのドラッグアンドドロップイベントを設定する
+     */
     private void setHandlerToMovePlayer() {
         //イベント発生側処理
         Arrays.stream(gameBoard.players).map(Player::getNowPoint).forEach(point -> {
