@@ -270,7 +270,10 @@ public class Viewer {
                 if (event.getTransferMode() == TransferMode.MOVE) {
                     source.getChildren().remove(2);//refresh()を呼び出せば必要ない処理
                 }
-                
+
+                refresh();
+                setHandlerToMovePlayer();
+
                 event.consume();
             });
         });
