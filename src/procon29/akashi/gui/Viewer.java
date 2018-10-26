@@ -198,7 +198,14 @@ public class Viewer {
      */
     private void clearEventHandler() {
         //全てのノードのクリックイベントを削除
-        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getGroupFromGrid(x, y).setOnMouseClicked(null)));
+        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> {
+            Group group = getGroupFromGrid(x, y);
+            group.setOnMouseClicked(null);
+            group.setOnDragDetected(null);
+            group.setOnDragDone(null);
+            group.setOnDragOver(null);
+            group.setOnDragDropped(null);
+        }));
     }
 
     /**
@@ -263,7 +270,7 @@ public class Viewer {
                 if (event.getTransferMode() == TransferMode.MOVE) {
                     source.getChildren().remove(2);//refresh()を呼び出せば必要ない処理
                 }
-
+                
                 event.consume();
             });
         });
