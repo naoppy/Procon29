@@ -5,10 +5,15 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import procon29.akashi.GameBoard;
 import procon29.akashi.owners.Owner;
 import procon29.akashi.owners.OwnerToImageConverter;
+import procon29.akashi.players.EnemyPlayer;
+import procon29.akashi.players.FriendPlayer;
 import procon29.akashi.players.Player;
 import procon29.akashi.scores.ScoreToImageConverter;
 import procon29.akashi.selection.*;
@@ -117,6 +122,16 @@ public class Viewer {
     }
 
     /**
+     * 矢印の画像を更新する
+     */
+    private void arrowUpdate() {
+        //右の矢印を更新
+        ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
+        AtomicInteger i2 = new AtomicInteger();
+        Arrays.stream(gameBoard.players).forEach(player -> arr[i2.getAndIncrement()].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
+    }
+
+    /**
      * ゲームのメインループに入る
      */
     private void startNextPhase() {
@@ -124,7 +139,7 @@ public class Viewer {
         stringsUpdate();
         gameBoard.solve();
         clearAndSetEventHandler();
-        reView();
+        refresh();
 
         controller.solveButton.setOnMouseClicked(event1 -> {
             if (gameBoard.nextStage()) {
@@ -132,14 +147,28 @@ public class Viewer {
                 gameBoard.solve();
             }
             clearAndSetEventHandler();
-            reView();
+            refresh();
+        });
+
+        controller.moveButton.setOnMouseClicked(event2 -> {
+            Arrays.stream(gameBoard.players).forEach(Player::resetSelection);
+            refresh();
+            //ハンドラ系処理
+            clearEventHandler();
+            setHandlerToPutTile();
+            setHandlerToMovePlayer();
+
+            //通常モードに戻る処理
+            controller.solveButton.setOnMouseClicked(event -> startNextPhase());
         });
     }
 
     /**
      * GameBoardの所有者マップを基にimageViewの画像を変更する
+     * プレイヤーの新しい位置に合わせて再描画する
+     * プレイヤーの設定中の行動に合わせて矢印を更新する
      */
-    private void reView() {
+    private void refresh() {
         //今のOwnerの画像に
         IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getTileImageViewFromGrid(x, y).setImage(OwnerToImageConverter.convert(gameBoard.getOwn(x, y)))));
 
@@ -151,22 +180,33 @@ public class Viewer {
             ImageView playerView = new ImageView(images[i.getAndIncrement()]);
             getGroupFromGrid(player.getNowPoint().x, player.getNowPoint().y).getChildren().add(2, playerView);
         });
+
+        arrowUpdate();
+    }
+
+    /**
+     * 内部で関数を呼ぶだけ
+     */
+    private void clearAndSetEventHandler() {
+        clearEventHandler();
+
+        //敵プレイヤーをクリックして行動を選べるように設定する
+        Arrays.stream(gameBoard.players).skip(2L).forEach(this::setHandlerToSelect);
     }
 
     /**
      * クリックイベントを全て削除する
      */
-    private void clearAndSetEventHandler() {
+    private void clearEventHandler() {
         //全てのノードのクリックイベントを削除
-        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getGroupFromGrid(x, y).setOnMouseClicked(null)));
-
-        //敵プレイヤーをクリックして行動を選べるように設定する
-        Arrays.stream(gameBoard.players).skip(2L).forEach(this::setHandlerToSelect);
-
-        //右の矢印を更新
-        ImageView[] arr = {controller.fp1, controller.fp2, controller.ep1, controller.ep2};
-        AtomicInteger i = new AtomicInteger();
-        Arrays.stream(gameBoard.players).forEach(player -> arr[i.getAndIncrement()].setImage(PlayerSelectToImageConverter.convert(player.isFinishNextSelect() ? player.getXyDiff().toString() : "None")));
+        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> {
+            Group group = getGroupFromGrid(x, y);
+            group.setOnMouseClicked(null);
+            group.setOnDragDetected(null);
+            group.setOnDragDone(null);
+            group.setOnDragOver(null);
+            group.setOnDragDropped(null);
+        }));
     }
 
     /**
@@ -185,10 +225,100 @@ public class Viewer {
                     getGroupFromGrid(targetX, targetY).setOnMouseClicked(event2 -> {
                         targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[diffY[i] + 1], diffTX[diffX[i] + 1]));
                         clearAndSetEventHandler();
+                        arrowUpdate();
                     });
                 }
             });
         });
+    }
+
+    /***
+     * タイルを置くクリックイベントを設定する
+     */
+    private void setHandlerToPutTile() {
+        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getGroupFromGrid(x, y).setOnMouseClicked(event -> {
+            switch (event.getButton()) {
+                case PRIMARY:
+                    gameBoard.setOwn(x, y, Owner.Friend);
+                    break;
+                case SECONDARY:
+                    gameBoard.setOwn(x, y, Owner.Enemy);
+                    break;
+                case MIDDLE:
+                    gameBoard.setOwn(x, y, Owner.None);
+                    break;
+            }
+            refresh();
+        })));
+    }
+
+    /**
+     * プレイヤーの強制移動するためのドラッグアンドドロップイベントを設定する
+     */
+    private void setHandlerToMovePlayer() {
+        //イベント発生側処理
+        Arrays.stream(gameBoard.players).forEach(player1 -> {
+            Group source = getGroupFromGrid(player1.getNowPoint().x, player1.getNowPoint().y);
+            //DragDetectedの設定
+            source.setOnDragDetected(event -> {
+                //グループに対してMOVEのD&Dを設定
+                Dragboard dragboard = source.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent clipboardContent = new ClipboardContent();
+                IntStream.range(0, 4).filter(i -> gameBoard.players[i].getNowPoint().equals(player1.getNowPoint())).forEach(i -> clipboardContent.putString(String.valueOf(i)));
+                dragboard.setContent(clipboardContent);
+
+                event.consume();
+            });
+            int x = player1.getNowPoint().x, y = player1.getNowPoint().y;
+            //DragDoneの設定
+            source.setOnDragDone(event -> {
+                //D&D成功時
+                if (event.getTransferMode() == TransferMode.MOVE) {
+                    //所有マップの初期化
+                    gameBoard.setOwn(x, y, Owner.None);
+                    Arrays.stream(gameBoard.players).forEach(player -> gameBoard.setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy));
+                }
+
+                refresh();
+                setHandlerToMovePlayer();
+
+                event.consume();
+            });
+        });
+
+        //イベント受け入れ側処理
+        IntStream.range(0, gameBoard.maker.getHeight()).boxed().flatMap(y -> IntStream.range(0, gameBoard.maker.getWidth()).boxed().map(x -> new Point(x, y)))
+                .filter(point -> Arrays.stream(gameBoard.players).map(Player::getNowPoint).noneMatch(playerPoint -> playerPoint.equals(point)))
+                .forEach(point -> {
+                    //DragOverの設定
+                    Group target = getGroupFromGrid(point.x, point.y);
+                    target.setOnDragOver(event -> {
+                        if (Arrays.stream(gameBoard.players).noneMatch(player -> getGroupFromGrid(player.getNowPoint().x, player.getNowPoint().y).equals(target)) && event.getDragboard().hasString()) {
+                            event.acceptTransferModes(TransferMode.MOVE);
+                        }
+
+                        event.consume();
+                    });
+                    //DragDroppedの設定
+                    target.setOnDragDropped(event -> {
+                        Dragboard dragboard = event.getDragboard();
+                        boolean success = false;
+
+                        if (dragboard.hasString()) {
+                            success = true;
+                            Integer i = Integer.valueOf(dragboard.getString());
+                            if (i < 2) {//FriendPlayer
+                                gameBoard.players[i] = new FriendPlayer(point);
+                            } else {//EnemyPlayer
+                                gameBoard.players[i] = new EnemyPlayer(point);
+                            }
+                        }
+
+                        event.setDropCompleted(success);
+
+                        event.consume();
+                    });
+                });
     }
 
     /**
