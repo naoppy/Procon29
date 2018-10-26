@@ -59,6 +59,6 @@ public class PrintMapForOtherSolver {
         ClipboardContent clipboardContent = new ClipboardContent();
         clipboardContent.putString(outJoiner.toString());
         clipboard.setContent(clipboardContent);
-        System.err.println("solved");
+        System.err.println("Copied to ClipBoard! :"+System.currentTimeMillis());
     }
 }
