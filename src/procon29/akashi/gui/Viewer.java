@@ -223,7 +223,20 @@ public class Viewer {
                 //範囲内なら
                 if (targetY >= 0 && targetY < gameBoard.maker.getHeight() && targetX >= 0 && targetX < gameBoard.maker.getWidth()) {
                     getGroupFromGrid(targetX, targetY).setOnMouseClicked(event2 -> {
-                        targetPlayer.select(gameBoard.getOwn(targetX, targetY) == Owner.Friend ? Selection.REMOVE : Selection.MOVE, new XYDiff(diffTY[diffY[i] + 1], diffTX[diffX[i] + 1]));
+                        XYDiff diff = new XYDiff(diffTY[diffY[i] + 1], diffTX[diffX[i] + 1]);
+                        if (targetPlayer instanceof FriendPlayer) {
+                            if (gameBoard.getOwn(targetX, targetY) == Owner.Enemy) {
+                                targetPlayer.select(Selection.REMOVE, diff);
+                            } else {
+                                targetPlayer.select(Selection.MOVE, diff);
+                            }
+                        } else {//enemyPlayer moving
+                            if (gameBoard.getOwn(targetX, targetY) == Owner.Friend) {
+                                targetPlayer.select(Selection.REMOVE, diff);
+                            } else {
+                                targetPlayer.select(Selection.MOVE, diff);
+                            }
+                        }
                         clearAndSetEventHandler();
                         arrowUpdate();
                     });
