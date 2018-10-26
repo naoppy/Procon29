@@ -39,7 +39,7 @@ public class PrintMapForOtherSolver {
         }
         //owner
         for (int y = 0; y < gameBoard.maker.getHeight(); y++) {
-            innerJoiner = new StringJoiner(" ");
+            innerJoiner = new StringJoiner("");
             for (int x = 0; x < gameBoard.maker.getWidth(); x++) {
                 switch (gameBoard.getOwn(x, y)) {
                     case Friend:
