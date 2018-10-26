@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import procon29.akashi.GameBoard;
 import procon29.akashi.owners.Owner;
 import procon29.akashi.owners.OwnerToImageConverter;
+import procon29.akashi.players.EnemyPlayer;
+import procon29.akashi.players.FriendPlayer;
 import procon29.akashi.players.Player;
 import procon29.akashi.scores.ScoreToImageConverter;
 import procon29.akashi.selection.*;
@@ -149,16 +151,15 @@ public class Viewer {
         });
 
         controller.moveButton.setOnMouseClicked(event2 -> {
+            Arrays.stream(gameBoard.players).forEach(Player::resetSelection);
+            refresh();
             //ハンドラ系処理
             clearEventHandler();
             setHandlerToPutTile();
             setHandlerToMovePlayer();
 
             //通常モードに戻る処理
-            controller.solveButton.setOnMouseClicked(event -> {
-                Arrays.stream(gameBoard.players).forEach(Player::resetSelection);
-                startNextPhase();
-            });
+            controller.solveButton.setOnMouseClicked(event -> startNextPhase());
         });
     }
 
@@ -256,16 +257,14 @@ public class Viewer {
      */
     private void setHandlerToMovePlayer() {
         //イベント発生側処理
-        Arrays.stream(gameBoard.players).map(Player::getNowPoint).forEach(point -> {
-            Group source = getGroupFromGrid(point.x, point.y);
+        Arrays.stream(gameBoard.players).forEach(player1 -> {
+            Group source = getGroupFromGrid(player1.getNowPoint().x, player1.getNowPoint().y);
             //DragDetectedの設定
             source.setOnDragDetected(event -> {
                 //グループに対してMOVEのD&Dを設定
                 Dragboard dragboard = source.startDragAndDrop(TransferMode.MOVE);
                 ClipboardContent clipboardContent = new ClipboardContent();
-                ImageView imageView = (ImageView) source.getChildren().get(2);
-                //クリップボードにはプレイヤーのイメージを入れる
-                clipboardContent.putImage(imageView.getImage());
+                IntStream.range(0, 4).filter(i -> gameBoard.players[i].getNowPoint().equals(player1.getNowPoint())).forEach(i -> clipboardContent.putString(String.valueOf(i)));
                 dragboard.setContent(clipboardContent);
 
                 event.consume();
@@ -274,7 +273,7 @@ public class Viewer {
             source.setOnDragDone(event -> {
                 //D&D成功時
                 if (event.getTransferMode() == TransferMode.MOVE) {
-                    source.getChildren().remove(2);//refresh()を呼び出せば必要ない処理
+
                 }
 
                 refresh();
@@ -291,7 +290,7 @@ public class Viewer {
                     //DragOverの設定
                     Group target = getGroupFromGrid(point.x, point.y);
                     target.setOnDragOver(event -> {
-                        if (event.getGestureSource() != target && event.getDragboard().hasImage()) {
+                        if (Arrays.stream(gameBoard.players).noneMatch(player -> getGroupFromGrid(player.getNowPoint().x, player.getNowPoint().y).equals(target)) && event.getDragboard().hasString()) {
                             event.acceptTransferModes(TransferMode.MOVE);
                         }
 
@@ -302,9 +301,14 @@ public class Viewer {
                         Dragboard dragboard = event.getDragboard();
                         boolean success = false;
 
-                        if (dragboard.hasImage()) {
+                        if (dragboard.hasString()) {
                             success = true;
-                            target.getChildren().add(2, new ImageView(dragboard.getImage()));//refresh()を呼び出せば必要ない処理
+                            Integer i = Integer.valueOf(dragboard.getString());
+                            if (i < 2) {//FriendPlayer
+                                gameBoard.players[i] = new FriendPlayer(point);
+                            } else {//EnemyPlayer
+                                gameBoard.players[i] = new EnemyPlayer(point);
+                            }
                         }
 
                         event.setDropCompleted(success);
