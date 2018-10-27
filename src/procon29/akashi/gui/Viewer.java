@@ -288,7 +288,7 @@ public class Viewer {
                 //D&D成功時
                 if (event.getTransferMode() == TransferMode.MOVE) {
                     //所有マップの初期化
-                    gameBoard.setOwn(x, y, Owner.None);
+                    //gameBoard.setOwn(x, y, Owner.None);
                     Arrays.stream(gameBoard.players).forEach(player -> gameBoard.setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy));
                 }
 
