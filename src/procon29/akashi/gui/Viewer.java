@@ -43,6 +43,10 @@ public class Viewer {
      */
     private GameBoard gameBoard;
     /**
+     * 所有マップと画像の対応付けを初期化する
+     */
+    private OwnerToImageConverter ownerToImageConverter;
+    /**
      * プレイヤーの画像をキャッシュしておく
      */
     private static Image[] images = {new Image("FriendPlayer1.png"), new Image("FriendPlayer2.png"), new Image("EnemyPlayer1.png"), new Image("EnemyPlayer2.png")};
@@ -54,6 +58,7 @@ public class Viewer {
      */
     public Viewer(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
+        ownerToImageConverter = new OwnerToImageConverter(gameBoard.maker.getSide());
         try {
             //load FXML and load controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/root.fxml"));
@@ -66,7 +71,7 @@ public class Viewer {
                 Group group = new Group();
 
                 //ImageViewをクリックすると追加できるように
-                ImageView imageView1 = new ImageView(OwnerToImageConverter.convert(Owner.None));
+                ImageView imageView1 = new ImageView(ownerToImageConverter.convert(Owner.None));
                 group.setOnMouseClicked(event -> {
                     Point p = new Point(x, y);
                     if (!gameBoard.enemyPlayerSet.remove(p) && gameBoard.enemyPlayerSet.size() < 2) {//もう入っているなら消す、入っていないかつ2未満しか入っていないなら追加
@@ -97,7 +102,7 @@ public class Viewer {
      * 敵プレイヤーの暫定位置を表示する
      */
     private void firstViewUpdate() {
-        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getTileImageViewFromGrid(x, y).setImage(OwnerToImageConverter.convert(Owner.None))));
+        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getTileImageViewFromGrid(x, y).setImage(ownerToImageConverter.convert(Owner.None))));
 
         //プレイヤーの画像があるノードはプレイヤーの画像をImageViewごと削除
         controller.grid.getChildren().stream().map(node -> (Group) node).filter(group -> group.getChildren().size() == 3).forEach(group -> group.getChildren().remove(2));
@@ -170,7 +175,7 @@ public class Viewer {
      */
     private void refresh() {
         //今のOwnerの画像に
-        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getTileImageViewFromGrid(x, y).setImage(OwnerToImageConverter.convert(gameBoard.getOwn(x, y)))));
+        IntStream.range(0, gameBoard.maker.getHeight()).forEach(y -> IntStream.range(0, gameBoard.maker.getWidth()).forEach(x -> getTileImageViewFromGrid(x, y).setImage(ownerToImageConverter.convert(gameBoard.getOwn(x, y)))));
 
         //プレイヤーの画像があるノードはプレイヤーの画像をImageViewごと削除
         controller.grid.getChildren().stream().filter(group -> ((Group) group).getChildren().size() == 3).forEach(group -> ((Group) group).getChildren().remove(2));
