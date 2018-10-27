@@ -58,7 +58,12 @@ public class Viewer {
      */
     public Viewer(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
+        //Side関連の処理
         ownerToImageConverter = new OwnerToImageConverter(gameBoard.maker.getSide());
+        if (gameBoard.maker.getSide() == 2) {
+            Image[] images2 = {images[2], images[3], images[0], images[1]};
+            images = images2;
+        }
         try {
             //load FXML and load controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/root.fxml"));
