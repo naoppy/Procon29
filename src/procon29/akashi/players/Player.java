@@ -1,8 +1,6 @@
 package procon29.akashi.players;
 
-import procon29.akashi.selection.LongitudinalDiff;
 import procon29.akashi.selection.Selection;
-import procon29.akashi.selection.TransverseDiff;
 import procon29.akashi.selection.XYDiff;
 
 import java.awt.*;
@@ -61,7 +59,7 @@ public abstract class Player {
         this.isFinishNextSelect = true;
         this.selection = selection;
         this.xyDiff = xyDiff;
-        this.applyPoint = this.calcApplyPoint(xyDiff);
+        this.applyPoint = PlayerUtils.calcApplyPoint(nowPoint, xyDiff);
 
         return true;
     }
@@ -74,7 +72,7 @@ public abstract class Player {
      * @return ルールに則った選択ならtrue
      */
     public boolean select(Selection selection, Point applyPoint) {
-        this.xyDiff = calcXYDiff(applyPoint);
+        this.xyDiff = PlayerUtils.calcXYDiff(nowPoint, applyPoint);
         if (xyDiff == null) return false;
 
         this.isFinishNextSelect = true;
@@ -84,82 +82,6 @@ public abstract class Player {
         return true;
     }
 
-    /**
-     * NowPointからxyDiffを使ってapplyPointを計算する
-     *
-     * @param xyDiff xyの差
-     * @return applyPoint
-     */
-    private Point calcApplyPoint(XYDiff xyDiff) {
-        int xDiff = 0, yDiff = 0;
-
-        switch (xyDiff.getxDiff()) {
-            case Right:
-                xDiff = 1;
-                break;
-            case Left:
-                xDiff = -1;
-                break;
-            case None:
-                xDiff = 0;
-                break;
-        }
-
-        switch (xyDiff.getyDiff()) {
-            case Up:
-                yDiff = 1;
-                break;
-            case Down:
-                yDiff = -1;
-                break;
-            case None:
-                yDiff = 0;
-                break;
-        }
-
-        return new Point(nowPoint.x + xDiff, nowPoint.y + yDiff);
-    }
-
-    /**
-     * applyPointからnowPointを使ってXYDiffを計算する
-     *
-     * @param applyPoint 行動先の座標
-     * @return XYの差
-     */
-    private XYDiff calcXYDiff(Point applyPoint) {
-        LongitudinalDiff yDiff;
-        TransverseDiff xDiff;
-
-        switch (applyPoint.x - nowPoint.x) {
-            case 1:
-                xDiff = TransverseDiff.Right;
-                break;
-            case 0:
-                xDiff = TransverseDiff.None;
-                break;
-            case -1:
-                xDiff = TransverseDiff.Left;
-                break;
-            default:
-                return null;
-        }
-
-        switch (applyPoint.y - nowPoint.y) {
-            case 1:
-                yDiff = LongitudinalDiff.Up;
-                break;
-            case 0:
-                yDiff = LongitudinalDiff.None;
-                break;
-            case -1:
-                yDiff = LongitudinalDiff.Down;
-                break;
-            default:
-                return null;
-        }
-
-        return new XYDiff(yDiff, xDiff);
-    }
 
     /**
      * @return 今の座標
@@ -174,7 +96,7 @@ public abstract class Player {
      * @param diff x方向、y方向の移動ベクトル
      */
     public void move(XYDiff diff) {
-        nowPoint = calcApplyPoint(diff);
+        nowPoint = PlayerUtils.calcApplyPoint(nowPoint, diff);
     }
 
     /**
@@ -207,6 +129,6 @@ public abstract class Player {
 
     @Override
     public String toString() {
-        return this.getNowPoint().x + "," + this.getNowPoint().y;
+        return "x:" + this.getNowPoint().x + ", y:" + this.getNowPoint().y;
     }
 }
