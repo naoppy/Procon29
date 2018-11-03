@@ -4,7 +4,7 @@ import procon29.akashi.owners.Owner;
 import procon29.akashi.players.EnemyPlayer;
 import procon29.akashi.players.FriendPlayer;
 import procon29.akashi.players.Player;
-import procon29.akashi.scores.QRInputer;
+import procon29.akashi.scores.QRImporter;
 import procon29.akashi.scores.ScoreFromQR;
 import procon29.akashi.scores.ScoreMaker;
 import procon29.akashi.selection.Selection;
@@ -28,7 +28,7 @@ public class GameBoard {
      * スコアと自分の位置を与える
      */
     //public ScoreMaker maker = new ScoreFromRandom(9, 10, true, false, 70);
-    public ScoreMaker maker = new ScoreFromQR(QRInputer.inputCode());
+    public ScoreMaker maker = new ScoreFromQR(QRImporter.inputCode());
     /**
      * スコア
      */

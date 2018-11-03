@@ -2,6 +2,7 @@ package procon29.akashi.owners;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import procon29.akashi.side.Side;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,7 +12,7 @@ public class OwnerToImageConverterTest {
 
     @Test
     public void SamePointerReturnTest() {
-        ownerToImageConverter = new OwnerToImageConverter(1);
+        ownerToImageConverter = new OwnerToImageConverter(Side.None);
         assertEquals(ownerToImageConverter.convert(Owner.None), ownerToImageConverter.convert(Owner.None));
 
         assertEquals(ownerToImageConverter.convert(Owner.Friend), ownerToImageConverter.convert(Owner.Friend));
