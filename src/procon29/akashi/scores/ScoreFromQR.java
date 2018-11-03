@@ -1,5 +1,7 @@
 package procon29.akashi.scores;
 
+import procon29.akashi.side.Side;
+
 import java.awt.*;
 import java.util.Scanner;
 
@@ -32,13 +34,7 @@ public class ScoreFromQR extends ScoreMaker {
      */
     @Override
     protected void make() {
-        /*  sample data
-        8 11:-2 1 0 1 2 0 2 1 0 1 -2:1 3 2 -2 0 1 0 -2 2 3 1:1 3 2 1 0 -2 0 1 2 3 1:2 1 1
-2 2 3 2 2 1 1 2: 2 1 1 2 2 3 2 2 1 1 2: 1 3 2 1 0 -2 0 1 2 3 1: 1 3 2 -2 0 1 0 -2
-2 3 1: -2 1 0 1 2 0 2 1 0 1 -2:2 2:7 10:
-         */
         String ReFormattedQRData = this.QRData.replaceAll(":", " ");
-        //System.err.println(ReFormattedQRData);
         Scanner sc = new Scanner(ReFormattedQRData);
 
         inputSide();
@@ -61,11 +57,11 @@ public class ScoreFromQR extends ScoreMaker {
         fp2 = new Point(sc.nextInt() - 1, fp2y);
 
         //回転
-        if (side == 1) {
+        if (side == Side.RIGHT) {
             fp1 = rotate90(fp1);
             fp2 = rotate90(fp2);
             scores = rotate90(scores);
-        } else if (side == 2) {
+        } else if (side == Side.LEFT) {
             fp1 = rotate270(fp1);
             fp2 = rotate270(fp2);
             scores = rotate270(scores);
@@ -99,7 +95,7 @@ public class ScoreFromQR extends ScoreMaker {
             i = sc.nextInt();
         } while (!(i == 1 || i == 2));
 
-        this.side = i;
+        this.side = i == 1 ? Side.RIGHT : Side.LEFT;
     }
 
     /**

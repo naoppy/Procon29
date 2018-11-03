@@ -16,9 +16,7 @@ public class ScoreToImageConverter {
     private static Map<Integer, Image> scoreImageMap = new HashMap<>();
 
     static {
-        IntStream.rangeClosed(-16, 16).forEach(i -> {
-            scoreImageMap.put(i, new Image("/score/num" + i + ".png"));
-        });
+        IntStream.rangeClosed(-16, 16).forEach(i -> scoreImageMap.put(i, new Image("/score/num" + i + ".png")));
     }
 
     /**

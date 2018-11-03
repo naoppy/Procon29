@@ -1,5 +1,7 @@
 package procon29.akashi.scores;
 
+import procon29.akashi.side.Side;
+
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Random;
@@ -40,6 +42,7 @@ public class ScoreFromRandom extends ScoreMaker {
         setHeight(h);
         setWidth(w);
         setTurnNumber(turnNumber);
+        this.side = Side.None;
         verticalLineIsSymmetry = vLineIsSymmetry;
         horizontalLineIsSymmetry = hLineIsSymmetry;
 
@@ -149,6 +152,7 @@ public class ScoreFromRandom extends ScoreMaker {
 
         setMap(scores);
 
+        //盤面をQRコード化する
         StringJoiner QRJoiner = new StringJoiner(":", "", ":");
         QRJoiner.add(Stream.of(height, width).map(String::valueOf).collect(Collectors.joining(" ")));
         for (int[] arr : scores)

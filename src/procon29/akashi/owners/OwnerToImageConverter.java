@@ -1,6 +1,7 @@
 package procon29.akashi.owners;
 
 import javafx.scene.image.Image;
+import procon29.akashi.side.Side;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,23 +10,20 @@ import java.util.Map;
  * 画像をキャッシュしてオーナーから画像に変換するクラス
  */
 public class OwnerToImageConverter {
-    public OwnerToImageConverter(int side) {
-        if (side == 1) {
-            ownerImageMap.put(Owner.Friend, new Image("FriendTile.png"));
-            ownerImageMap.put(Owner.Enemy, new Image("EnemyTile.png"));
-        } else if (side == 2) {
-            ownerImageMap.put(Owner.Friend, new Image("EnemyTile.png"));
-            ownerImageMap.put(Owner.Enemy, new Image("FriendTile.png"));
-        } else {
-            ownerImageMap.put(Owner.Friend, new Image("FriendTile.png"));
-            ownerImageMap.put(Owner.Enemy, new Image("EnemyTile.png"));
+    public OwnerToImageConverter(Side side) {
+        if (side == Side.RIGHT) {
+            ownerImageMap.put(Owner.Friend, new Image("RedTile.png"));
+            ownerImageMap.put(Owner.Enemy, new Image("BlueTile.png"));
+        } else if (side == Side.LEFT) {
+            ownerImageMap.put(Owner.Friend, new Image("BlueTile.png"));
+            ownerImageMap.put(Owner.Enemy, new Image("RedTile.png"));
         }
     }
 
     private static Map<Owner, Image> ownerImageMap = new HashMap<>();
 
     static {
-        ownerImageMap.put(Owner.None, new Image("NoneTile.png"));
+        ownerImageMap.put(Owner.None, new Image("GrayTile.png"));
     }
 
     /**

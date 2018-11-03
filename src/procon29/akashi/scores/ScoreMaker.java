@@ -1,5 +1,7 @@
 package procon29.akashi.scores;
 
+import procon29.akashi.side.Side;
+
 import java.awt.*;
 
 public abstract class ScoreMaker {
@@ -11,7 +13,7 @@ public abstract class ScoreMaker {
     /**
      * 回転方向
      */
-    int side;
+    Side side;
     /**
      * ターン数
      */
@@ -65,7 +67,7 @@ public abstract class ScoreMaker {
     /**
      * @return 1なら右回転、2なら左回転
      */
-    public int getSide() {
+    public Side getSide() {
         return side;
     }
 

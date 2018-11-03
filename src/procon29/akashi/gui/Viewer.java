@@ -17,6 +17,7 @@ import procon29.akashi.players.FriendPlayer;
 import procon29.akashi.players.Player;
 import procon29.akashi.scores.ScoreToImageConverter;
 import procon29.akashi.selection.*;
+import procon29.akashi.side.Side;
 
 import java.awt.*;
 import java.io.IOException;
@@ -60,7 +61,7 @@ public class Viewer {
         this.gameBoard = gameBoard;
         //Side関連の処理
         ownerToImageConverter = new OwnerToImageConverter(gameBoard.maker.getSide());
-        if (gameBoard.maker.getSide() == 2) {
+        if (gameBoard.maker.getSide() == Side.RIGHT) {
             Image[] images2 = {images[2], images[3], images[0], images[1]};
             images = images2;
         }
