@@ -6,6 +6,6 @@ import procon29.akashi.players.Player;
 public class DoNothingSolver implements Solver {
     @Override
     public void solve(int[][] scores, Owner[][] owners, Player[] players) {
-
+        //do nothing
     }
 }
