@@ -10,12 +10,13 @@ ecasdqina(@fyba_, @ecasdqina)
 ピッチぃー(@d4wnin9)
 
 ## Contents
+- [Requirements](#Requirements)
 - [Building](#building)
 - [Usage and examples](#usage-and-examples)
 - [API documentation](#api-documentation)
 - [Development and contributing](#Development-and-contributing)
 
-## Requierment
+## Requirements
 JavaFX2
 
 ## Building
