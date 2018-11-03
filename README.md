@@ -13,7 +13,7 @@ ecasdqina(@fyba_, @ecasdqina)
 - [Building](#building)
 - [Usage and examples](#usage-and-examples)
 - [API documentation](#api-documentation)
-- [Development and contributing](#Development and contributing)
+- [Development and contributing](#Development-and-contributing)
 
 ## Requierment
 JavaFX2
@@ -25,7 +25,7 @@ JavaFX2
 `src/procon29/akashi/Main`をコンパイルして実行
 
 ## API documentation
-[](#doc/index.html)
+[API documents](naoppy.github.io/Procon29/)
 
 ## Development and contributing
 Feel free to send pull requests and raise issues.
