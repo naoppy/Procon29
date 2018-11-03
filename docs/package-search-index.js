@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"procon29.akashi","h":"","u":""},{"l":"procon29.akashi.gui","h":"","u":""},{"l":"procon29.akashi.owners","h":"","u":""},{"l":"procon29.akashi.players","h":"","u":""},{"l":"procon29.akashi.scores","h":"","u":""},{"l":"procon29.akashi.selection","h":"","u":""},{"l":"procon29.akashi.side","h":"","u":""},{"l":"procon29.akashi.solver","h":"","u":""}]
