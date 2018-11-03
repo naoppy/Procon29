@@ -88,8 +88,8 @@ public class GameBoard {
      * 味方のエージェント2人の動く方向を決定する
      */
     public void solve() {
-        PMFOS.print();
-        solver.solve(scores, owners, players);
+        PMFOS.print();//盤面の状態を随時クリップボードに張り付ける
+        solver.solve(scores, owners, players);//Solverを走らせて味方プレイヤー2人の動く方向を決める
     }
 
     /**
