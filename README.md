@@ -25,7 +25,7 @@ JavaFX2
 `src/procon29/akashi/Main`をコンパイルして実行
 
 ## API documentation
-see [here](#doc/index.html)
+[](#doc/index.html)
 
 ## Development and contributing
 Feel free to send pull requests and raise issues.
