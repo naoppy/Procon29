@@ -62,8 +62,7 @@ public class Viewer {
         //Side関連の処理
         ownerToImageConverter = new OwnerToImageConverter(gameBoard.maker.getSide());
         if (gameBoard.maker.getSide() == Side.RIGHT) {
-            Image[] images2 = {images[2], images[3], images[0], images[1]};
-            images = images2;
+            images = new Image[]{images[2], images[3], images[0], images[1]};
         }
         try {
             //load FXML and load controller
@@ -293,13 +292,11 @@ public class Viewer {
 
                 event.consume();
             });
-            int x = player1.getNowPoint().x, y = player1.getNowPoint().y;
             //DragDoneの設定
             source.setOnDragDone(event -> {
                 //D&D成功時
                 if (event.getTransferMode() == TransferMode.MOVE) {
-                    //所有マップの初期化
-                    //gameBoard.setOwn(x, y, Owner.None);
+                    //プレイヤーの移動先をそのチームのタイルにする
                     Arrays.stream(gameBoard.players).forEach(player -> gameBoard.setOwn(player.getNowPoint().x, player.getNowPoint().y, player instanceof FriendPlayer ? Owner.Friend : Owner.Enemy));
                 }
 
