@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class OwnerToImageConverter {
     public OwnerToImageConverter(Side side) {
-        if (side == Side.RIGHT) {
+        if (side == Side.RIGHT || side == Side.None) {
             ownerImageMap.put(Owner.Friend, new Image("RedTile.png"));
             ownerImageMap.put(Owner.Enemy, new Image("BlueTile.png"));
         } else if (side == Side.LEFT) {
