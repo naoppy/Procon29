@@ -2,11 +2,11 @@ package procon29.akashi.scores;
 
 import java.util.Scanner;
 
-public class QRInputer {
+public class QRImporter {
     /**
      * インスタンス化できない
      */
-    private QRInputer(){};
+    private QRImporter(){}
 
     /**
      * QRコードの入力を受け付ける
