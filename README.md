@@ -25,7 +25,7 @@ JavaFX2
 `src/procon29/akashi/Main`をコンパイルして実行
 
 ## API documentation
-[API documents](naoppy.github.io/Procon29/)
+[API documents](https://naoppy.github.io/Procon29/)
 
 ## Development and contributing
 Feel free to send pull requests and raise issues.
