@@ -16,6 +16,7 @@ class PlayerUtils {
     /**
      * NowPointからxyDiffを使ってapplyPointを計算する
      *
+     * @param nowPoint 今の座標
      * @param xyDiff xyの差
      * @return applyPoint
      */
@@ -52,6 +53,7 @@ class PlayerUtils {
     /**
      * applyPointからnowPointを使ってXYDiffを計算する
      *
+     * @param nowPoint 今の座標
      * @param applyPoint 行動先の座標
      * @return XYの差
      */
