@@ -43,7 +43,7 @@ GUIが起動する。GUI上のグリッドをクリックすることで敵の�
 ![run2](https://raw.githubusercontent.com/naoppy/Procon29/master/docs/ReadmeResources/howToRun2.png?token=AbSzmRvbW5354PGVT0_8UrQK-oNAY2uKks5b55MGwA%3D%3D)
 
 2. 敵の動く方向を入力する。
-設定したいプレイヤー(主に敵プレイヤーDだが、味方プレイヤーも一応設定できる)をクリックする。
+設定したいプレイヤー(主に敵プレイヤーだが、味方プレイヤーも一応設定できる)をクリックする。
 その後、動く方向をクリックする。(8近傍と同じ場所の9箇所が選べる)。
 すると、行動に応じて右側に矢印がでる。Sはstay(待機)のS。
 ![run3](https://raw.githubusercontent.com/naoppy/Procon29/master/docs/ReadmeResources/howToRun3.png?token=AbSzmRXyAaznyRcfIBqlNc1Nd450HJF2ks5b55M3wA%3D%3D)
@@ -58,9 +58,9 @@ GUIが起動する。GUI上のグリッドをクリックすることで敵の�
 の約30行目
 
 `public ScoreMaker maker = new ScoreFromQR(QRImporter.inputCode());`
-を
+の右側を
 
-`public ScoreMaker maker = new ScoreFromRandom(9, 10, true, false, 70);`
+` = new ScoreFromRandom(9, 10, true, false, 70);`
 
 などに変える。
 コンストラクタに渡すパラメータは
