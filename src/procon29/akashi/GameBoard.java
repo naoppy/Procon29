@@ -8,8 +8,8 @@ import procon29.akashi.scores.QRImporter;
 import procon29.akashi.scores.ScoreFromQR;
 import procon29.akashi.scores.ScoreMaker;
 import procon29.akashi.selection.Selection;
-import procon29.akashi.solver.DoNothingSolver;
 import procon29.akashi.solver.PrintMapForOtherSolver;
+import procon29.akashi.solver.RandomSelect;
 import procon29.akashi.solver.Solver;
 
 import java.awt.*;
@@ -52,7 +52,7 @@ public class GameBoard {
     /**
      * ソルバー
      */
-    private Solver solver = new DoNothingSolver();
+    private Solver solver = new RandomSelect();
     /**
      * クリップボードに盤面の状態を出力するクラス
      */
